@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>코드명: 에그 노이즈 - 문제 단서 페이지</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    :root {
+      --bg-gray: #111827;
+      --paper: #faf7f2;
+      --line: #e2ddd4;
+      --margin-line: #c4a58c;
+      --margin-line-new: #b8987b;
+      --text-main: #222222;
+      --text-sub: #6b7280;
+      --accent: #111111;
+      --accent-blue: #2563eb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg-gray);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .notebook-card {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      min-height: calc(100vh - 0px); /* 화면 전체 높이 사용 */
+      background: #020617;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .spiral-header {
+      padding: 12px 16px 8px;
+      background: linear-gradient(135deg, #020617, #111827);
+      color: #e5e7eb;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+
+    .spiral-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .spiral-holes {
+      display: flex;
+      gap: 6px;
+    }
+
+    .spiral-hole {
+      width: 13px;
+      height: 13px;
+      border-radius: 999px;
+      background: #020617;
+      box-shadow:
+        0 0 0 2px #d4d4d4,
+        inset 0 0 3px rgba(0,0,0,0.9);
+      position: relative;
+    }
+
+    .spiral-wire {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 19px;
+      height: 3px;
+      border-radius: 999px;
+      background: #d4d4d4;
+      box-shadow:
+        0 2px 0 rgba(0,0,0,0.4),
+        0 -1px 0 rgba(255,255,255,0.7);
+    }
+
+    .spiral-wire.top { top: -6px; }
+    .spiral-wire.bottom { bottom: -6px; }
+
+    .lab-header-text {
+      text-align: right;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #9ca3af;
+    }
+
+    .lab-main-title {
+      margin-top: 4px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .lab-subtitle {
+      margin-top: 2px;
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #d1d5db;
+    }
+
+    .paper-wrap {
+      flex: 1;
+      background: #111827;
+      padding: 10px 16px 16px;
+      overflow-y: auto;
+    }
+
+    .paper {
+      position: relative;
+      border-radius: 14px;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          var(--paper) 0,
+          var(--paper) 24px,
+          var(--line) 25px
+        );
+      box-shadow:
+        0 8px 18px rgba(0,0,0,0.45),
+        0 0 0 1px rgba(0,0,0,0.25);
+      padding: 18px 18px 18px 40px;
+      min-height: calc(100vh - 110px);
+    }
+
+    .paper::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 28px;
+      width: 2px;
+      background: linear-gradient(to bottom, transparent, var(--margin-line-new), transparent);
+      opacity: 0.9;
+    }
+
+    .paper-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+
+    .paper-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .paper-label {
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .paper-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .paper-header-right {
+      text-align: right;
+      font-size: 0.72rem;
+      color: var(--text-sub);
+    }
+
+    /* 상호작용 페이지의 stage-pill 대신 단일 페이지용 라벨 */
+    .static-label-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #c4b5a5;
+      font-size: 0.7rem;
+      background: rgba(250, 247, 242, 0.95);
+      color: var(--text-main);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .subtitle {
+      font-size: 0.86rem;
+      color: var(--text-sub);
+      margin: 4px 0 6px;
+    }
+    
+    .subtitle-separator {
+        width: 100%;
+        height: 1px;
+        background: #e2ddd4;
+        margin: 8px 0 12px;
+        opacity: 0.6;
+    }
+
+    .content-area { /* 시나리오 본문 영역 */
+      font-size: 0.95rem;
+      color: var(--text-main);
+      line-height: 1.75;
+      margin-bottom: 14px;
+    }
+    
+    .content-area h1 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-top: 15px;
+        margin-bottom: 8px;
+        color: var(--accent);
+    }
+    
+    .content-area p {
+        margin-bottom: 12px;
+        white-space: pre-line; /* 줄바꿈 유지 */
+    }
+    
+    .content-area strong { /* 본문 내 볼드체 */
+        font-weight: 600;
+    }
+    
+    .content-area img { /* 이미지 스타일 */
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 15px auto;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="notebook-card">
+    <div class="spiral-header">
+      <div class="spiral-row">
+        <div class="spiral-holes">
+          <div class="spiral-hole">
+            <div class="spiral-wire top"></div>
+            <div class="spiral-wire bottom"></div>
+          </div>
+          <div class="spiral-hole">
+            <div class="spiral-wire top"></div>
+            <div class="spiral-wire bottom"></div>
+          </div>
+          <div class="spiral-hole">
+            <div class="spiral-wire top"></div>
+            <div class="spiral-wire bottom"></div>
+          </div>
+        </div>
+        <div class="lab-header-text">
+          BACKWOODS RESEARCH INSTITUTE
+        </div>
+      </div>
+      <div class="lab-main-title">CODE: EGG NOISE</div>
+      <div class="lab-subtitle">GANGCHON BASE</div>
+    </div>
+
+    <div class="paper-wrap">
+      <div class="paper">
+        <div class="paper-header">
+          <div class="paper-header-left">
+            <div class="paper-label">FIELD NOTES</div>
+            <div class="paper-title">
+              코드명: 에그 노이즈 <br> (Code: Egg Noise)
+            </div>
+          </div>
+          <div class="paper-header-right">
+            <div class="static-label-pill">
+              ADDITIONAL CLUE
+            </div>
+          </div>
+        </div>
+
+        <div class="subtitle" id="stageSubtitle">
+          단서 획득 장소: 강촌역 앞 카페
+        </div>
+        
+        <div class="subtitle-separator"></div>
+
+        <div class="content-area" id="contentArea">
+            
+            <h1>[Quiz 02]</h1>
+            <p>문제입니다.
+            현장 사진에서 가려진 부분의 단어가 정답입니다.</p>
+            
+            <p><strong>현장에서 발견된 중요한 단서 이미지:</strong></p>
+            
+            <img src="images/그림.png" alt="1번 문제">
+            
+            <p>이 이미지와 현장의 모습을 비교하고 분석하여 다음 단계에 필요한 정답(코드)을 추론하세요. 정답은 반드시 메인 필드 로그 페이지에 입력해야 합니다.</p>
+            
+            <p>--- 단서 종료 ---</p>
+            
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</body>
+</html>
