@@ -97,7 +97,7 @@
 
     .lab-main-title {
       margin-top: 4px;
-      font-size: 1.1rem;
+      font-size: 1.05rem; /* 제목 크기 살짝 줄임 (1.1rem -> 1.05rem) */
       font-weight: 600;
       letter-spacing: 0.18em;
       text-transform: uppercase;
@@ -105,7 +105,7 @@
 
     .lab-subtitle {
       margin-top: 2px;
-      font-size: 0.8rem;
+      font-size: 0.78rem; /* 제목 아래 부제목 크기 살짝 줄임 (0.8rem -> 0.78rem) */
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: #d1d5db;
@@ -185,7 +185,7 @@
       padding: 2px 8px;
       border-radius: 999px;
       border: 1px solid #c4b5a5;
-      font-size: 0.76rem;
+      font-size: 0.7rem; /* STAGE/총 스테이지 크기 줄임 (0.76rem -> 0.7rem) */
       background: rgba(250, 247, 242, 0.95);
       color: var(--text-sub);
       text-transform: uppercase;
@@ -213,7 +213,7 @@
 
     .progress-text {
       margin-top: 3px;
-      font-size: 0.76rem;
+      font-size: 0.7rem; /* 클리어된 스테이지 크기 줄임 (0.76rem -> 0.7rem) */
       color: var(--text-sub);
       text-align: right;
     }
@@ -427,8 +427,7 @@
           BACKWOODS RESEARCH INSTITUTE
         </div>
       </div>
-      <div class="lab-main-title">EGG FIELD LOG</div>
-      <div class="lab-subtitle">GANGCHON BASE</div>
+      <div class="lab-main-title">CODE: EGG NOISE</div> <div class="lab-subtitle">GANGCHON BASE</div>
     </div>
 
     <div class="paper-wrap">
@@ -437,7 +436,7 @@
           <div class="paper-header-left">
             <div class="paper-label">FIELD NOTES</div>
             <div class="paper-title">
-              코드명: 에그 노이즈 (Code: Egg Noise) — 필드 로그
+              코드명: 에그 노이즈 (Code: Egg Noise)
             </div>
           </div>
           <div class="paper-header-right">
@@ -551,7 +550,7 @@
 당신은 그 공명을 따라, 카페로 향한다.
 
 (바닥의 QR코드를 찍어 문제를 확인하세요.)`,
-        answer: "상록", // 정답 코드 유지
+        answer: "상록",
         hint: "한글, QR코드를 찍고 얻은 정답을 입력하세요."
       },
       // ----------------------------------------------------
@@ -579,7 +578,7 @@
 그곳은 언덕 아래 편의점으로 이어져 있었다.
 
 (바닥의 QR코드를 찍어 문제를 확인하세요.)`,
-        answer: "프러포즈 계단", // 정답 코드 유지
+        answer: "프러포즈 계단",
         hint: "한글, QR코드를 찍고 얻은 정답을 입력하세요."
       },
       // ----------------------------------------------------
@@ -636,8 +635,8 @@
     const stageSubtitleEl = document.getElementById("stageSubtitle");
     const storyTextEl     = document.getElementById("storyText");
     const messageEl       = document.getElementById("message");
-    const hintAreaEl      = document.getElementById("hintArea"); // 힌트 영역 전체
-    const hintContentEl   = document.getElementById("hintContent"); // 힌트 내용
+    const hintAreaEl      = document.getElementById("hintArea");
+    const hintContentEl   = document.getElementById("hintContent");
     const answerInputEl   = document.getElementById("answer");
     const submitBtnEl     = document.getElementById("submitBtn");
     const progressBarEl   = document.getElementById("progressBar");
