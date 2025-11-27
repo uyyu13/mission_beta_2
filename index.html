@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Backwoods Field Notebook - Mobile Full</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    :root {
+      --bg-gray: #111827;
+      --paper: #faf7f2;
+      --line: #e2ddd4;
+      --margin-line: #c4a58c;
+      --text-main: #222222;
+      --text-sub: #6b7280;
+      --accent: #111111;
+      --accent-blue: #2563eb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg-gray);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .notebook-card {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: #020617;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .spiral-header {
+      padding: 12px 16px 8px;
+      background: linear-gradient(135deg, #020617, #111827);
+      color: #e5e7eb;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+
+    .spiral-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .spiral-holes {
+      display: flex;
+      gap: 6px;
+    }
+
+    .spiral-hole {
+      width: 13px;
+      height: 13px;
+      border-radius: 999px;
+      background: #020617;
+      box-shadow:
+        0 0 0 2px #d4d4d4,
+        inset 0 0 3px rgba(0,0,0,0.9);
+      position: relative;
+    }
+
+    .spiral-wire {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 19px;
+      height: 3px;
+      border-radius: 999px;
+      background: #d4d4d4;
+      box-shadow:
+        0 2px 0 rgba(0,0,0,0.4),
+        0 -1px 0 rgba(255,255,255,0.7);
+    }
+
+    .spiral-wire.top { top: -6px; }
+    .spiral-wire.bottom { bottom: -6px; }
+
+    .lab-header-text {
+      text-align: right;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #9ca3af;
+    }
+
+    .lab-main-title {
+      margin-top: 4px;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .lab-subtitle {
+      margin-top: 2px;
+      font-size: 0.76rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #d1d5db;
+    }
+
+    .paper-wrap {
+      flex: 1;
+      background: #111827;
+      padding: 10px 10px 16px;
+      overflow-y: auto;
+    }
+
+    .paper {
+      position: relative;
+      border-radius: 14px;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          var(--paper) 0,
+          var(--paper) 24px,
+          var(--line) 25px
+        );
+      box-shadow:
+        0 8px 18px rgba(0,0,0,0.45),
+        0 0 0 1px rgba(0,0,0,0.25);
+      padding: 12px 14px 14px 40px;
+      min-height: calc(100vh - 110px);
+    }
+
+    .paper::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 28px;
+      width: 2px;
+      background: linear-gradient(to bottom, transparent, var(--margin-line), transparent);
+      opacity: 0.9;
+    }
+
+    .paper-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+
+    .paper-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .paper-label {
+      font-size: 0.76rem;
+      color: var(--text-sub);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .paper-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .paper-header-right {
+      text-align: right;
+      font-size: 0.72rem;
+      color: var(--text-sub);
+    }
+
+    .stage-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #c4b5a5;
+      font-size: 0.72rem;
+      background: rgba(250, 247, 242, 0.95);
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .progress-wrap {
+      margin: 4px 0 4px;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-blue), #111827);
+      transition: width 0.3s ease;
+    }
+
+    .progress-text {
+      margin-top: 3px;
+      font-size: 0.72rem;
+      color: var(--text-sub);
+      text-align: right;
+    }
+
+    .subtitle {
+      font-size: 0.86rem;
+      color: var(--text-sub);
+      margin: 4px 0 6px;
+    }
+
+    .story-text {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      white-space: pre-line;
+      line-height: 1.7;
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.86rem;
+      color: var(--text-main);
+      margin-bottom: 4px;
+      margin-top: 4px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #c4b5a5;
+      font-size: 0.95rem;
+      font-family: inherit;
+      background: rgba(255,255,255,0.98);
+      color: var(--text-main);
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.5);
+      background: #ffffff;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 8px;
+      padding: 9px 10px;
+      border-radius: 999px;
+      border: none;
+      background: var(--accent);
+      color: #ffffff;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 7px 16px rgba(0,0,0,0.35);
+      transition: transform 0.05s ease, filter 0.06s ease, box-shadow 0.1s ease;
+    }
+
+    button:active {
+      transform: translateY(1px);
+      filter: brightness(0.93);
+      box-shadow: 0 4px 9px rgba(0,0,0,0.4);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .message {
+      margin-top: 4px;
+      font-size: 0.82rem;
+      min-height: 1.2em;
+    }
+
+    .message.error { color: #c62828; }
+    .message.success { color: #2e7d32; }
+
+    .hint {
+      margin-top: 4px;
+      font-size: 0.8rem;
+      color: var(--text-sub);
+    }
+
+    .clear-block {
+      margin-top: 12px;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      display: none;
+    }
+
+    .clear-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #2e7d32;
+      color: #2e7d32;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      background: rgba(222, 247, 222, 0.9);
+      margin-bottom: 4px;
+    }
+
+    .clear-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .clear-text {
+      font-size: 0.88rem;
+      color: var(--text-sub);
+      line-height: 1.6;
+    }
+
+    .restart-btn {
+      margin-top: 10px;
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid #111827;
+      background: transparent;
+      color: #111827;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      cursor: pointer;
+    }
+
+    .restart-btn:active {
+      transform: translateY(1px);
+      filter: brightness(0.96);
+    }
+  </style>
+</head>
+<body>
+  <div class="notebook-card">
+    <div class="spiral-header">
+      <div class="spiral-row">
+        <div class="spiral-holes">
+          <div class="spiral-hole">
+            <div class="spiral-wire top"></div>
+            <div class="spiral-wire bottom"></div>
+          </div>
+          <div class="spiral-hole">
+            <div class="spiral-wire top"></div>
+            <div class="spiral-wire bottom"></div>
+          </div>
+          <div class="spiral-hole">
+            <div class="spiral-wire top"></div>
+            <div class="spiral-wire bottom"></div>
+          </div>
+        </div>
+        <div class="lab-header-text">
+          BACKWOODS RESEARCH INSTITUTE
+        </div>
+      </div>
+      <div class="lab-main-title">EGG FIELD LOG</div>
+      <div class="lab-subtitle">GANGCHON BASE</div>
+    </div>
+
+    <div class="paper-wrap">
+      <div class="paper">
+        <div class="paper-header">
+          <div class="paper-header-left">
+            <div class="paper-label">FIELD NOTES</div>
+            <div class="paper-title">
+              산골버려진 계란연구소 — 필드 로그
+            </div>
+          </div>
+          <div class="paper-header-right">
+            <div class="stage-pill" id="stageLabel">
+              STAGE 1 / 5
+            </div>
+            <div id="progressText">0 / 5 CLEARED</div>
+          </div>
+        </div>
+
+        <div class="progress-wrap">
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progressBar"></div>
+          </div>
+        </div>
+
+        <div class="subtitle" id="stageSubtitle">
+          힌트를 읽고 현장에서 얻은 코드를 입력하세요.
+        </div>
+        <div class="story-text" id="storyText">
+          스테이지 내용이 여기에 표시됩니다.
+        </div>
+
+        <div id="answerArea">
+          <label for="answer">CODE / 암호</label>
+          <input id="answer" type="text" autocomplete="off" />
+          <button id="submitBtn">SUBMIT</button>
+          <div id="message" class="message"></div>
+          <div id="hint" class="hint"></div>
+        </div>
+
+        <div class="clear-block" id="clearBlock">
+          <div class="clear-badge">
+            <span>🎉</span><span>ALL STAGES CLEARED</span>
+          </div>
+          <div class="clear-title">필드 로그 작성 완료</div>
+          <div class="clear-text">
+            모든 스테이지에서 수집한 코드가 기록되었습니다.<br />
+            이 노트를 들고 진행자를 찾아가 다음 지령을 받으세요.
+          </div>
+          <button class="restart-btn" id="restartBtn">
+            RESTART FROM STAGE 1
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const puzzles = [
+      {
+        subtitle: "프롤로그 — 고대 생명체가 사라진 시대",
+        text: `고대 생명체가 사라진 시대
+아주 오래전, 강촌 인근에는 지금은 기록에서 사라진 거대 비행 생명체가 존재했다는 전설만 흐릿하게 남아 있다. 현대 과학으로는 정체를 알 수 없는 생명체였고, 어느 순간 흔적 없이 사라졌다. 이 전설은 사실 여부도 불분명한 채 지역의 신화처럼만 전해진다.
+
+현대의 이상 현상 – 감응자의 등장
+최근 강촌 일대에서 '정체불명의 에너지 공진(Resonance)'이 급격히 증가한다. 레이더에는 주기적으로 신호가 찍히지만 기존 장비로는 분석되지 않는다. 그러던 중, 이 신호가 극소수의 인간에게만 감각적 자극을 주는 것이 발견된다. 그들은 감응자(Sensor)라 불린다. 
+
+중심에 놓인 물체 – 부화가 아닌 ‘각성’
+강촌 산속 특정 지점에서 알처럼 생긴 동그란 결정체(Artifact)가 발견된다. 따뜻하지도 차갑지도 않은 이 물체는 생체 반응도, 기계 반응도 아닌 독특한 파동을 내고 있다. 당초 학자들은 생명체의 알이라고 추측했으나, 이후 분석 결과 → ‘생명체적 신호’와 ‘지성적 패턴’이 동시에 존재하는, 정체불명의 유물이라는 결론이 내려진다.
+
+이제, 감응자 중 한 명으로서 당신은 현장으로 파견된다.
+프롤로그를 모두 읽었다면, 아래 정답 칸에 '시작'을 입력해 1장으로 진행하세요.`,
+        answer: "시작",
+        hint: "프롤로그를 모두 읽었다면 정답 칸에 '시작'이라고 입력해 주세요."
+      },
+      {
+        subtitle: "2장. 잔재파동이 깨어나다",
+        text: `여기에 시나리오 PDF 2페이지 내용을 그대로 붙여넣기
+
+※ 현장에서 얻은 코드를 입력하세요.`,
+        answer: "code2",
+        hint: "현장에서 얻은 코드 2를 입력하세요."
+      },
+      {
+        subtitle: "3장. 첫문양이 깨어난 순간",
+        text: `여기에 시나리오 PDF 3페이지 내용을 그대로 붙여넣기
+
+※ 현장에서 얻은 코드를 입력하세요.`,
+        answer: "code3",
+        hint: "현장에서 얻은 코드 3을 입력하세요."
+      },
+      {
+        subtitle: "4장. 공진의 첫폭발",
+        text: `여기에 시나리오 PDF 4페이지 내용을 그대로 붙여넣기
+
+※ 현장에서 얻은 코드를 입력하세요.`,
+        answer: "code4",
+        hint: "현장에서 얻은 코드 4를 입력하세요."
+      },
+      {
+        subtitle: "5장. 고대생명체의 잔재흔적 / 6장. 문양언어의 등장",
+        text: `여기에 시나리오 PDF 5페이지 내용을 그대로 붙여넣기
+
+※ 현장에서 얻은 코드를 입력하세요.`,
+        answer: "code5",
+        hint: "현장에서 얻은 코드 5를 입력하세요."
+      }
+    ];
+
+    const totalStages = puzzles.length;
+    let currentStage = 0;
+
+    const stageLabelEl    = document.getElementById("stageLabel");
+    const stageSubtitleEl = document.getElementById("stageSubtitle");
+    const storyTextEl     = document.getElementById("storyText");
+    const messageEl       = document.getElementById("message");
+    const hintEl          = document.getElementById("hint");
+    const answerInputEl   = document.getElementById("answer");
+    const submitBtnEl     = document.getElementById("submitBtn");
+    const progressBarEl   = document.getElementById("progressBar");
+    const progressTextEl  = document.getElementById("progressText");
+    const answerAreaEl    = document.getElementById("answerArea");
+    const clearBlockEl    = document.getElementById("clearBlock");
+    const restartBtnEl    = document.getElementById("restartBtn");
+
+    function normalize(text) {
+      return text.trim().toLowerCase();
+    }
+
+    function updateProgress() {
+      const cleared = currentStage;
+      const percent = (cleared / totalStages) * 100;
+      progressBarEl.style.width    = percent + "%";
+      progressTextEl.textContent   = `${cleared} / ${totalStages} CLEARED`;
+      stageLabelEl.textContent     = `STAGE ${currentStage + 1} / ${totalStages}`;
+    }
+
+    function renderStage() {
+      const p = puzzles[currentStage];
+
+      stageSubtitleEl.textContent = p.subtitle || "현장 로그를 읽고 코드를 입력하세요.";
+      storyTextEl.textContent     = p.text || "";
+      hintEl.textContent          = p.hint || "";
+      messageEl.textContent       = "";
+      messageEl.className         = "message";
+
+      answerInputEl.value    = "";
+      answerInputEl.disabled = false;
+      submitBtnEl.disabled   = false;
+      answerAreaEl.style.display = "block";
+      clearBlockEl.style.display = "none";
+
+      updateProgress();
+      answerInputEl.focus();
+    }
+
+    function showClear() {
+      progressBarEl.style.width   = "100%";
+      progressTextEl.textContent  = `${totalStages} / ${totalStages} CLEARED`;
+      stageLabelEl.textContent    = `STAGE ${totalStages} / ${totalStages}`;
+      answerAreaEl.style.display  = "none";
+      clearBlockEl.style.display  = "block";
+    }
+
+    function checkAnswer() {
+      const userAnswer = normalize(answerInputEl.value);
+      const correct    = normalize(puzzles[currentStage].answer || "");
+
+      if (!userAnswer) {
+        messageEl.textContent = "정답(코드)을 입력해 주세요.";
+        messageEl.className   = "message error";
+        return;
+      }
+
+      if (userAnswer === correct) {
+        messageEl.textContent = "기록 완료. 다음 장으로 넘어갑니다.";
+        messageEl.className   = "message success";
+
+        submitBtnEl.disabled   = true;
+        answerInputEl.disabled = true;
+
+        setTimeout(() => {
+          if (currentStage >= totalStages - 1) {
+            showClear();
+          } else {
+            currentStage += 1;
+            renderStage();
+          }
+        }, 900);
+      } else {
+        messageEl.textContent = "코드가 일치하지 않습니다. 현장 기록을 다시 확인해 보세요.";
+        messageEl.className   = "message error";
+      }
+    }
+
+    submitBtnEl.addEventListener("click", checkAnswer);
+    answerInputEl.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") checkAnswer();
+    });
+
+    if (restartBtnEl) {
+      restartBtnEl.addEventListener("click", () => {
+        currentStage = 0;
+        renderStage();
+      });
+    }
+
+    renderStage();
+  </script>
+</body>
+</html>
