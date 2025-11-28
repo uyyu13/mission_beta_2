@@ -264,8 +264,7 @@
         display: none;
     }
 
-    /* 💡 input[type="text"]에 스타일 적용하도록 수정 */
-    input[type="text"] {
+    input[type="tel"] {
       width: 100%;
       padding: 8px 10px;
       border-radius: 8px;
@@ -276,13 +275,12 @@
       color: var(--text-main);
     }
 
-    input[type="text"]:focus {
+    input[type="tel"]:focus {
       outline: none;
       border-color: var(--accent-blue);
       box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.5);
       background: #ffffff;
     }
-    /* --------------------------------------------- */
 
     button {
       width: 100%;
@@ -457,7 +455,7 @@
         <div class="lab-header-text">
           BACKWOODS RESEARCH INSTITUTE
         </div>
-       </div>
+      </div>
       <div class="lab-main-title">CODE: EGG NOISE</div>
       <div class="lab-subtitle">GANGCHON BASE</div>
     </div>
@@ -473,7 +471,7 @@
           </div>
           <div class="paper-header-right">
             <div class="stage-pill" id="stageLabel">
-              STAGE 1 / 19
+              STAGE 1 / 20
             </div>
           </div>
         </div>
@@ -495,7 +493,7 @@
         <div id="answerArea">
           <div class="answer-label-pill">CODE / 정답</div>
           <label for="answer">CODE / 정답</label>
-          <input id="answer" type="text" inputmode="text" autocomplete="off" />
+          <input id="answer" type="tel" inputmode="numeric" autocomplete="off" />
           <button id="submitBtn">SUBMIT</button>
           <div id="message" class="message"></div>
           
@@ -785,30 +783,23 @@
         subtitle: "6장. 아티팩트와의 동기화",
         text: `아티팩트는 이 시점에서 마치 새로운 심장처럼
 연구원의 손에서 규칙적인 파동을 뿜어냈다.
-
 헐겁던 진동은 점차 일정한 리듬을 가지기 시작했다.
 그 떨림은 결코 위험한 것이 아니라
 무언가 ‘동기화’되는 과정 그 자체였다.
-
 수첩도 이에 반응하며
 페이지 가장자리에서 은은한 빛을 냈다.
-
 빛은 산란되며 문양의 일부와 연결되었다.
 연구원은 손목이 따뜻해지는 감각을 느꼈다.
 아티팩트의 파동이 자신의 신경과 동조하며
 몸 깊숙이까지 퍼지는 느낌.
-
-'이건… 나를 인식하는 건가?'
-
+<이건… 나를 인식하는 건가?>
 그는 자신도 모르게 중얼거렸다.
 아티팩트와 수첩은 이제 서로만 인식하는 것이 아니라
 연구원까지 포함한 하나의 회로처럼 움직이고 있었다.
-
-마치 그를 중심으로 삼아 무언가를 준비하는 듯했다.
+마치 그를 중심으로 삼아
+‘무언가를 준비’하는 듯했다.
 수첩은 새 페이지를 연다.
-한층 더 강한 신호가 기다리고 있었다.
-
-당신은 파장이 느껴지는 순대집으로 향한다.`,
+한층 더 강한 신호가 기다리고 있었다.`,
         answer: "4일",
         hint: "숫자와 한글 한 글자, "
       },
@@ -900,8 +891,6 @@
 연구원은 다음 단서를 향해 걸었다.
 
 다음 파동은 지금까지와는 다르게 자연물이 존재하는 곳에서 느껴졌다.
-황량한 들판 위, 작은 오두막.
-그곳에서 파장이 느껴졌다.
 
 (벽면의 QR코드를 찍어 문제를 확인해주세요.)`,
         answer: "느티나무",
@@ -921,9 +910,7 @@
 멀리서 나는 금속성 충돌음은
 아티팩트의 리듬과 동일한 속도로 울렸다.
 
-당신은 잠시,
-카페 the1939와 카페 강촌리 224-4 사이에 멈춰 섰다.
-
+당신은 잠시 멈춰 섰다.
 현실의 결이 조금씩 틀어지고 있었다.
 
 가슴을 진정시키며 주변을 살폈지만,
@@ -935,8 +922,6 @@
 
 왜곡 이후엔? 그런 호기심과 연구원으로서의 탐구심이 고개를 들었다.
 당신은 그것들을 충족시키기 위해 앞으로 걸어나갈 뿐이었다.
-
-노란 조형물에서 파장이 느껴졌다.
 
 (벽면에 부착된 QR코드를 찍어 문제를 확인해주세요.)`,
         answer: "강물",
@@ -966,9 +951,68 @@
 당신은 떨리는 숨을 내쉬었다.
 경계를 향해 다가갔다.
 
-문 안쪽으로 들어서자, 테마파크의 내부, 간판이 보였다.
+문 안쪽으로 들어서자, 테마파크의벽면의 QR코드를 찍어 문제를 확인해주세요.)`,
+        answer: "느티나무",
+        hint: "한글, 가려진 곳에 위치한 단어를 쓰세요요."
+      },
+      // ----------------------------------------------------
+      // ⭐ STAGE 12 (인덱스 11): 10장. 감각의 흔들림
+      // ----------------------------------------------------
+      {
+        subtitle: " 10장. 감각의 흔들림",
+        text: `아티팩트의 파동이 당신의 몸에 더 깊이 스며들기 시작했다.
+시야 주변이 흔들렸다.
+사람들이 오가는 모습은 정상처럼 보이지만
+그들의 발걸음 소리가 희미하게 변조되어 들렸다.
 
-(벽면의 QR코드를 찍어 문제를 확인해주세요.)`,
+바람 소리는 물속을 흐르는 음처럼 둔탁해지고,
+멀리서 나는 금속성 충돌음은
+아티팩트의 리듬과 동일한 속도로 울렸다.
+
+당신은 잠시 멈춰 섰다.
+현실의 결이 조금씩 틀어지고 있었다.
+
+가슴을 진정시키며 주변을 살폈지만,
+이상하리만큼 아무도 당신을 바라보지 않았다.
+
+마치 이 공진 현상이 오직 감응자에게만 나타나는 현상인 듯.
+수첩은 천천히 새로운 페이지를 열었다.
+문양의 밀도가 분명히 증가하고 있었다.
+
+왜곡 이후엔? 그런 호기심과 연구원으로서의 탐구심이 고개를 들었다.
+당신은 그것들을 충족시키기 위해 앞으로 걸어나갈 뿐이었다.
+
+(벽면에 부착된 QR코드를 찍어 문제를 확인해주세요.)`,
+        answer: "강물",
+        hint: "한글, 강촌에 없어서는 안 되는 것."
+      },
+      // ----------------------------------------------------
+      // ⭐ STAGE 13 (인덱스 12): 11장. 공진의 경계가 열린다
+      // ----------------------------------------------------
+      {
+        subtitle: "11장. 공진의 경계가 열린다",
+        text: `다음 페이지에는 다른 문양과는 전혀 다른 형상이 나타났다.
+
+문양을 관찰하며 기록하고 있을 때,
+아티팩트가 갑자기 깊고 낮은 울림을 냈다.
+그 울림은 공기뿐 아니라 당신의 가슴뼈까지 진동시키는 느낌이었다.
+문양의 중앙 틈은 실제로 ‘열리는 것처럼’ 보였다.
+빛이 조금씩 스며나왔고,
+종이 표면과 현실의 경계가 모호해졌다.
+
+'경계…'
+
+당신은 아득하게 중얼거렸다.
+이 문양은 차원적 ‘틈’ 혹은 ‘문’ 같은 구조였다.
+아직 완전히 열리진 않았지만,
+지금 이 수첩은 분명 다른 세계로의 입구가 될 것이었다.
+
+당신은 떨리는 숨을 내쉬었다.
+경계를 향해 다가갔다.
+
+테마랜드로 이어지는 파장.
+
+(바닥에 부착된 QR코드를 찍어 문제를 확인해주세요.)`,
         answer: "102510",
         hint: "숫자, 읽은 순서 그대로."
       },
@@ -997,14 +1041,8 @@
 그리고 당신은,
 지금 막 중요한 진실의 문턱에 들어섰다는 것을 느꼈다.
 
-그때 연구소로부터 연락이 울렸다.
-강촌에 잠입해 일하고 있는, 
-비밀요원과의 소통으로 파동의 정체를 더 알아내라는 전언이었다.
-
-보고 받은 요원의 위치는 카페 THE1939.
-당신은 그곳으로 향한다.
-
-(카운터에서 일하시는 분께 명함을 보여주시면, QR을 보여주실 겁니다!)`,
+그때 연락이 울렸다.
+강촌에 있는 비밀요원과의 소통으로 파동의 정체를 더 알아내라는 전언이었다.`,
         answer: "그리움이 물안개로 피어나고",
         hint: "한글, 비밀요원에게 다시 물어보시거나, QR코드를 다시 찍어보세요."
       },
@@ -1015,9 +1053,6 @@
         subtitle: "13장. 아티팩트의 폭주",
         text: `열네 번째 페이지가 열리자 아티팩트가 갑자기 불안정하게 흔들리기 시작했다.
 당신의 손바닥까지 떨릴 정도였다.
-
-멀리 강촌상상역에서 파동이 진하게 울렸다.
-
 수첩은 진동을 따라 문양 전체가 흔들리는 것처럼 보였다.
 빛은 일정하지 않고 깜빡이며, 어딘가 급박한 상황을 암시했다.
 당신의 주변 공기가 묘하게 무력해졌다.
@@ -1033,7 +1068,7 @@
 당신은 호흡을 가다듬었다.
 지금이 바로 중대한 경계라는 걸 알 수 있었으니까.
 
-당신은 파동이 가장 짙게 느껴지는 곳, 강촌상상역역으로 걸어갔다.
+당신은 파동이 가장 짙게 느껴지는 곳으로 걸어갔다.
 
 (바닥에 부착된 QR코드를 찍어 확인해주세요.)`,
         answer: "피암터널",
@@ -1066,11 +1101,7 @@
 
 당신은 손을 떨며 페이지를 덮었다.
 이제 자신이 어떤 역할을 맡게 될지
-어렴풋이 이해하기 시작했다.
-
-당신은 이제 다시 강촌역으로 향한다.
-
-(강촌역으로 돌아가는 길, 강촌 상상역 뒤의 포토존 근처에서 QR코드를 찍어 문제를 확인해주세요.)`,
+어렴풋이 이해하기 시작했다.`,
         answer: "13",
         hint: "숫자만, 직접 포즈를 취해보시는 건 어떠신가요?"
       },
@@ -1081,34 +1112,25 @@
         subtitle: "15장. 두 번째 반전 — 당신은 처음이 아니다",
         text: `열여섯 번째 페이지는
 아무런 문양도 없이 새하얀 종이였다.
-
-그러나 당신이 손을 올리자
+그러나 연구원이 손을 올리자
 검은 글씨가 한 줄씩 떠올랐다.
-
-'이 글을 읽고 있다면, 너는 처음이 아니다.'
-
+<이 글을 읽고 있다면—
+너는 처음이 아니다.>
 그 문장이 완성되는 순간
 공기의 온도가 순간적으로 떨어졌다.
 수첩은 계속해서 글씨를 드러냈다.
-
-'우리는 이전 감응자들을 맞이했고,
+<우리는 이전 감응자들을 맞이했고,
 그들은 모두 제 역할을 수행했다.
-이 기록은 반복을 위한 것이다.'
-
+이 기록은 반복을 위한 것이다.>
 반복.
-
-그 한 단어가 당신의 뒷덜미를 서늘하게 만들었다.
+그 한 단어가 연구원의 뒷덜미를 서늘하게 만들었다.
 지금 그가 느끼는 모든 흐름,
 경로, 문양, 공명, 아티팩트의 반응,
 이 모든 것이 ‘이미 누군가 지나간 길’이었다.
-
-당신도 결국, 그 반복 과정의 일부가 될 것이라는 직감을 피할 수 없었다.
+그는 자신도 결국
+그 반복 과정의 일부가 될 것이라는 직감을 피할 수 없었다.
 수첩은 종이를 찢듯 급히 다음 장으로 넘어갔다.
-어쩌면 이제 더 숨길 이유가 없다는 듯이.
-
-파장은 강촌식당으로 향했다.
-
-(근처의 QR코드를 찍어 문제를 확인해주세요.)`,
+어쩌면 이제 더 숨길 이유가 없다는 듯이.`,
         answer: "강촌로56",
         hint: "주소, 띄어쓰기 없이."
       },
@@ -1139,7 +1161,7 @@
         hint: "한글, 카페 안쪽에 위치하고 있습니다."
       },
       // ----------------------------------------------------
-      // ⭐ STAGE 19 (인덱스 18): 최종 클리어 처리용
+      // ⭐ STAGE 19 (인덱스 18): 17장. 신성생명체의 잔상
       // ----------------------------------------------------
       {
         subtitle: "최종 클리어", 
@@ -1152,19 +1174,19 @@
        const totalStages = puzzles.length;
     let currentStage = 0;
 
-    const stageLabelEl    = document.getElementById("stageLabel");
+    const stageLabelEl    = document.getElementById("stageLabel");
     const stageSubtitleEl = document.getElementById("stageSubtitle");
-    const storyTextEl     = document.getElementById("storyText");
-    const messageEl       = document.getElementById("message");
-    const hintAreaEl      = document.getElementById("hintArea");
-    const hintContentEl   = document.getElementById("hintContent");
-    const answerInputEl   = document.getElementById("answer");
-    const submitBtnEl     = document.getElementById("submitBtn");
-    const progressBarEl   = document.getElementById("progressBar");
-    const progressTextEl  = document.getElementById("progressText");
-    const answerAreaEl    = document.getElementById("answerArea");
-    const clearBlockEl    = document.getElementById("clearBlock");
-    const restartBtnEl    = document.getElementById("restartBtn");
+    const storyTextEl     = document.getElementById("storyText");
+    const messageEl       = document.getElementById("message");
+    const hintAreaEl      = document.getElementById("hintArea");
+    const hintContentEl   = document.getElementById("hintContent");
+    const answerInputEl   = document.getElementById("answer");
+    const submitBtnEl     = document.getElementById("submitBtn");
+    const progressBarEl   = document.getElementById("progressBar");
+    const progressTextEl  = document.getElementById("progressText");
+    const answerAreaEl    = document.getElementById("answerArea");
+    const clearBlockEl    = document.getElementById("clearBlock");
+    const restartBtnEl    = document.getElementById("restartBtn");
 
     function normalize(text) {
       return text.trim().replace(/\s/g, '').toLowerCase();
@@ -1174,20 +1196,20 @@
       const cleared = currentStage;
       const total = totalStages;
       
-      stageLabelEl.textContent     = `STAGE ${currentStage + 1} / ${total}`;
+      stageLabelEl.textContent     = `STAGE ${currentStage + 1} / ${total}`;
     }
 
     function renderStage() {
       const p = puzzles[currentStage];
 
       stageSubtitleEl.textContent = p.subtitle || "현장 로그를 읽고 코드를 입력하세요.";
-      storyTextEl.innerHTML       = p.text || "";
-      messageEl.textContent       = "";
-      messageEl.className         = "message";
+      storyTextEl.innerHTML       = p.text || "";
+      messageEl.textContent       = "";
+      messageEl.className         = "message";
 
-      answerInputEl.value    = "";
+      answerInputEl.value    = "";
       answerInputEl.disabled = false;
-      submitBtnEl.disabled   = false;
+      submitBtnEl.disabled   = false;
       answerAreaEl.style.display = "block";
       clearBlockEl.style.display = "none";
       
@@ -1214,26 +1236,26 @@
     }
 
     function showClear() {
-      stageLabelEl.textContent    = `GAME CLEARED`;
-      answerAreaEl.style.display  = "none";
-      clearBlockEl.style.display  = "block";
+      stageLabelEl.textContent    = `GAME CLEARED`;
+      answerAreaEl.style.display  = "none";
+      clearBlockEl.style.display  = "block";
     }
 
     function checkAnswer() {
       const userAnswer = normalize(answerInputEl.value);
-      const correct    = normalize(puzzles[currentStage].answer || "");
+      const correct    = normalize(puzzles[currentStage].answer || "");
 
       if (!userAnswer) {
         messageEl.textContent = "정답(코드)을 입력해 주세요.";
-        messageEl.className   = "message error";
+        messageEl.className   = "message error";
         return;
       }
 
       if (userAnswer === correct) {
         messageEl.textContent = "✅ 정답입니다! 다음 장으로 이동합니다.";
-        messageEl.className   = "message success";
+        messageEl.className   = "message success";
 
-        submitBtnEl.disabled   = true;
+        submitBtnEl.disabled   = true;
         answerInputEl.disabled = true;
         submitBtnEl.textContent = "✔ NEXT LOADING...";
 
@@ -1248,7 +1270,7 @@
         }, 900);
       } else {
         messageEl.textContent = "❌ 코드가 일치하지 않습니다. 다시 확인해 보세요.";
-        messageEl.className   = "message error";
+        messageEl.className   = "message error";
       }
     }
 
