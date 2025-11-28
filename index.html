@@ -264,7 +264,7 @@
         display: none;
     }
 
-    input[type="tel"] {
+    input[type="text"] {
       width: 100%;
       padding: 8px 10px;
       border-radius: 8px;
@@ -275,7 +275,7 @@
       color: var(--text-main);
     }
 
-    input[type="tel"]:focus {
+    input[type="text"]:focus {
       outline: none;
       border-color: var(--accent-blue);
       box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.5);
@@ -493,7 +493,7 @@
         <div id="answerArea">
           <div class="answer-label-pill">CODE / 정답</div>
           <label for="answer">CODE / 정답</label>
-          <input id="answer" type="tel" inputmode="numeric" autocomplete="off" />
+          <input id="answer" type="text" inputmode="text" autocomplete="off" />
           <button id="submitBtn">SUBMIT</button>
           <div id="message" class="message"></div>
           
