@@ -1,543 +1,577 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <title>코드명: 에그 노이즈 - 필드 로그</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" />
+  <title>코드명: 에그 노이즈 - 필드 로그</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <style>
-    :root {
-      --bg-gray: #111827;
-      --paper: #faf7f2;
-      --line: #e2ddd4;
-      --margin-line: #c4a58c;
-      --margin-line-new: #b8987b;
-      --text-main: #222222;
-      --text-sub: #6b7280;
-      --accent: #111111;
-      --accent-blue: #2563eb;
-      --highlight-yellow: #fde047;
-      --highlight-text: #854d0e;
-    }
+  <style>
+    :root {
+      --bg-gray: #111827;
+      --paper: #faf7f2;
+      --line: #e2ddd4;
+      --margin-line: #c4a58c;
+      --margin-line-new: #b8987b;
+      --text-main: #222222;
+      --text-sub: #6b7280;
+      --accent: #111111;
+      --accent-blue: #2563eb;
+      --highlight-yellow: #fde047;
+      --highlight-text: #854d0e;
+    }
 
-    * {
-      box-sizing: border-box;
-    }
+    * {
+      box-sizing: border-box;
+    }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: var(--bg-gray);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg-gray);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
 
-    .notebook-card {
-      width: 100%;
-      max-width: 600px;
-      margin: 0 auto;
-      min-height: 100vh;
-      background: #020617;
-      display: flex;
-      flex-direction: column;
-    }
+    .notebook-card {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: #020617;
+      display: flex;
+      flex-direction: column;
+    }
 
-    .spiral-header {
-      padding: 12px 16px 8px;
-      background: linear-gradient(135deg, #020617, #111827);
-      color: #e5e7eb;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
-    }
+    .spiral-header {
+      padding: 12px 16px 8px;
+      background: linear-gradient(135deg, #020617, #111827);
+      color: #e5e7eb;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
 
-    .spiral-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-    }
+    .spiral-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
 
-    .spiral-holes {
-      display: flex;
-      gap: 6px;
-    }
+    .spiral-holes {
+      display: flex;
+      gap: 6px;
+    }
 
-    .spiral-hole {
-      width: 13px;
-      height: 13px;
-      border-radius: 999px;
-      background: #020617;
-      box-shadow:
-        0 0 0 2px #d4d4d4,
-        inset 0 0 3px rgba(0,0,0,0.9);
-      position: relative;
-    }
+    .spiral-hole {
+      width: 13px;
+      height: 13px;
+      border-radius: 999px;
+      background: #020617;
+      box-shadow:
+        0 0 0 2px #d4d4d4,
+        inset 0 0 3px rgba(0,0,0,0.9);
+      position: relative;
+    }
 
-    .spiral-wire {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 19px;
-      height: 3px;
-      border-radius: 999px;
-      background: #d4d4d4;
-      box-shadow:
-        0 2px 0 rgba(0,0,0,0.4),
-        0 -1px 0 rgba(255,255,255,0.7);
-    }
+    .spiral-wire {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 19px;
+      height: 3px;
+      border-radius: 999px;
+      background: #d4d4d4;
+      box-shadow:
+        0 2px 0 rgba(0,0,0,0.4),
+        0 -1px 0 rgba(255,255,255,0.7);
+    }
 
-    .spiral-wire.top { top: -6px; }
-    .spiral-wire.bottom { bottom: -6px; }
+    .spiral-wire.top { top: -6px; }
+    .spiral-wire.bottom { bottom: -6px; }
 
-    .lab-header-text {
-      text-align: right;
-      font-size: 0.72rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: #9ca3af;
-    }
+    .lab-header-text {
+      text-align: right;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #9ca3af;
+    }
 
-    .lab-main-title {
-      margin-top: 4px;
-      font-size: 1.05rem;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-    }
+    .lab-main-title {
+      margin-top: 4px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
 
-    .lab-subtitle {
-      margin-top: 2px;
-      font-size: 0.78rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: #d1d5db;
-    }
+    .lab-subtitle {
+      margin-top: 2px;
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #d1d5db;
+    }
 
-    .paper-wrap {
-      flex: 1;
-      background: #111827;
-      padding: 10px 16px 16px;
-      overflow-y: auto;
-    }
+    .paper-wrap {
+      flex: 1;
+      background: #111827;
+      padding: 10px 16px 16px;
+      overflow-y: auto;
+    }
 
-    .paper {
-      position: relative;
-      border-radius: 14px;
-      background:
-        repeating-linear-gradient(
-          to bottom,
-          var(--paper) 0,
-          var(--paper) 24px,
-          var(--line) 25px
-        );
-      box-shadow:
-        0 8px 18px rgba(0,0,0,0.45),
-        0 0 0 1px rgba(0,0,0,0.25);
-      padding: 18px 18px 18px 40px;
-      min-height: calc(100vh - 110px);
-    }
+    .paper {
+      position: relative;
+      border-radius: 14px;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          var(--paper) 0,
+          var(--paper) 24px,
+          var(--line) 25px
+        );
+      box-shadow:
+        0 8px 18px rgba(0,0,0,0.45),
+        0 0 0 1px rgba(0,0,0,0.25);
+      padding: 18px 18px 18px 40px;
+      min-height: calc(100vh - 110px);
+    }
 
-    .paper::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 28px;
-      width: 2px;
-      background: linear-gradient(to bottom, transparent, var(--margin-line-new), transparent);
-      opacity: 0.9;
-    }
+    .paper::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 28px;
+      width: 2px;
+      background: linear-gradient(to bottom, transparent, var(--margin-line-new), transparent);
+      opacity: 0.9;
+    }
 
-    .paper-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 6px;
-    }
+    .paper-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
 
-    .paper-header-left {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
+    .paper-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
 
-    .paper-label {
-      font-size: 0.8rem;
-      color: var(--text-sub);
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
+    .paper-label {
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
 
-    .paper-title {
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: var(--text-main);
-    }
+    .paper-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
 
-    .paper-header-right {
-      text-align: right;
-      font-size: 0.72rem;
-      color: var(--text-sub);
-    }
+    .paper-header-right {
+      text-align: right;
+      font-size: 0.72rem;
+      color: var(--text-sub);
+    }
 
-    .stage-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 1px 6px;
-      border-radius: 999px;
-      border: 1px solid #c4b5a5;
-      font-size: 0.65rem;
-      background: rgba(250, 247, 242, 0.95);
-      color: var(--text-sub);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
+    .stage-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 1px 6px;
+      border-radius: 999px;
+      border: 1px solid #c4b5a5;
+      font-size: 0.65rem;
+      background: rgba(250, 247, 242, 0.95);
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    
+    .answer-label-pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: var(--text-main);
+      color: var(--paper);
+      font-size: 0.86rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      margin-bottom: 4px;
+      margin-top: 4px;
+    }
+
+    .progress-wrap {
+      margin: 4px 0 4px;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.06);
+      overflow: hidden;
+      display: none; /* JS에서 사용하지 않으므로 숨김 처리 */
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-blue), #111827);
+      transition: width 0.3s ease;
+    }
+
+    .progress-text {
+      margin-top: 3px;
+      font-size: 0.7rem;
+      color: var(--text-sub);
+      text-align: right;
+      display: none; /* JS에서 사용하지 않으므로 숨김 처리 */
+    }
+
+    .subtitle {
+      font-size: 0.86rem;
+      color: var(--text-sub);
+      margin: 4px 0 6px;
+    }
+    
+    .subtitle-separator {
+        width: 100%;
+        height: 1px;
+        background: #e2ddd4;
+        margin: 8px 0 12px;
+        opacity: 0.6;
+    }
+
+    .story-text {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      white-space: pre-line;
+      line-height: 1.75;
+      margin-bottom: 14px;
+    }
+
+    /* 볼드 처리 및 글씨 크기 키우기 */
+    .story-text strong {
+      font-size: 1.05rem;
+    }
+
+    label {
+        display: none;
+    }
+
+    /* input[type="text"], input[type="tel"]에 스타일 적용 */
+    input[type="text"], input[type="tel"] {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #c4b5a5;
+      font-size: 0.95rem;
+      font-family: inherit;
+      background: rgba(255,255,255,0.98);
+      color: var(--text-main);
+    }
+
+    input[type="text"]:focus, input[type="tel"]:focus {
+      outline: none;
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.5);
+      background: #ffffff;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 8px;
+      padding: 9px 10px;
+      border-radius: 999px;
+      border: none;
+      background: var(--accent);
+      color: #ffffff;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 7px 16px rgba(0,0,0,0.35);
+      transition: transform 0.05s ease, filter 0.06s ease, box-shadow 0.1s ease;
+    }
+
+    button:active {
+      transform: translateY(1px);
+      filter: brightness(0.93);
+      box-shadow: 0 4px 9px rgba(0,0,0,0.4);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .message {
+      margin-top: 4px;
+      font-size: 0.82rem;
+      min-height: 1.2em;
+    }
+
+    .message.error { color: #c62828; }
+
+    /* ⭐ 정답 알림창 크게 강조 ⭐ */
+    .message.success { 
+      color: #2e7d32;
+      font-size: 1.2rem;
+      font-weight: 700;
+      padding: 8px 0;
+      text-align: center;
+      background-color: #e6ffe6;
+      border-radius: 8px;
+    }
+    
+    /* 힌트 토글 스타일 */
+    .hint-area {
+      margin-top: 8px;
+    }
+    .hint-area details {
+      border: 1px solid #c4b5a5;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.5);
+      overflow: hidden;
+      margin-top: 8px;
+      color: var(--text-main);
+    }
+    .hint-area summary {
+      padding: 8px 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      list-style: none;
+    }
+    .hint-area summary:focus {
+        outline: none;
+        background: rgba(255, 255, 255, 0.8);
+    }
+    .hint-area summary::before {
+        content: "▶";
+        display: inline-block;
+        font-size: 0.7rem;
+        margin-right: 8px;
+        transition: transform 0.1s ease;
+    }
+    .hint-area details[open] summary::before {
+        transform: rotate(90deg);
+    }
+    .hint-content {
+      padding: 8px 10px;
+      font-size: 0.8rem;
+      background: var(--paper);
+      border-top: 1px solid #e2ddd4;
+      white-space: pre-line;
+    }
+
+    /* 프롤로그 힌트 강조 스타일 */
+    .hint-area.active details {
+        border-color: var(--highlight-text);
+        box-shadow: 0 0 5px rgba(253, 224, 71, 0.7);
+    }
+    .hint-area.active summary {
+        background: var(--highlight-yellow);
+        color: var(--highlight-text);
+    }
+
+    .clear-block {
+      margin-top: 12px;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      display: none;
+    }
+
+    .clear-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #2e7d32;
+      color: #2e7d32;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      background: rgba(222, 247, 222, 0.9);
+      margin-bottom: 4px;
+    }
+
+    .clear-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .clear-text {
+      font-size: 0.88rem;
+      color: var(--text-sub);
+      line-height: 1.6;
+      margin-bottom: 15px; /* 하단 간격 추가 */
+    }
     
-    .answer-label-pill {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 8px;
-      background: var(--text-main);
-      color: var(--paper);
-      font-size: 0.86rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      margin-bottom: 4px;
-      margin-top: 4px;
+    /* ⭐ 설문조사 버튼 강조 스타일 추가 ⭐ */
+    .survey-btn-wrap {
+        margin-top: 20px;
+        margin-bottom: 10px;
+        padding: 10px 0;
+        border-top: 1px dashed #c4a58c;
+        border-bottom: 1px dashed #c4a58c;
     }
 
-    .progress-wrap {
-      margin: 4px 0 4px;
-    }
-
-    .progress-bar-bg {
-      width: 100%;
-      height: 4px;
-      border-radius: 999px;
-      background: rgba(0,0,0,0.06);
-      overflow: hidden;
-      display: none; /* JS에서 사용하지 않으므로 숨김 처리 */
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--accent-blue), #111827);
-      transition: width 0.3s ease;
-    }
-
-    .progress-text {
-      margin-top: 3px;
-      font-size: 0.7rem;
-      color: var(--text-sub);
-      text-align: right;
-      display: none; /* JS에서 사용하지 않으므로 숨김 처리 */
-    }
-
-    .subtitle {
-      font-size: 0.86rem;
-      color: var(--text-sub);
-      margin: 4px 0 6px;
-    }
-    
-    .subtitle-separator {
+    .survey-btn {
         width: 100%;
-        height: 1px;
-        background: #e2ddd4;
-        margin: 8px 0 12px;
-        opacity: 0.6;
+        padding: 12px 10px;
+        border-radius: 999px;
+        border: none;
+        background: #FFD94D; /* 노란색 배경 */
+        color: var(--highlight-text); /* 강조 텍스트 색상 */
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        cursor: pointer;
+        box-shadow: 0 5px 12px rgba(0,0,0,0.25);
+        transition: transform 0.05s ease, filter 0.06s ease;
     }
 
-    .story-text {
-      font-size: 0.95rem;
-      color: var(--text-main);
-      white-space: pre-line;
-      line-height: 1.75;
-      margin-bottom: 14px;
+    .survey-btn:active {
+        transform: translateY(1px);
+        filter: brightness(0.93);
+        box-shadow: 0 3px 6px rgba(0,0,0,0.3);
     }
 
-    /* 볼드 처리 및 글씨 크기 키우기 */
-    .story-text strong {
-      font-size: 1.05rem;
-    }
+    .restart-btn {
+      margin-top: 15px;
+      width: 100%;
+      padding: 10px 10px;
+      border-radius: 999px;
+      border: 1px solid #111827;
+      background: #e9e9e9; /* 연한 회색 배경 */
+      color: #111827;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
 
-    label {
-        display: none;
-    }
-
-    /* input[type="text"], input[type="tel"]에 스타일 적용 */
-    input[type="text"], input[type="tel"] {
-      width: 100%;
-      padding: 8px 10px;
-      border-radius: 8px;
-      border: 1px solid #c4b5a5;
-      font-size: 0.95rem;
-      font-family: inherit;
-      background: rgba(255,255,255,0.98);
-      color: var(--text-main);
-    }
-
-    input[type="text"]:focus, input[type="tel"]:focus {
-      outline: none;
-      border-color: var(--accent-blue);
-      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.5);
-      background: #ffffff;
-    }
-
-    button {
-      width: 100%;
-      margin-top: 8px;
-      padding: 9px 10px;
-      border-radius: 999px;
-      border: none;
-      background: var(--accent);
-      color: #ffffff;
-      font-size: 0.82rem;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      cursor: pointer;
-      box-shadow: 0 7px 16px rgba(0,0,0,0.35);
-      transition: transform 0.05s ease, filter 0.06s ease, box-shadow 0.1s ease;
-    }
-
-    button:active {
-      transform: translateY(1px);
-      filter: brightness(0.93);
-      box-shadow: 0 4px 9px rgba(0,0,0,0.4);
-    }
-
-    button:disabled {
-      opacity: 0.5;
-      cursor: default;
-      box-shadow: none;
-    }
-
-    .message {
-      margin-top: 4px;
-      font-size: 0.82rem;
-      min-height: 1.2em;
-    }
-
-    .message.error { color: #c62828; }
-
-    /* ⭐ 정답 알림창 크게 강조 ⭐ */
-    .message.success { 
-      color: #2e7d32;
-      font-size: 1.2rem;
-      font-weight: 700;
-      padding: 8px 0;
-      text-align: center;
-      background-color: #e6ffe6;
-      border-radius: 8px;
-    }
-    
-    /* 힌트 토글 스타일 */
-    .hint-area {
-      margin-top: 8px;
-    }
-    .hint-area details {
-      border: 1px solid #c4b5a5;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.5);
-      overflow: hidden;
-      margin-top: 8px;
-      color: var(--text-main);
-    }
-    .hint-area summary {
-      padding: 8px 10px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      list-style: none;
-    }
-    .hint-area summary:focus {
-        outline: none;
-        background: rgba(255, 255, 255, 0.8);
-    }
-    .hint-area summary::before {
-        content: "▶";
-        display: inline-block;
-        font-size: 0.7rem;
-        margin-right: 8px;
-        transition: transform 0.1s ease;
-    }
-    .hint-area details[open] summary::before {
-        transform: rotate(90deg);
-    }
-    .hint-content {
-      padding: 8px 10px;
-      font-size: 0.8rem;
-      background: var(--paper);
-      border-top: 1px solid #e2ddd4;
-      white-space: pre-line;
-    }
-
-    /* 프롤로그 힌트 강조 스타일 */
-    .hint-area.active details {
-        border-color: var(--highlight-text);
-        box-shadow: 0 0 5px rgba(253, 224, 71, 0.7);
-    }
-    .hint-area.active summary {
-        background: var(--highlight-yellow);
-        color: var(--highlight-text);
-    }
-
-    .clear-block {
-      margin-top: 12px;
-      font-size: 0.9rem;
-      color: var(--text-main);
-      display: none;
-    }
-
-    .clear-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 2px 8px;
-      border-radius: 999px;
-      border: 1px solid #2e7d32;
-      color: #2e7d32;
-      font-size: 0.74rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      background: rgba(222, 247, 222, 0.9);
-      margin-bottom: 4px;
-    }
-
-    .clear-title {
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .clear-text {
-      font-size: 0.88rem;
-      color: var(--text-sub);
-      line-height: 1.6;
-    }
-
-    .restart-btn {
-      margin-top: 10px;
-      width: 100%;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid #111827;
-      background: transparent;
-      color: #111827;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      cursor: pointer;
-    }
-
-    .restart-btn:active {
-      transform: translateY(1px);
-      filter: brightness(0.96);
-    }
-  </style>
+    .restart-btn:active {
+      transform: translateY(1px);
+      filter: brightness(0.96);
+    }
+  </style>
 </head>
 <body>
-  <div class="notebook-card">
-    <div class="spiral-header">
-      <div class="spiral-row">
-        <div class="spiral-holes">
-          <div class="spiral-hole">
-            <div class="spiral-wire top"></div>
-            <div class="spiral-wire bottom"></div>
+  <div class="notebook-card">
+    <div class="spiral-header">
+      <div class="spiral-row">
+        <div class="spiral-holes">
+          <div class="spiral-hole">
+            <div class="spiral-wire top"></div>
+            <div class="spiral-wire bottom"></div>
+          </div>
+          <div class="spiral-hole">
+            <div class="spiral-wire top"></div>
+            <div class="spiral-wire bottom"></div>
+          </div>
+          <div class="spiral-hole">
+            <div class="spiral-wire top"></div>
+            <div class="spiral-wire bottom"></div>
+          </div>
+        </div>
+        <div class="lab-header-text">
+          BACKWOODS RESEARCH INSTITUTE
+        </div>
+      </div>
+      <div class="lab-main-title">CODE: EGG NOISE</div>
+      <div class="lab-subtitle">GANGCHON BASE</div>
+    </div>
+
+    <div class="paper-wrap">
+      <div class="paper">
+        <div class="paper-header">
+          <div class="paper-header-left">
+            <div class="paper-label">FIELD NOTES</div>
+            <div class="paper-title">
+              코드명: 에그 노이즈 <br> (Code: Egg Noise)
+            </div>
+          </div>
+          <div class="paper-header-right">
+            <div class="stage-pill" id="stageLabel">
+              STAGE 1 / 19             </div>
+          </div>
+        </div>
+
+        <div class="progress-wrap">
+          <div class="progress-bar-bg" style="display: none;"></div>
+        </div>
+
+        <div class="subtitle" id="stageSubtitle">
+          힌트를 읽고 현장에서 얻은 코드를 입력하세요.
+        </div>
+
+        <div class="subtitle-separator"></div>
+
+        <div class="story-text" id="storyText">
+          스테이지 내용이 여기에 표시됩니다.
+        </div>
+
+        <div id="answerArea">
+          <div class="answer-label-pill">CODE / 정답</div>
+          <label for="answerInput">CODE / 정답</label>
+          <input id="answerInput" type="text" inputmode="text" autocomplete="off" />
+          <button id="submitBtn">SUBMIT</button>
+          <div id="message" class="message"></div>
+
+          <div id="hintArea" class="hint-area">
+              <details>
+                <summary id="hintSummary">힌트 보기</summary>
+                <div class="hint-content" id="hintContent"></div>
+              </details>
+          </div>
+        </div>
+
+        <div class="clear-block" id="clearBlock">
+          <div class="clear-badge">
+            <span>🎉</span><span>ALL STAGES CLEARED</span>
+          </div>
+          <div class="clear-title">필드 로그 작성 완료</div>
+          <div class="clear-text">
+            모든 스테이지에서 수집한 코드가 기록되었습니다.<br />
+            수고 많으셨습니다.
+          </div>
+          
+          <div class="survey-btn-wrap">
+            <a href="https://forms.gle/y1YVeoTPLMm19ugSA" target="_blank" style="text-decoration: none;">
+              <button class="survey-btn">
+                💡 만족도 조사 참여하기 💡
+              </button>
+            </a>
           </div>
-          <div class="spiral-hole">
-            <div class="spiral-wire top"></div>
-            <div class="spiral-wire bottom"></div>
-          </div>
-          <div class="spiral-hole">
-            <div class="spiral-wire top"></div>
-            <div class="spiral-wire bottom"></div>
-          </div>
-        </div>
-        <div class="lab-header-text">
-          BACKWOODS RESEARCH INSTITUTE
-        </div>
-      </div>
-      <div class="lab-main-title">CODE: EGG NOISE</div>
-      <div class="lab-subtitle">GANGCHON BASE</div>
-    </div>
 
-    <div class="paper-wrap">
-      <div class="paper">
-        <div class="paper-header">
-          <div class="paper-header-left">
-            <div class="paper-label">FIELD NOTES</div>
-            <div class="paper-title">
-              코드명: 에그 노이즈 <br> (Code: Egg Noise)
-            </div>
-          </div>
-          <div class="paper-header-right">
-            <div class="stage-pill" id="stageLabel">
-              STAGE 1 / 20
-            </div>
-          </div>
-        </div>
+          <button class="restart-btn" id="restartBtn">
+            다시 시작하기
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        <div class="progress-wrap">
-          <div class="progress-bar-bg" style="display: none;"></div>
-        </div>
-
-        <div class="subtitle" id="stageSubtitle">
-          힌트를 읽고 현장에서 얻은 코드를 입력하세요.
-        </div>
-
-        <div class="subtitle-separator"></div>
-
-        <div class="story-text" id="storyText">
-          스테이지 내용이 여기에 표시됩니다.
-        </div>
-
-        <div id="answerArea">
-          <div class="answer-label-pill">CODE / 정답</div>
-          <label for="answerInput">CODE / 정답</label>
-          <input id="answerInput" type="text" inputmode="text" autocomplete="off" />
-          <button id="submitBtn">SUBMIT</button>
-          <div id="message" class="message"></div>
-
-          <div id="hintArea" class="hint-area">
-              <details>
-                <summary id="hintSummary">힌트 보기</summary>
-                <div class="hint-content" id="hintContent"></div>
-              </details>
-          </div>
-        </div>
-
-        <div class="clear-block" id="clearBlock">
-          <div class="clear-badge">
-            <span>🎉</span><span>ALL STAGES CLEARED</span>
-          </div>
-          <div class="clear-title">필드 로그 작성 완료</div>
-          <div class="clear-text">
-            모든 스테이지에서 수집한 코드가 기록되었습니다.<br />
-            수고 많으셨습니다.
-          </div>
-
-          <a href="https://forms.gle/y1YVeoTPLMm19ugSA" target="_blank" style="text-decoration: none;">
-            <button class="restart-btn" style="background: #e9e9e9; color: #222; margin-bottom: 15px; border: 1px solid #aaa; box-shadow: none;">
-              💡만족도 조사 참여하기💡
-            </button>
-          </a>
-
-          <button class="restart-btn" id="restartBtn">
-            다시 시작하기
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const puzzles = [
-      // ----------------------------------------------------
-      // ⭐ STAGE 1 (인덱스 0): 프롤로그. 사라진 시대의 잔향
-      // ----------------------------------------------------
-      {
-        subtitle: "프롤로그. 사라진 시대의 잔향",
-        text: `**고대 생명체가 사라진 시대**
+  <script>
+    const puzzles = [
+      // ----------------------------------------------------
+      // ⭐ STAGE 1 (인덱스 0): 프롤로그. 사라진 시대의 잔향
+      // ----------------------------------------------------
+      {
+        subtitle: "프롤로그. 사라진 시대의 잔향",
+        text: `**고대 생명체가 사라진 시대**
 아주 오래전, 강촌 인근에는 지금은 기록에서 사라진 거대 비행 생명체가 존재했다는 전설만 흐릿하게 남아 있다.
 현대 과학으로는 정체를 알 수 없는 생명체였고, 어느 순간 흔적 없이 사라졌다.
 이 전설은 사실 여부도 불분명한 채 지역의 신화처럼만 전해진다.
@@ -555,19 +589,19 @@
 학자들은 그들을 감응자(Sensor)라 명명하고, 현장에 투입해 연구를 이어왔다.
 
 이제, 당신의 차례다.
-그 감응자 중 한 명으로서 현장으로 파견되는 당신의 이야기.`, 
-        answer: "시작",
-        hint: "프롤로그를 모두 읽었다면 정답 칸에 '시작'이라고 입력해 주세요."
-      },
-      // ----------------------------------------------------
-      // ⭐ STAGE 2 (인덱스 1): 프롤로그. 수첩을 줍다
-      // ----------------------------------------------------
-      {
-        subtitle: "프롤로그. 수첩을 줍다",
-        text: `열차가 떠난 뒤, 잔열이 남은 바람이 플랫폼을 스치고 지나갔다. 
+그 감응자 중 한 명으로서 현장으로 파견되는 당신의 이야기.`, 
+        answer: "시작",
+        hint: "프롤로그를 모두 읽었다면 정답 칸에 '시작'이라고 입력해 주세요."
+      },
+      // ----------------------------------------------------
+      // ⭐ STAGE 2 (인덱스 1): 프롤로그. 수첩을 줍다
+      // ----------------------------------------------------
+      {
+        subtitle: "프롤로그. 수첩을 줍다",
+        text: `열차가 떠난 뒤, 잔열이 남은 바람이 플랫폼을 스치고 지나갔다. 
 감응자로서 파견된 연구원, 당신은 배낭을 고쳐 매며 주변을 살폈다.
-보고된 공진 신호는 모두 이곳, 강촌역을 중심으로 퍼져 나가고 있었다. 
-당신은 특별한 장비 없이 자신의 감각에만 의존해야 하는 첫 파견 임무에 
+보고된 공진 신호는 모두 이곳, 강촌역을 중심으로 퍼져 나가고 있었다. 
+당신은 특별한 장비 없이 자신의 감각에만 의존해야 하는 첫 파견 임무에 
 익숙지 않은 긴장을 느끼고 있었다.
 
 그때, 발치로 작은 그림자가 굴러왔다.
@@ -575,19 +609,19 @@
 당신은 무심코 허리를 굽혀 그것을 주워 들었다.
 
 수첩.
-강촌의 지도를 닮은 듯한 특이한 표지, 손끝에 전해지는 미세한 떨림. 
-마치 오랫동안 누군가를 기다려온 물건처럼 느껴졌다. 
+강촌의 지도를 닮은 듯한 특이한 표지, 손끝에 전해지는 미세한 떨림. 
+마치 오랫동안 누군가를 기다려온 물건처럼 느껴졌다. 
 
 당신은 천천히 첫 페이지를 펼쳤다.
 
 <이 수첩을 줍는 자, 공진을 느낄 뿐 아니라 들을 수 있다.>
 문장과 동시에,
-귓속 깊은 곳에서 낮고 묵직한 파동이 울렸다. 
+귓속 깊은 곳에서 낮고 묵직한 파동이 울렸다. 
 보고서에서 묘사되던 그 감각.
 일반인은 느낄 수 없고, 감응자만이 들을 수 있다는 신호.
 
 당신은 숨을 가볍게 삼켰다.
-수첩은 그의 손에서 아주 기묘하게 떨리고 있었다. 
+수첩은 그의 손에서 아주 기묘하게 떨리고 있었다. 
 동시에 아티팩트 역시 공명했다.
 마치 그가 오기를 알고 있었다는 듯이.
 
@@ -598,27 +632,27 @@
 당신은 그 공명을 따라, 카페로 향한다.
 
 (바닥의 QR코드를 찍어 문제를 확인하세요.)`,
-        answer: "상록",
-        hint: "한글, QR코드를 찍고 얻은 정답을 입력하세요."
-      },
-      // ----------------------------------------------------
-      // ⭐ STAGE 3 (인덱스 2): 1장. 잔재 파동이 깨어나다
-      // ----------------------------------------------------
-      {
-        subtitle: "1장. 잔재 파동이 깨어나다",
-        text: `수첩이 요구한 답을 적자, 종이 위에 희미한 선 하나가 천천히 떠올랐다. 
+        answer: "상록",
+        hint: "한글, QR코드를 찍고 얻은 정답을 입력하세요."
+      },
+      // ----------------------------------------------------
+      // ⭐ STAGE 3 (인덱스 2): 1장. 잔재 파동이 깨어나다
+      // ----------------------------------------------------
+      {
+        subtitle: "1장. 잔재 파동이 깨어나다",
+        text: `수첩이 요구한 답을 적자, 종이 위에 희미한 선 하나가 천천히 떠올랐다. 
 먹이 번진 것도, 오래된 흔적도 아닌, 마치 지금 ‘생겨나는’ 것처럼 선명해졌다.
 
 당신은 손가락을 조심스레 가까이 대보았다.
 선은 그의 움직임에 반응하듯 미세하게 떨렸다.
-지도처럼 보이기도 했고, 파동이 흐르는 경로처럼도 보였다. 
+지도처럼 보이기도 했고, 파동이 흐르는 경로처럼도 보였다. 
 
 하지만 무엇보다 기이했던 것은,
 이 선이 정적인 기록물이 아니라, 실시간으로 변화하는 지시 문양이라는 사실이었다.
 
-이때 주머니 속 아티팩트가 낮게 울렸다. 
-기계음도, 금속성 진동도 아닌 깊은 파동의 울림. 
-감응자의 신경을 건드리는 미세한 떨림이 척추를 타고 올라왔다. 
+이때 주머니 속 아티팩트가 낮게 울렸다. 
+기계음도, 금속성 진동도 아닌 깊은 파동의 울림. 
+감응자의 신경을 건드리는 미세한 떨림이 척추를 타고 올라왔다. 
 아티팩트는 수첩의 변화와 완전히 동기화되는 듯했다.
 
 변화가 생긴 아티팩트를 살핀 당신.
@@ -628,53 +662,53 @@
 도로표지판, 그곳에서 가장 큰 파장이 느껴지고 있었다.
 
 (기둥의 QR코드를 찍어 문제를 확인하세요.)`,
-        answer: "종말",
-        hint: "한글, 도로 표지판을 자세히 보세요."
-      },
-      // ----------------------------------------------------
-      // ⭐ STAGE 4 (인덱스 3): 2장. 첫문양이 깨어난 순간
-      // ----------------------------------------------------
-      {
-        subtitle: "2장. 첫문양이 깨어난 순간",
-        text: `종말?
-        생명체가 발견된 곳에서의 종말이라.
-        당신은 꽤 아이러니하다고 생각하면서도, 당신을 재촉하는 듯한 파동에 걸음을 옮겼다.
-        
-        세 번째 페이지는 펼쳐지는 순간부터 묘한 기운을 뿜었다.
-종이 위에 작고 미약한 빛의 점들이 떠다니더니 점점 모여들었다. 
+        answer: "종말",
+        hint: "한글, 도로 표지판을 자세히 보세요."
+      },
+      // ----------------------------------------------------
+      // ⭐ STAGE 4 (인덱스 3): 2장. 첫문양이 깨어난 순간
+      // ----------------------------------------------------
+      {
+        subtitle: "2장. 첫문양이 깨어난 순간",
+        text: `종말?
+        생명체가 발견된 곳에서의 종말이라.
+        당신은 꽤 아이러니하다고 생각하면서도, 당신을 재촉하는 듯한 파동에 걸음을 옮겼다.
+        
+        세 번째 페이지는 펼쳐지는 순간부터 묘한 기운을 뿜었다.
+종이 위에 작고 미약한 빛의 점들이 떠다니더니 점점 모여들었다. 
 그러다 하나의 문양이 되었다.
 규칙적으로 회전하는 원형 구조, 그 안에서 깜빡이는 얇은 빛의 선들.
 
-선들은 어딘가 떠 있는 듯, 종이 위에서 약간 들뜬 상태로 진동했다. 
-당신이 손을 뻗자 문양은 바로 반응하며 속도를 바꾸었다. 
+선들은 어딘가 떠 있는 듯, 종이 위에서 약간 들뜬 상태로 진동했다. 
+당신이 손을 뻗자 문양은 바로 반응하며 속도를 바꾸었다. 
 살아있는 생명체처럼, 당신을 ‘인식’하는 듯했다.
 
-이 문양이 단순한 장식이 아니라 
+이 문양이 단순한 장식이 아니라 
 강촌에 남아 있는 과거의 흔적,
 혹은 고대 생명체의 파동과 관련된 정보라는 느낌을 받았다.
 
-아티팩트도 동시에 반응했다. 
-문양이 회전하는 속도에 맞춰 
-결정체가 일정한 패턴으로 파동을 뿜어냈다. 
+아티팩트도 동시에 반응했다. 
+문양이 회전하는 속도에 맞춰 
+결정체가 일정한 패턴으로 파동을 뿜어냈다. 
 둘이 서로 신호를 주고받고 있었다.
 수첩은 스스로 다음 페이지로 넘어갔다.
 
 그때, 옆에서 당신을 부르는 소리가 들렸다.
 
 (근처의 QR코드를 찾아 문제를 확인하세요.)`,
-        answer: "2",
-        hint: "숫자, 사거리의 계단과 그 표지판을 잘 살피세요."
-      },
-      // ----------------------------------------------------
-      // ⭐ STAGE 5 (인덱스 4): 3장. 공진의 첫폭발
-      // ----------------------------------------------------
-      {
-        subtitle: "3장. 공진의 첫폭발",
-        text: `"당신을 2배 더 사랑합니다!"
-        남자가 무릎을 꿇고 외치자, 여자가 환하게 웃으며 꽃을 받아들었다.
-        
-        그들을 흐뭇하게 바라보던 당신.
-        다음 지점을 향해 천천히 이동하자
+        answer: "2",
+        hint: "숫자, 사거리의 계단과 그 표지판을 잘 살피세요."
+      },
+      // ----------------------------------------------------
+      // ⭐ STAGE 5 (인덱스 4): 3장. 공진의 첫폭발
+      // ----------------------------------------------------
+      {
+        subtitle: "3장. 공진의 첫폭발",
+        text: `"당신을 2배 더 사랑합니다!"
+        남자가 무릎을 꿇고 외치자, 여자가 환하게 웃으며 꽃을 받아들었다.
+        
+        그들을 흐뭇하게 바라보던 당신.
+        다음 지점을 향해 천천히 이동하자
 아티팩트는 갑자기 더 강한 떨림을 보였다.
 포화 직전처럼 반복되는 진동,
 하지만 터질 듯 위험한 느낌은 아니었다.
@@ -701,17 +735,17 @@
 이번 파동은 길 건너, 편의점 방향에서 오고 있었다.
 
 (편의점 근처의 QR코드를 찍어 문제를 확인하세요.)`,
-        answer: "OWNER",
-        hint: "영어, 건물의 생김새와 주어진 이미지를 비교하세요."
-      },
-      // ----------------------------------------------------
-      // ⭐ STAGE 6 (인덱스 5): 4장. 고대생명체의 잔재흔적
-      // ----------------------------------------------------
-      {
-        subtitle: "4장. 고대생명체의 잔재흔적",
-        text: `'OWNER'...
-        주인? 어떤 것의 주인을 말하는 걸까?
-        
+        answer: "OWNER",
+        hint: "영어, 건물의 생김새와 주어진 이미지를 비교하세요."
+      },
+      // ----------------------------------------------------
+      // ⭐ STAGE 6 (인덱스 5): 4장. 고대생명체의 잔재흔적
+      // ----------------------------------------------------
+      {
+        subtitle: "4장. 고대생명체의 잔재흔적",
+        text: `'OWNER'...
+        주인? 어떤 것의 주인을 말하는 걸까?
+        
 빛이 아닌 ‘그림자’ 같은 실루엣이 잠시 스쳐 지나갔다.
 종이에 그려진 것이 아니라
 연구원의 시야 깊은 곳에서 뭔가 지나간 듯한 잔상.
@@ -746,19 +780,19 @@
 당신은 주변을 둘러보다가, 파동이 흘러나오고 있는 마을회관 앞으로 다가갔다.
 
 (벽면의 QR코드를 찍어 문제를 확인하세요.)`,
-        answer: "선대의 유서",
-        hint: "한글, 순서가 중요합니다."
-      },
-      // ----------------------------------------------------
-      // ⭐ STAGE 7 (인덱스 6): 5장. 문양언어의 등장
-      // ----------------------------------------------------
-      {
-        subtitle: "5장. 문양언어의 등장",
-        text: `여섯 번째 페이지에는 '선대의 유서'라는 말만 적혀 있었다.
-        당신은 노트를 살피다가 낙서 같은 것을 발견했다.
-        그것이 단순한 낙서가 아니었음을, 당신은 직감했다.
-        
-        고대 생명체들이 남긴 하나의 메시지 체계.
+        answer: "선대의 유서",
+        hint: "한글, 순서가 중요합니다."
+      },
+      // ----------------------------------------------------
+      // ⭐ STAGE 7 (인덱스 6): 5장. 문양언어의 등장
+      // ----------------------------------------------------
+      {
+        subtitle: "5장. 문양언어의 등장",
+        text: `여섯 번째 페이지에는 '선대의 유서'라는 말만 적혀 있었다.
+        당신은 노트를 살피다가 낙서 같은 것을 발견했다.
+        그것이 단순한 낙서가 아니었음을, 당신은 직감했다.
+        
+        고대 생명체들이 남긴 하나의 메시지 체계.
 당신은 손가락을 조심스럽게 문양 위에 가까이 갖다댔다.
 그러자 문양 일부가 희미하게 밝아지며
 해독될 듯 말 듯한 의미의 흐름이 느껴졌다.
@@ -778,15 +812,15 @@
 다음 지점인 세븐일레븐 근처로 걸음을 옮기기 시작했다.
 
 (세븐일레븐 근처의의 QR코드를 찍어 문제를 확인하세요.)`,
-        answer: "1698",
-        hint: "숫자, 문제를 잘 읽어보세요."
-      },
-      // ----------------------------------------------------
-      // ⭐ STAGE 8 (인덱스 7): 6장. 아티팩트와의 동기화
-      // ----------------------------------------------------
-      {
-        subtitle: "6장. 아티팩트와의 동기화",
-        text: `아티팩트는 이 시점에서 마치 새로운 심장처럼
+        answer: "1698",
+        hint: "숫자, 문제를 잘 읽어보세요."
+      },
+      // ----------------------------------------------------
+      // ⭐ STAGE 8 (인덱스 7): 6장. 아티팩트와의 동기화
+      // ----------------------------------------------------
+      {
+        subtitle: "6장. 아티팩트와의 동기화",
+        text: `아티팩트는 이 시점에서 마치 새로운 심장처럼
 연구원의 손에서 규칙적인 파동을 뿜어냈다.
 
 헐겁던 진동은 점차 일정한 리듬을 가지기 시작했다.
@@ -814,15 +848,15 @@
 당신은 파장이 느껴지는 순대집으로 향한다.
 
 (근처의 QR코드를 찍어 문제를 확인하세요.)`, // 기존 텍스트 끝에 중복 문장 제거
-        answer: "4일",
-        hint: "숫자와 한글 한 글자, QR코드 문제를 잘 보세요."
-      },
-      // ----------------------------------------------------
-      // ⭐ STAGE 9 (인덱스 8): 7장. 지형과 파동이 맞물리다
-      // ----------------------------------------------------
-      {
-        subtitle: "7장. 지형과 파동이 맞물리다",
-        text: `당신이 다음 지점을 향해 천천히 걸음을 옮기기 시작할 때였다.
+        answer: "4일",
+        hint: "숫자와 한글 한 글자, QR코드 문제를 잘 보세요."
+      },
+      // ----------------------------------------------------
+      // ⭐ STAGE 9 (인덱스 8): 7장. 지형과 파동이 맞물리다
+      // ----------------------------------------------------
+      {
+        subtitle: "7장. 지형과 파동이 맞물리다",
+        text: `당신이 다음 지점을 향해 천천히 걸음을 옮기기 시작할 때였다.
 주변의 환경이 아티팩트의 파동과 미묘하게 반응하는 것이 느껴졌다.
 
 금속 난간에서 울려 나오는 둔탁한 공명,
@@ -830,7 +864,7 @@
 멀리 지나가는 차량의 엔진 소리가
 아티팩트의 리듬에 맞춰 변조되는 것처럼 들렸다.
 
-연구원은 자신도 모르게 발걸음을 늦추었다.
+당신은 잠시 멈춰 섰다.
 이건 단순한 감각의 왜곡이 아니었다.
 지형 자체가 아티팩트와 공명하고 있는 것이었다.
 
@@ -846,15 +880,15 @@
 당신은 걸음을 재촉해, 제이유마트를 넘어 닭갈비 식당 사이로 향했다.
 
 (근처의 QR코드를 찍어 문제를 확인해주세요.)`, // QR 정보 누락되어 추가
-        answer: "3마리",
-        hint: "숫자와 한글 두 글자. 그림과 비슷한 것의 개수를 세세요."
-      },
-      // ----------------------------------------------------
-      // ⭐ STAGE 10 (인덱스 9): 8장. 파동의 규칙성
-      // ----------------------------------------------------
-      {
-        subtitle: "8장. 파동의 규칙성",
-        text: `다음 페이지에는 여러 문양들이
+        answer: "3마리",
+        hint: "숫자와 한글 두 글자. 그림과 비슷한 것의 개수를 세세요."
+      },
+      // ----------------------------------------------------
+      // ⭐ STAGE 10 (인덱스 9): 8장. 파동의 규칙성
+      // ----------------------------------------------------
+      {
+        subtitle: "8장. 파동의 규칙성",
+        text: `다음 페이지에는 여러 문양들이
 이전보다 더 복잡한 배열로 나타났다.
 
 처음엔 무작위처럼 보였던 문양들이
@@ -879,15 +913,15 @@
 파동은 짜장면 냄새가 강해지는 방향에서 감지됐다.
 
 (근처의 QR코드를 찍어 문제를 확인해주세요.)`,
-        answer: "전복 낙지 가리비 새우",
-        hint: "한글, 특수문자 없음. 띄어쓰기 존재."
-      },
-      // ----------------------------------------------------
-      // ⭐ STAGE 11 (인덱스 10): 9장. 고대 기술의 활성화
-      // ----------------------------------------------------
-      {
-        subtitle: "9장. 고대 기술의 활성화",
-        text: `열 번째 페이지에서 수첩은 갑자기 밝은 섬광을 뿜었다.
+        answer: "전복 낙지 가리비 새우",
+        hint: "한글, 특수문자 없음. 띄어쓰기 존재."
+      },
+      // ----------------------------------------------------
+      // ⭐ STAGE 11 (인덱스 10): 9장. 고대 기술의 활성화
+      // ----------------------------------------------------
+      {
+        subtitle: "9장. 고대 기술의 활성화",
+        text: `열 번째 페이지에서 수첩은 갑자기 밝은 섬광을 뿜었다.
 문양은 빛의 실로 풀려나듯 선명하게 변했고,
 아티팩트도 동시에 반응해 은은한 빛을 뿜어냈다.
 
@@ -914,15 +948,15 @@
 그곳에서 파장이 느껴졌다.
 
 (벽면의 QR코드를 찍어 문제를 확인해주세요.)`,
-        answer: "느티나무",
-        hint: "한글, 가려진 곳에 위치한 단어를 쓰세요." // '요요' 제거
-      },
-      // ----------------------------------------------------
-      // ⭐ STAGE 12 (인덱스 11): 10장. 감각의 흔들림
-      // ----------------------------------------------------
-      {
-        subtitle: "10장. 감각의 흔들림",
-        text: `아티팩트의 파동이 당신의 몸에 더 깊이 스며들기 시작했다.
+        answer: "느티나무",
+        hint: "한글, 가려진 곳에 위치한 단어를 쓰세요." // '요요' 제거
+      },
+      // ----------------------------------------------------
+      // ⭐ STAGE 12 (인덱스 11): 10장. 감각의 흔들림
+      // ----------------------------------------------------
+      {
+        subtitle: "10장. 감각의 흔들림",
+        text: `아티팩트의 파동이 당신의 몸에 더 깊이 스며들기 시작했다.
 시야 주변이 흔들렸다.
 사람들이 오가는 모습은 정상처럼 보이지만
 그들의 발걸음 소리가 희미하게 변조되어 들렸다.
@@ -947,15 +981,15 @@
 노란 조형물에서 파장이 느껴졌다.
 
 (근처에 부착된 QR코드를 찍어 문제를 확인해주세요.)`,
-        answer: "강물",
-        hint: "한글, 강촌에 없어서는 안 되는 것."
-      },
-      // ----------------------------------------------------
-      // ⭐ STAGE 13 (인덱스 12): 11장. 공진의 경계가 열린다
-      // ----------------------------------------------------
-      {
-        subtitle: "11장. 공진의 경계가 열린다",
-        text: `다음 페이지에는 다른 문양과는 전혀 다른 형상이 나타났다.
+        answer: "강물",
+        hint: "한글, 강촌에 없어서는 안 되는 것."
+      },
+      // ----------------------------------------------------
+      // ⭐ STAGE 13 (인덱스 12): 11장. 공진의 경계가 열린다
+      // ----------------------------------------------------
+      {
+        subtitle: "11장. 공진의 경계가 열린다",
+        text: `다음 페이지에는 다른 문양과는 전혀 다른 형상이 나타났다.
 
 문양을 관찰하며 기록하고 있을 때,
 아티팩트가 갑자기 깊고 낮은 울림을 냈다.
@@ -979,15 +1013,15 @@
 테마랜드로 이어지는 파장.
 
 (테마랜드 안에 부착된 QR코드를 찍어 문제를 확인해주세요.)`, // 중복된 텍스트와 QR코드 위치 정보 정리
-        answer: "102510",
-        hint: "숫자, 읽은 순서 그대로."
-      },
-      // ----------------------------------------------------
-      // ⭐ STAGE 14 (인덱스 13): 12장. 숨겨진 글의 출현
-      // ----------------------------------------------------
-      {
-        subtitle: "12장. 숨겨진 글의 출현",
-        text: `열세 번째 페이지는 기묘하게 조용했다.
+        answer: "102510",
+        hint: "숫자, 읽은 순서 그대로."
+      },
+      // ----------------------------------------------------
+      // ⭐ STAGE 14 (인덱스 13): 12장. 숨겨진 글의 출현
+      // ----------------------------------------------------
+      {
+        subtitle: "12장. 숨겨진 글의 출현",
+        text: `열세 번째 페이지는 기묘하게 조용했다.
 문양도, 빛도 없었다.
 그러나 당신이 손을 가까이 대는 순간, 종이 표면에서 흐릿한 글씨 몇 줄이 떠올랐다.
 
@@ -1013,15 +1047,15 @@
 
 (카운터에서 일하시는 분이 비밀 요원입니다.
 '강촌은 그리움이'라고 말하면, 대답해주시면서 QR을 보여주실 겁니다!)`, // 중복 문장 정리
-        answer: "물안개로 피어나고",
-        hint: "한글, 비밀요원에게 다시 물어보시거나, QR코드를 다시 찍어보세요."
-      },
-      // ----------------------------------------------------
-      // ⭐ STAGE 15 (인덱스 14): 13장. 아티팩트의 폭주
-      // ----------------------------------------------------
-      {
-        subtitle: "13장. 아티팩트의 폭주",
-        text: `열네 번째 페이지가 열리자 아티팩트가 갑자기 불안정하게 흔들리기 시작했다.
+        answer: "물안개로 피어나고",
+        hint: "한글, 비밀요원에게 다시 물어보시거나, QR코드를 다시 찍어보세요."
+      },
+      // ----------------------------------------------------
+      // ⭐ STAGE 15 (인덱스 14): 13장. 아티팩트의 폭주
+      // ----------------------------------------------------
+      {
+        subtitle: "13장. 아티팩트의 폭주",
+        text: `열네 번째 페이지가 열리자 아티팩트가 갑자기 불안정하게 흔들리기 시작했다.
 당신의 손바닥까지 떨릴 정도였다.
 
 멀리 강촌상상역에서 파동이 진하게 울렸다.
@@ -1045,15 +1079,15 @@
 당신은 파동이 가장 짙게 느껴지는 곳, 강촌상상역으로 걸어갔다.
 
 (벽면에 부착된 QR코드를 찍어 확인해주세요.)`, // 중복 문장 정리
-        answer: "피암터널",
-        hint: "한글, 위쪽을 잘 살펴보세요."
-      },
-      // ----------------------------------------------------
-      // ⭐ STAGE 16 (인덱스 15): 14장, 감응자의 진실
-      // ----------------------------------------------------
-      {
-        subtitle: "14장, 감응자의 진실",
-        text: `열다섯 번째 페이지가 펼쳐지는 순간
+        answer: "피암터널",
+        hint: "한글, 위쪽을 잘 살펴보세요."
+      },
+      // ----------------------------------------------------
+      // ⭐ STAGE 16 (인덱스 15): 14장, 감응자의 진실
+      // ----------------------------------------------------
+      {
+        subtitle: "14장, 감응자의 진실",
+        text: `열다섯 번째 페이지가 펼쳐지는 순간
 이전까지 가려져 있던 문장들이 선명해졌다.
 
 '감응자는 오랜 세월 우리의 세계를 지탱해왔다.
@@ -1082,16 +1116,16 @@
 이곳을 떠나고자 다시 강촌역으로 향한다.
 
 (강촌역으로 돌아가는 길, 강촌 상상역 뒤의 포토존 근처에서 QR코드를 찍어 문제를 확인해주세요.)`, // 중복 문장 정리
-        answer: "13",
-        hint: "숫자만. 직접 포즈를 취해보시는 건 어떠신가요?"
-      },
-      // ----------------------------------------------------
-      // ⭐ STAGE 17 (인덱스 16): 15장. 두 번째 반전
-      // ----------------------------------------------------
-      {
-        subtitle: "15장. 두 번째 반전 — 당신은 처음이 아니다",
-        text: `도망치듯 발걸음을 옮기는 당신을 붙잡는 건,
-        왜곡된 감각과 울려대는 파동이었다.
+        answer: "13",
+        hint: "숫자만. 직접 포즈를 취해보시는 건 어떠신가요?"
+      },
+      // ----------------------------------------------------
+      // ⭐ STAGE 17 (인덱스 16): 15장. 두 번째 반전
+      // ----------------------------------------------------
+      {
+        subtitle: "15장. 두 번째 반전 — 당신은 처음이 아니다",
+        text: `도망치듯 발걸음을 옮기는 당신을 붙잡는 건,
+        왜곡된 감각과 울려대는 파동이었다.
 
 당신이 귀를 막기 위해 팔을 올리자
 검은 글씨가 한 줄씩 떠올랐다.
@@ -1126,193 +1160,192 @@
 강촌식당 앞에서, 자신의 것이 아닌 의지로 멈춰 선 당신.
 
 (근처의 QR코드를 찍어 문제를 확인해주세요.)`, // 중복 문장 정리
-        answer: "강촌로56",
-        hint: "주소, 띄어쓰기 없이."
-      },
-      // ----------------------------------------------------
-      // ⭐ STAGE 18 (인덱스 17): 16장. 동기화의 완성
-      // ----------------------------------------------------
-      {
-        subtitle: "16장. 동기화의 완성",
-        text: `당신은 겨우 강촌역 가까이로 도망쳐왔다.
-        카페124.
-        이곳만 지나면, 곧 강촌역이었다.
+        answer: "강촌로56",
+        hint: "주소, 띄어쓰기 없이."
+      },
+      // ----------------------------------------------------
+      // ⭐ STAGE 18 (인덱스 17): 16장. 동기화의 완성
+      // ----------------------------------------------------
+      {
+        subtitle: "16장. 동기화의 완성",
+        text: `당신은 겨우 강촌역 가까이로 도망쳐왔다.
+        카페124.
+        이곳만 지나면, 곧 강촌역이었다.
 
-        그러나 당신을 이곳으로 부른 존재 역시 가만히 있지 않았다.
-        마지막 문양이 완성되고, 아티팩트는 문을 열 준비를 마쳤다.
+        그러나 당신을 이곳으로 부른 존재 역시 가만히 있지 않았다.
+        마지막 문양이 완성되고, 아티팩트는 문을 열 준비를 마쳤다.
 
-        잠시라도 희생을 미루기 위해, 당신은 비틀대며 카페로 향했다.
-        카페 바깥의 파장을 피해, 안으로 들어선 당신.
+        잠시라도 희생을 미루기 위해, 당신은 비틀대며 카페로 향했다.
+        카페 바깥의 파장을 피해, 안으로 들어선 당신.
 
-        잠시 고대의 존재가 몸을 옹송그리듯 세력을 감추었다.
-        일반인들의 시선으로부터 숨는 듯한 몸짓이었다.
+        잠시 고대의 존재가 몸을 옹송그리듯 세력을 감추었다.
+        일반인들의 시선으로부터 숨는 듯한 몸짓이었다.
 
-        당신은 한숨을 내쉬며, 잠시 쉬어가기로 했다.
+        당신은 한숨을 내쉬며, 잠시 쉬어가기로 했다.
 
 (외부 벽면의 QR코드를 찍어 문제를 확인해주세요.)`, // QR 정보 누락되어 추가
-        answer: "물안개 살포시 고개드는 강촌",
-        hint: "한글, 카페 안쪽에 위치하고 있습니다."
-      },
-      // ----------------------------------------------------
-      // ⭐ STAGE 19 (인덱스 18): 최종 클리어 처리용
-      // ----------------------------------------------------
-      {
-        subtitle: "최종장", 
-        text: `시선을 따돌린 당신은, 강촌역 바로 앞에 다다르는 데 성공했다.
-        그러나 강촌역이 트리거라도 된 것처럼,
-        아티팩트가 뜨겁게 달아올랐다.
-        
-        그리고, 세상이 뒤틀렸다.
-        잔뜩 일그러지고 부서지고 우그러지고 망가뜨린 뒤, 그를 빨아들이기 시작했다.
-        
-        몸이 가벼워지고,
-        발아래 지면이 사라지고,
-        빛과 그림자는 하나의 조각이라도 된 것처럼 뒤엉켰다.
-        
-        당신은,
-        연구원 '감응자'는 선택되었다.
-        그리고 조용한 파열음과 함께 연구원은 완전히 사라졌다
-        
-        남은 것은 강촌역 근처 바닥을 나뒹구는 낡은 수첩.
-        문양은, 누군가의 희생으로 인해 다시 초기화가 된 듯 말끔히 사라진 뒤였다.
-        
-        잠시 후,
-        연락이 되지 않는 연구원을 찾아서 또 다른 연구원이 역으로 들어왔다.
-        그 사람의 발치로, 수첩을 굴려낸 바람은 아무것도 모른다는 듯 흩어졌다.
-        
-        첫 문장이 희미하게 떠올랐다.
-        
-        '이 수첩을 줍는 자...'
-        
-        다시, 공진의 시작이었다.
-        
-        아래를 내려다보던 연구원, 당신은 수첩을...`, 
-        answer: "집어든다", 
-        hint: "당신은 수첩을 '집어든다'."
-      }
-    ];
+        answer: "물안개 살포시 고개드는 강촌",
+        hint: "한글, 카페 안쪽에 위치하고 있습니다."
+      },
+      // ----------------------------------------------------
+      // ⭐ STAGE 19 (인덱스 18): 최종 클리어 처리용
+      // ----------------------------------------------------
+      {
+        subtitle: "최종장", 
+        text: `시선을 따돌린 당신은, 강촌역 바로 앞에 다다르는 데 성공했다.
+        그러나 강촌역이 트리거라도 된 것처럼,
+        아티팩트가 뜨겁게 달아올랐다.
+        
+        그리고, 세상이 뒤틀렸다.
+        잔뜩 일그러지고 부서지고 우그러지고 망가뜨린 뒤, 그를 빨아들이기 시작했다.
+        
+        몸이 가벼워지고,
+        발아래 지면이 사라지고,
+        빛과 그림자는 하나의 조각이라도 된 것처럼 뒤엉켰다.
+        
+        당신은,
+        연구원 '감응자'는 선택되었다.
+        그리고 조용한 파열음과 함께 연구원은 완전히 사라졌다
+        
+        남은 것은 강촌역 근처 바닥을 나뒹구는 낡은 수첩.
+        문양은, 누군가의 희생으로 인해 다시 초기화가 된 듯 말끔히 사라진 뒤였다.
+        
+        잠시 후,
+        연락이 되지 않는 연구원을 찾아서 또 다른 연구원이 역으로 들어왔다.
+        그 사람의 발치로, 수첩을 굴려낸 바람은 아무것도 모른다는 듯 흩어졌다.
+        
+        첫 문장이 희미하게 떠올랐다.
+        
+        '이 수첩을 줍는 자...'
+        
+        다시, 공진의 시작이었다.
+        
+        아래를 내려다보던 연구원, 당신은 수첩을...`, 
+        answer: "집어든다", 
+        hint: "당신은 수첩을 '집어든다'."
+      }
+    ];
 
-    const totalStages = puzzles.length;
-    let currentStage = 0;
+    const totalStages = puzzles.length;
+    let currentStage = 0;
 
-    const stageLabelEl    = document.getElementById("stageLabel");
-    const stageSubtitleEl = document.getElementById("stageSubtitle");
-    const storyTextEl     = document.getElementById("storyText");
-    const messageEl       = document.getElementById("message");
-    const hintAreaEl      = document.getElementById("hintArea");
-    const hintContentEl   = document.getElementById("hintContent");
-    // ID가 answerInput으로 변경됨
-    const answerInputEl   = document.getElementById("answerInput"); 
-    const submitBtnEl     = document.getElementById("submitBtn");
-    // 사용되지 않는 요소 제거: const progressBarEl     = document.getElementById("progressBar");
-    // 사용되지 않는 요소 제거: const progressTextEl    = document.getElementById("progressText");
-    const answerAreaEl    = document.getElementById("answerArea");
-    const clearBlockEl    = document.getElementById("clearBlock");
-    const restartBtnEl    = document.getElementById("restartBtn");
+    const stageLabelEl    = document.getElementById("stageLabel");
+    const stageSubtitleEl = document.getElementById("stageSubtitle");
+    const storyTextEl     = document.getElementById("storyText");
+    const messageEl       = document.getElementById("message");
+    const hintAreaEl      = document.getElementById("hintArea");
+    const hintContentEl   = document.getElementById("hintContent");
+    // ID가 answerInput으로 변경됨
+    const answerInputEl   = document.getElementById("answerInput"); 
+    const submitBtnEl     = document.getElementById("submitBtn");
+    // 사용되지 않는 요소 제거: const progressBarEl     = document.getElementById("progressBar");
+    // 사용되지 않는 요소 제거: const progressTextEl    = document.getElementById("progressText");
+    const answerAreaEl    = document.getElementById("answerArea");
+    const clearBlockEl    = document.getElementById("clearBlock");
+    const restartBtnEl    = document.getElementById("restartBtn");
 
-    function normalize(text) {
-      // 띄어쓰기, 공백, 소문자 처리
-      return text.trim().replace(/\s/g, '').toLowerCase(); 
-    }
+    function normalize(text) {
+      // 띄어쓰기, 공백, 소문자 처리
+      return text.trim().replace(/\s/g, '').toLowerCase(); 
+    }
 
-    function updateProgress() {
-      const total = totalStages;
+    function updateProgress() {
+      const total = totalStages;
 
-      // STAGE 19 / 19 일 경우, STAGE 19 / 19 로 표시되도록 수정. 
-      // 만약 20단계 중 19단계까지 플레이하고 20단계가 클리어 단계라면: STAGE 19 / 20
-      stageLabelEl.textContent    = `STAGE ${currentStage + 1} / ${total}`;
-    }
+      // 총 19단계 (인덱스 0~18)를 STAGE 1 / 19 부터 STAGE 19 / 19 로 표시
+      stageLabelEl.textContent    = `STAGE ${currentStage + 1} / ${total}`;
+    }
 
-    function renderStage() {
-      const p = puzzles[currentStage];
+    function renderStage() {
+      const p = puzzles[currentStage];
 
-      stageSubtitleEl.textContent = p.subtitle || "현장 로그를 읽고 코드를 입력하세요.";
-      storyTextEl.innerHTML       = p.text || "";
-      messageEl.textContent       = "";
-      messageEl.className         = "message";
+      stageSubtitleEl.textContent = p.subtitle || "현장 로그를 읽고 코드를 입력하세요.";
+      storyTextEl.innerHTML       = p.text || "";
+      messageEl.textContent       = "";
+      messageEl.className         = "message";
 
-      answerInputEl.value    = "";
-      answerInputEl.disabled = false;
-      submitBtnEl.disabled   = false;
-      submitBtnEl.textContent = "SUBMIT"; // 버튼 텍스트 초기화
-      answerAreaEl.style.display = "block";
-      clearBlockEl.style.display = "none";
+      answerInputEl.value    = "";
+      answerInputEl.disabled = false;
+      submitBtnEl.disabled   = false;
+      submitBtnEl.textContent = "SUBMIT"; // 버튼 텍스트 초기화
+      answerAreaEl.style.display = "block";
+      clearBlockEl.style.display = "none";
 
-      // 힌트 내용 업데이트 및 강조 설정
-      hintContentEl.textContent = p.hint || "제공된 힌트가 없습니다.";
+      // 힌트 내용 업데이트 및 강조 설정
+      hintContentEl.textContent = p.hint || "제공된 힌트가 없습니다.";
 
-      // 프롤로그(인덱스 0, 1)만 힌트 강조 스타일 적용
-      if (currentStage === 0 || currentStage === 1) {
-          hintAreaEl.classList.add("active");
-      } else {
-          hintAreaEl.classList.remove("active");
-      }
+      // 프롤로그(인덱스 0, 1)만 힌트 강조 스타일 적용
+      if (currentStage === 0 || currentStage === 1) {
+          hintAreaEl.classList.add("active");
+      } else {
+          hintAreaEl.classList.remove("active");
+      }
 
-      // details 태그가 힌트 내용이 바뀔 때 자동으로 닫히도록 설정
-      const hintDetails = hintAreaEl.querySelector('details');
-      if (hintDetails) hintDetails.removeAttribute('open');
+      // details 태그가 힌트 내용이 바뀔 때 자동으로 닫히도록 설정
+      const hintDetails = hintAreaEl.querySelector('details');
+      if (hintDetails) hintDetails.removeAttribute('open');
 
 
-      updateProgress();
-      answerInputEl.focus();
+      updateProgress();
+      answerInputEl.focus();
 
-      // 자동 스크롤 추가
-      window.scrollTo(0, 0); 
-    }
+      // 자동 스크롤 추가
+      window.scrollTo(0, 0); 
+    }
 
-    function showClear() {
-      stageLabelEl.textContent    = `GAME CLEARED`;
-      answerAreaEl.style.display  = "none";
-      clearBlockEl.style.display  = "block";
-      window.scrollTo(0, 0);
-    }
+    function showClear() {
+      stageLabelEl.textContent    = `GAME CLEARED`;
+      answerAreaEl.style.display  = "none";
+      clearBlockEl.style.display  = "block";
+      window.scrollTo(0, 0);
+    }
 
-    function checkAnswer() {
-      const userAnswer = normalize(answerInputEl.value);
-      const correct    = normalize(puzzles[currentStage].answer || "");
+    function checkAnswer() {
+      const userAnswer = normalize(answerInputEl.value);
+      const correct    = normalize(puzzles[currentStage].answer || "");
 
-      if (!userAnswer) {
-        messageEl.textContent = "정답(코드)을 입력해 주세요.";
-        messageEl.className   = "message error";
-        return;
-      }
+      if (!userAnswer) {
+        messageEl.textContent = "정답(코드)을 입력해 주세요.";
+        messageEl.className   = "message error";
+        return;
+      }
 
-      if (userAnswer === correct) {
-        messageEl.textContent = "✅ 정답입니다! 다음 장으로 이동합니다.";
-        messageEl.className   = "message success";
+      if (userAnswer === correct) {
+        messageEl.textContent = "✅ 정답입니다! 다음 장으로 이동합니다.";
+        messageEl.className   = "message success";
 
-        submitBtnEl.disabled   = true;
-        answerInputEl.disabled = true;
-        submitBtnEl.textContent = "✔ NEXT LOADING...";
+        submitBtnEl.disabled   = true;
+        answerInputEl.disabled = true;
+        submitBtnEl.textContent = "✔ NEXT LOADING...";
 
-        setTimeout(() => {
-          submitBtnEl.textContent = "SUBMIT";
-          if (currentStage >= totalStages - 1) {
-            showClear();
-          } else {
-            currentStage += 1;
-            renderStage();
-          }
-        }, 900);
-      } else {
-        messageEl.textContent = "❌ 코드가 일치하지 않습니다. 다시 확인해 보세요.";
-        messageEl.className   = "message error";
-      }
-    }
+        setTimeout(() => {
+          submitBtnEl.textContent = "SUBMIT";
+          if (currentStage >= totalStages - 1) {
+            showClear();
+          } else {
+            currentStage += 1;
+            renderStage();
+          }
+        }, 900);
+      } else {
+        messageEl.textContent = "❌ 코드가 일치하지 않습니다. 다시 확인해 보세요.";
+        messageEl.className   = "message error";
+      }
+    }
 
-    submitBtnEl.addEventListener("click", checkAnswer);
-    answerInputEl.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") checkAnswer();
-    });
+    submitBtnEl.addEventListener("click", checkAnswer);
+    answerInputEl.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") checkAnswer();
+    });
 
-    if (restartBtnEl) {
-      restartBtnEl.addEventListener("click", () => {
-        currentStage = 0;
-        renderStage();
-      });
-    }
+    if (restartBtnEl) {
+      restartBtnEl.addEventListener("click", () => {
+        currentStage = 0;
+        renderStage();
+      });
+    }
 
-    renderStage();
-  </script>
+    renderStage();
+  </script>
 </body>
 </html>
