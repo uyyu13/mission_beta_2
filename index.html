@@ -19,7 +19,7 @@
       --highlight-yellow: #fde047;
       --highlight-text: #854d0e;
       /* 사용자 지정 설문조사 버튼 색상 변수 추가 */
-      --survey-bg: #FFD94D; 
+      --survey-bg: #FFD94D;
     }
 
     * {
@@ -38,7 +38,7 @@
       max-width: 600px;
       margin: 0 auto;
       min-height: 100vh;
-      background: #020617;
+      background: #020617; /* 어두운 배경색 유지 */
       display: flex;
       flex-direction: column;
     }
@@ -123,6 +123,7 @@
     .paper {
       position: relative;
       border-radius: 14px;
+      /* 종이 줄무늬 배경 복구 */
       background:
         repeating-linear-gradient(
           to bottom,
@@ -217,7 +218,7 @@
       border-radius: 999px;
       background: rgba(0,0,0,0.06);
       overflow: hidden;
-      display: none; /* JS에서 사용하지 않으므로 숨김 처리 */
+      display: none;
     }
 
     .progress-bar-fill {
@@ -232,7 +233,7 @@
       font-size: 0.7rem;
       color: var(--text-sub);
       text-align: right;
-      display: none; /* JS에서 사용하지 않으므로 숨김 처리 */
+      display: none;
     }
 
     .subtitle {
@@ -387,7 +388,7 @@
 
     /* 클리어 블록 디자인 통합 및 조정 */
     .clear-block {
-      margin-top: 24px; /* 페이지 하단과 분리되도록 간격 조정 */
+      margin-top: 24px;
       font-size: 0.9rem;
       color: var(--text-main);
       display: none;
@@ -420,7 +421,7 @@
       margin-bottom: 15px;
     }
 
-    /* ⭐ 설문조사 버튼 스타일 강조 (배경색: #FFD94D) ⭐ */
+    /* ⭐ 설문조사 버튼 스타일 강조 (배경색: #FFD94D 유지) ⭐ */
     .survey-btn-wrap {
         margin-top: 20px;
         margin-bottom: 10px;
@@ -434,7 +435,7 @@
         padding: 12px 10px;
         border-radius: 999px;
         border: none;
-        background: var(--survey-bg); /* 변수 사용 */
+        background: var(--survey-bg);
         color: var(--highlight-text); 
         font-size: 0.9rem;
         font-weight: 700;
@@ -451,31 +452,11 @@
         box-shadow: 0 3px 6px rgba(0,0,0,0.3);
     }
     
-    /* ⭐ 다시 시작하기 버튼 스타일 복구 및 조정 ⭐ */
-    #clearBlock .restart-btn { /* clearBlock 안의 restart-btn만 적용되도록 수정 */
-      margin-top: 15px;
-      width: 100%;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid #111827; 
-      background: transparent; /* 배경 투명으로 복구 */
-      color: #111827; 
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      cursor: pointer;
-      box-shadow: none; /* 그림자 제거 */
-    }
+    /* ⭐ 다시 시작하기 버튼 스타일 복구 ⭐ */
+    /* HTML에서 인라인 스타일로 적용된 버튼의 클래스명을 'restart-btn' 대신 'survey-restart-btn' 등으로 구분하여 충돌을 막고 원본 스타일을 유지합니다. */
 
-    #clearBlock .restart-btn:active {
-      transform: translateY(1px);
-      filter: brightness(0.96);
-    }
-    
-    /* HTML에서 인라인으로 넣었던 잘못된 스타일을 제거하기 위해 원본 디자인의 restart-btn 클래스를 재정의 */
-    /* 원본 restart-btn 스타일이 .clear-block 안의 button에 적용되지 않도록 재정의 */
-    .restart-btn {
-        margin-top: 10px;
+    .survey-restart-btn {
+        margin-top: 15px;
         width: 100%;
         padding: 8px 10px;
         border-radius: 999px;
@@ -486,8 +467,32 @@
         text-transform: uppercase;
         letter-spacing: 0.16em;
         cursor: pointer;
-        box-shadow: none;
     }
+    
+    .survey-restart-btn:active {
+        transform: translateY(1px);
+        filter: brightness(0.96);
+    }
+    
+    .restart-btn { /* 기본 restart-btn 스타일 재정의 */
+      margin-top: 10px;
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid #111827;
+      background: transparent;
+      color: #111827;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      cursor: pointer;
+      box-shadow: none;
+    }
+
+    .restart-btn:active {
+      transform: translateY(1px);
+      filter: brightness(0.96);
+    }
   </style>
 </head>
 <body>
