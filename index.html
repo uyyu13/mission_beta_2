@@ -19,12 +19,10 @@
       --accent-blue: #2563eb;
       --highlight-yellow: #fde047;
       --highlight-text: #854d0e;
-      --survey-bg: #FFD94D; /* 설문조사 버튼 전용 노란색 */
+      --survey-bg: #FFD94D;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -33,7 +31,86 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    /* 전체 노트 프레임 (어두운 배경) */
+    /* ========================================================= */
+    /* [스타일 추가됨] 텍스트 강조 및 특수 효과 (여기서부터) */
+    /* ========================================================= */
+    
+    /* 1. 굵은 강조 (strong 태그) */
+    .story-text strong, .story-text b {
+      font-weight: 700;
+      color: #000;
+      background: rgba(0, 0, 0, 0.05); /* 살짝 음영 */
+      padding: 0 2px;
+      border-radius: 2px;
+    }
+
+    /* 2. 붉은색 (경고/위험) 사용법: <span class="txt-red">내용</span> */
+    .txt-red {
+      color: #d32f2f;
+      font-weight: 700;
+    }
+
+    /* 3. 푸른색 (시스템/정보) 사용법: <span class="txt-blue">내용</span> */
+    .txt-blue {
+      color: #2563eb;
+      font-weight: 700;
+    }
+
+    /* 4. 형광펜 효과 (단서/중요) 사용법: <span class="txt-highlight">내용</span> */
+    .txt-highlight {
+      background: linear-gradient(120deg, rgba(253, 224, 71, 0.6) 0%, rgba(253, 224, 71, 0.2) 100%);
+      box-shadow: 0 1px 0 rgba(133, 77, 14, 0.2);
+      padding: 0 2px;
+      border-radius: 2px;
+      font-weight: 600;
+      color: #5d4037;
+    }
+
+    /* 5. 글리치(지지직) 애니메이션 */
+    /* 사용법: <span class="txt-glitch">오류난텍스트</span> */
+    @keyframes glitch-anim {
+      0% { transform: translate(0); opacity: 1; }
+      20% { transform: translate(-2px, 1px); opacity: 0.8; }
+      40% { transform: translate(-1px, -1px); opacity: 0.9; }
+      60% { transform: translate(2px, 0px); opacity: 0.8; }
+      80% { transform: translate(1px, -2px); opacity: 1; }
+      100% { transform: translate(0); opacity: 1; }
+    }
+    .txt-glitch {
+      display: inline-block;
+      color: #2563eb;
+      font-weight: 800;
+      animation: glitch-anim 0.25s infinite;
+      letter-spacing: 0.1em;
+    }
+
+    /* 6. 네온 글로우(빛나는) 효과 */
+    /* 사용법: <span class="txt-glow">빛나는텍스트</span> */
+    @keyframes neon-pulse {
+      0% {
+        text-shadow: 0 0 4px rgba(37, 99, 235, 0.6), 0 0 10px rgba(37, 99, 235, 0.4);
+        opacity: 0.9;
+      }
+      100% {
+        text-shadow: 0 0 4px rgba(59, 130, 246, 1), 0 0 15px rgba(37, 99, 235, 0.8), 0 0 30px rgba(29, 78, 216, 0.6);
+        opacity: 1;
+      }
+    }
+    .txt-glow {
+      color: #eff6ff; /* 글자 중심은 흰색에 가까운 파랑 */
+      font-weight: 800;
+      animation: neon-pulse 1.5s ease-in-out infinite alternate;
+      /* 배경이 밝을 경우 잘 안 보일 수 있으니 배경색을 살짝 어둡게 깔아줌 */
+      background-color: rgba(17, 24, 39, 0.8); 
+      padding: 0 4px;
+      border-radius: 4px;
+    }
+
+    /* ========================================================= */
+    /* [스타일 추가 끝] */
+    /* ========================================================= */
+
+    /* 전체 노트 프레임 */
     .notebook-card {
       width: 100%;
       max-width: 600px;
@@ -44,7 +121,7 @@
       flex-direction: column;
     }
 
-    /* 스프링 헤더 디자인 */
+    /* 스프링 헤더 */
     .spiral-header {
       padding: 12px 16px 8px;
       background: linear-gradient(135deg, #020617, #111827);
@@ -59,383 +136,145 @@
       margin-bottom: 6px;
     }
 
-    .spiral-holes {
-      display: flex;
-      gap: 6px;
-    }
-
+    .spiral-holes { display: flex; gap: 6px; }
     .spiral-hole {
-      width: 13px;
-      height: 13px;
-      border-radius: 999px;
+      width: 13px; height: 13px; border-radius: 999px;
       background: #020617;
       box-shadow: 0 0 0 2px #d4d4d4, inset 0 0 3px rgba(0,0,0,0.9);
       position: relative;
     }
-
     .spiral-wire {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 19px;
-      height: 3px;
-      border-radius: 999px;
+      position: absolute; left: 50%; transform: translateX(-50%);
+      width: 19px; height: 3px; border-radius: 999px;
       background: #d4d4d4;
       box-shadow: 0 2px 0 rgba(0,0,0,0.4), 0 -1px 0 rgba(255,255,255,0.7);
     }
-
     .spiral-wire.top { top: -6px; }
     .spiral-wire.bottom { bottom: -6px; }
 
     .lab-header-text {
-      text-align: right;
-      font-size: 0.72rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: #9ca3af;
+      text-align: right; font-size: 0.72rem; letter-spacing: 0.16em;
+      text-transform: uppercase; color: #9ca3af;
     }
-
     .lab-main-title {
-      margin-top: 4px;
-      font-size: 1.05rem;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
+      margin-top: 4px; font-size: 1.05rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
     }
-
     .lab-subtitle {
-      margin-top: 2px;
-      font-size: 0.78rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: #d1d5db;
+      margin-top: 2px; font-size: 0.78rem; letter-spacing: 0.22em;
+      text-transform: uppercase; color: #d1d5db;
     }
 
-    /* 종이 영역 래퍼 */
+    /* 종이 영역 */
     .paper-wrap {
-      flex: 1;
-      background: #111827;
-      padding: 10px 16px 16px;
-      overflow-y: auto;
+      flex: 1; background: #111827; padding: 10px 16px 16px; overflow-y: auto;
     }
-
-    /* 실제 종이 스타일 (줄무늬 배경) */
     .paper {
-      position: relative;
-      border-radius: 14px;
-      background: repeating-linear-gradient(
-        to bottom,
-        var(--paper) 0,
-        var(--paper) 24px,
-        var(--line) 25px
-      );
+      position: relative; border-radius: 14px;
+      background: repeating-linear-gradient(to bottom, var(--paper) 0, var(--paper) 24px, var(--line) 25px);
       box-shadow: 0 8px 18px rgba(0,0,0,0.45), 0 0 0 1px rgba(0,0,0,0.25);
       padding: 18px 18px 18px 40px;
       min-height: calc(100vh - 110px);
     }
-
-    /* 왼쪽 마진 선 (빨간 줄) */
     .paper::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 28px;
-      width: 2px;
-      background: linear-gradient(to bottom, transparent, var(--margin-line-new), transparent);
-      opacity: 0.9;
+      content: ""; position: absolute; top: 0; bottom: 0; left: 28px; width: 2px;
+      background: linear-gradient(to bottom, transparent, var(--margin-line-new), transparent); opacity: 0.9;
     }
 
-    .paper-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 6px;
-    }
-
-    .paper-header-left {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .paper-label {
-      font-size: 0.8rem;
-      color: var(--text-sub);
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    .paper-title {
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: var(--text-main);
-    }
-
-    .paper-header-right {
-      text-align: right;
-      font-size: 0.72rem;
-      color: var(--text-sub);
-    }
-
+    .paper-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+    .paper-label { font-size: 0.8rem; color: var(--text-sub); letter-spacing: 0.16em; text-transform: uppercase; }
+    .paper-title { font-size: 1.05rem; font-weight: 600; color: var(--text-main); }
     .stage-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 1px 6px;
-      border-radius: 999px;
-      border: 1px solid #c4b5a5;
-      font-size: 0.65rem;
-      background: rgba(250, 247, 242, 0.95);
-      color: var(--text-sub);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
+      display: inline-flex; align-items: center; gap: 4px; padding: 1px 6px;
+      border-radius: 999px; border: 1px solid #c4b5a5; font-size: 0.65rem;
+      background: rgba(250, 247, 242, 0.95); color: var(--text-sub);
+      text-transform: uppercase; letter-spacing: 0.1em;
     }
-    
-    .answer-label-pill {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 8px;
-      background: var(--text-main);
-      color: var(--paper);
-      font-size: 0.86rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      margin-bottom: 4px;
-      margin-top: 4px;
-    }
-
     .progress-wrap { margin: 4px 0 4px; }
-
-    .subtitle {
-      font-size: 0.86rem;
-      color: var(--text-sub);
-      margin: 4px 0 6px;
-    }
     
-    .subtitle-separator {
-      width: 100%;
-      height: 1px;
-      background: #e2ddd4;
-      margin: 8px 0 12px;
-      opacity: 0.6;
-    }
+    .subtitle { font-size: 0.86rem; color: var(--text-sub); margin: 4px 0 6px; }
+    .subtitle-separator { width: 100%; height: 1px; background: #e2ddd4; margin: 8px 0 12px; opacity: 0.6; }
 
+    /* 본문 텍스트 스타일 */
     .story-text {
-      font-size: 0.95rem;
-      color: var(--text-main);
-      white-space: pre-line;
-      line-height: 1.75;
-      margin-bottom: 14px;
+      font-size: 0.95rem; color: var(--text-main);
+      white-space: pre-line; line-height: 1.75; margin-bottom: 14px;
     }
 
-    .story-text strong { font-size: 1.05rem; }
-
+    /* 정답 입력 영역 */
+    .answer-label-pill {
+      display: inline-block; padding: 4px 10px; border-radius: 8px;
+      background: var(--text-main); color: var(--paper); font-size: 0.86rem;
+      font-weight: 600; letter-spacing: 0.1em; margin-bottom: 4px; margin-top: 4px;
+    }
     label { display: none; }
-
     input[type="text"], input[type="tel"] {
-      width: 100%;
-      padding: 8px 10px;
-      border-radius: 8px;
-      border: 1px solid #c4b5a5;
-      font-size: 0.95rem;
-      font-family: inherit;
-      background: rgba(255,255,255,0.98);
-      color: var(--text-main);
+      width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #c4b5a5;
+      font-size: 0.95rem; font-family: inherit; background: rgba(255,255,255,0.98); color: var(--text-main);
     }
+    input:focus { outline: none; border-color: var(--accent-blue); box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.5); background: #ffffff; }
 
-    input[type="text"]:focus, input[type="tel"]:focus {
-      outline: none;
-      border-color: var(--accent-blue);
-      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.5);
-      background: #ffffff;
-    }
-
-    /* 기본 제출 버튼 */
     button {
-      width: 100%;
-      margin-top: 8px;
-      padding: 9px 10px;
-      border-radius: 999px;
-      border: none;
-      background: var(--accent);
-      color: #ffffff;
-      font-size: 0.82rem;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      cursor: pointer;
+      width: 100%; margin-top: 8px; padding: 9px 10px; border-radius: 999px;
+      border: none; background: var(--accent); color: #ffffff;
+      font-size: 0.82rem; font-weight: 600; letter-spacing: 0.18em;
+      text-transform: uppercase; cursor: pointer;
       box-shadow: 0 7px 16px rgba(0,0,0,0.35);
-      transition: transform 0.05s ease, filter 0.06s ease, box-shadow 0.1s ease;
+      transition: transform 0.05s ease, filter 0.06s ease;
     }
+    button:active { transform: translateY(1px); filter: brightness(0.93); }
+    button:disabled { opacity: 0.5; cursor: default; }
 
-    button:active {
-      transform: translateY(1px);
-      filter: brightness(0.93);
-      box-shadow: 0 4px 9px rgba(0,0,0,0.4);
-    }
-
-    button:disabled {
-      opacity: 0.5;
-      cursor: default;
-      box-shadow: none;
-    }
-
-    .message {
-      margin-top: 4px;
-      font-size: 0.82rem;
-      min-height: 1.2em;
-    }
-
+    .message { margin-top: 4px; font-size: 0.82rem; min-height: 1.2em; }
     .message.error { color: #c62828; }
+    .message.success { color: #2e7d32; font-size: 1.2rem; font-weight: 700; padding: 8px 0; text-align: center; background-color: #e6ffe6; border-radius: 8px; }
 
-    .message.success { 
-      color: #2e7d32;
-      font-size: 1.2rem;
-      font-weight: 700;
-      padding: 8px 0;
-      text-align: center;
-      background-color: #e6ffe6;
-      border-radius: 8px;
-    }
-    
     /* 힌트 영역 */
     .hint-area { margin-top: 8px; }
     .hint-area details {
-      border: 1px solid #c4b5a5;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.5);
-      overflow: hidden;
-      margin-top: 8px;
-      color: var(--text-main);
+      border: 1px solid #c4b5a5; border-radius: 8px; background: rgba(255, 255, 255, 0.5);
+      overflow: hidden; margin-top: 8px; color: var(--text-main);
     }
     .hint-area summary {
-      padding: 8px 10px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      list-style: none;
+      padding: 8px 10px; font-size: 0.82rem; font-weight: 600; cursor: pointer; list-style: none;
     }
     .hint-area summary:focus { outline: none; background: rgba(255, 255, 255, 0.8); }
     .hint-area summary::before {
-      content: "▶";
-      display: inline-block;
-      font-size: 0.7rem;
-      margin-right: 8px;
-      transition: transform 0.1s ease;
+      content: "▶"; display: inline-block; font-size: 0.7rem; margin-right: 8px; transition: transform 0.1s ease;
     }
     .hint-area details[open] summary::before { transform: rotate(90deg); }
     .hint-content {
-      padding: 8px 10px;
-      font-size: 0.8rem;
-      background: var(--paper);
-      border-top: 1px solid #e2ddd4;
-      white-space: pre-line;
+      padding: 8px 10px; font-size: 0.8rem; background: var(--paper); border-top: 1px solid #e2ddd4; white-space: pre-line;
     }
+    .hint-area.active details { border-color: var(--highlight-text); box-shadow: 0 0 5px rgba(253, 224, 71, 0.7); }
+    .hint-area.active summary { background: var(--highlight-yellow); color: var(--highlight-text); }
 
-    .hint-area.active details {
-      border-color: var(--highlight-text);
-      box-shadow: 0 0 5px rgba(253, 224, 71, 0.7);
-    }
-    .hint-area.active summary {
-      background: var(--highlight-yellow);
-      color: var(--highlight-text);
-    }
-
-    /* ------------------------------------------- */
-    /* 클리어 페이지 스타일 */
-    /* ------------------------------------------- */
-    .clear-block {
-      /* 이 영역이 보일 때 다른 텍스트는 숨김 처리됨 */
-      margin-top: 60px; /* 상단 여백을 줘서 중앙 쯤에 오게 함 */
-      font-size: 0.9rem;
-      color: var(--text-main);
-      display: none; /* JS로 제어 */
-      text-align: center; /* 내용 가운데 정렬 */
-    }
-
+    /* 클리어 화면 */
+    .clear-block { margin-top: 60px; text-align: center; display: none; }
     .clear-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 12px;
-      border-radius: 999px;
-      border: 2px solid #2e7d32; /* 테두리 조금 더 두껍게 */
-      color: #2e7d32;
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      background: rgba(222, 247, 222, 0.9);
-      margin-bottom: 12px;
+      display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px;
+      border-radius: 999px; border: 2px solid #2e7d32; color: #2e7d32;
+      font-size: 0.85rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.16em; background: rgba(222, 247, 222, 0.9); margin-bottom: 12px;
     }
-
-    .clear-title {
-      font-size: 1.4rem;
-      font-weight: 800;
-      margin-bottom: 8px;
-      color: #111;
-    }
-
-    .clear-text {
-      font-size: 0.95rem;
-      color: var(--text-sub);
-      line-height: 1.6;
-      margin-bottom: 30px;
-    }
-
-    /* 1. 설문조사 버튼 스타일 (노란색 강조) */
+    .clear-title { font-size: 1.4rem; font-weight: 800; margin-bottom: 8px; color: #111; }
+    .clear-text { font-size: 0.95rem; color: var(--text-sub); line-height: 1.6; margin-bottom: 30px; }
+    
     .survey-btn-wrap {
-      margin-top: 20px;
-      margin-bottom: 20px;
-      padding: 20px 0;
-      border-top: 2px dashed #c4a58c; /* 구분선 조금 더 진하게 */
-      border-bottom: 2px dashed #c4a58c;
+      margin: 20px 0; padding: 20px 0;
+      border-top: 2px dashed #c4a58c; border-bottom: 2px dashed #c4a58c;
     }
-
     .survey-btn {
-      width: 100%;
-      padding: 16px 10px; /* 버튼 높이 키움 */
-      border-radius: 12px; /* 둥글기 조정 */
-      border: none;
-      background: var(--survey-bg); /* #FFD94D */
-      color: var(--highlight-text);
-      font-size: 1rem; /* 글씨 키움 */
-      font-weight: 800;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      cursor: pointer;
+      padding: 16px 10px; border-radius: 12px; border: none;
+      background: var(--survey-bg); color: var(--highlight-text);
+      font-size: 1rem; font-weight: 800; letter-spacing: 0.1em;
+      text-transform: uppercase; cursor: pointer;
       box-shadow: 0 5px 15px rgba(253, 224, 71, 0.4);
-      transition: transform 0.05s ease, filter 0.06s ease;
-      margin-top: 0;
     }
-
-    .survey-btn:active {
-      transform: translateY(2px);
-      filter: brightness(0.95);
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-
-    /* 2. 다시 시작하기 버튼 스타일 (투명 배경, 기본 스타일 복구) */
     .restart-btn {
-      margin-top: 20px;
-      width: 100%;
-      padding: 12px 10px;
-      border-radius: 999px;
-      border: 1px solid #111827;
-      background: transparent; /* 투명 */
-      color: #111827;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      cursor: pointer;
-      box-shadow: none; /* 그림자 제거 */
-    }
-
-    .restart-btn:active {
-      transform: translateY(1px);
-      filter: brightness(0.96);
-      background: rgba(0,0,0,0.05);
+      margin-top: 20px; width: 100%; padding: 12px 10px; border-radius: 999px;
+      border: 1px solid #111827; background: transparent; color: #111827;
+      font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.16em; cursor: pointer; box-shadow: none;
     }
   </style>
 </head>
@@ -474,11 +313,10 @@
             <div class="subtitle" id="stageSubtitle">
             힌트를 읽고 현장에서 얻은 코드를 입력하세요.
             </div>
-
             <div class="subtitle-separator"></div>
 
             <div class="story-text" id="storyText">
-            스테이지 내용이 여기에 표시됩니다.
+            스테이지 내용 로딩 중...
             </div>
 
             <div id="answerArea">
@@ -497,26 +335,16 @@
             </div>
         </div>
         <div class="clear-block" id="clearBlock">
-          <div class="clear-badge">
-            <span>🎉</span><span>ALL STAGES CLEARED</span>
-          </div>
+          <div class="clear-badge"><span>🎉</span><span>ALL STAGES CLEARED</span></div>
           <div class="clear-title">필드 로그 작성 완료</div>
-          <div class="clear-text">
-            모든 스테이지에서 수집한 코드가 기록되었습니다.<br />
-            수고 많으셨습니다.
-          </div>
+          <div class="clear-text">모든 스테이지에서 수집한 코드가 기록되었습니다.<br />수고 많으셨습니다.</div>
 
           <div class="survey-btn-wrap">
             <a href="https://forms.gle/y1YVeoTPLMm19ugSA" target="_blank" style="text-decoration: none;">
-              <button class="survey-btn">
-                💡 만족도 조사 참여하기 💡
-              </button>
+              <button class="survey-btn">💡 만족도 조사 참여하기 💡</button>
             </a>
           </div>
-
-          <button class="restart-btn" id="restartBtn">
-            다시 시작하기
-          </button>
+          <button class="restart-btn" id="restartBtn">다시 시작하기</button>
         </div>
 
       </div>
@@ -526,35 +354,38 @@
   <script>
     const puzzles = [
       // ----------------------------------------------------
-      // ⭐ STAGE 1 (인덱스 0)
+      // [사용법 가이드]
+      // 1. 굵게: <strong>강조할 말</strong>
+      // 2. 빨강: <span class="txt-red">위험</span>
+      // 3. 파랑: <span class="txt-blue">시스템</span>
+      // 4. 형광펜: <span class="txt-highlight">단서</span>
+      // 5. 지직거림: <span class="txt-glitch">오류</span>
+      // 6. 빛나는 파랑: <span class="txt-glow">작동중</span>
       // ----------------------------------------------------
       {
         subtitle: "프롤로그. 사라진 시대의 잔향",
-        text: `**고대 생명체가 사라진 시대**
-아주 오래전, 강촌 인근에는 지금은 기록에서 사라진 거대 비행 생명체가 존재했다는 전설만 흐릿하게 남아 있다.
-현대 과학으로는 정체를 알 수 없는 생명체였고, 어느 순간 흔적 없이 사라졌다.
-이 전설은 사실 여부도 불분명한 채 지역의 신화처럼만 전해진다.
+        text: `<strong>고대 생명체가 사라진 시대</strong><br>
+아주 오래전, 강촌 인근에는 지금은 기록에서 사라진 <span class="txt-red">거대 비행 생명체</span>가 존재했다는 전설만 흐릿하게 남아 있다.<br>
+현대 과학으로는 정체를 알 수 없는 생명체였고, 어느 순간 흔적 없이 사라졌다.<br>
+이 전설은 사실 여부도 불분명한 채 지역의 신화처럼만 전해진다.<br><br>
 
-**중심에 놓인 물체 – 부화가 아닌 ‘각성’**
-강촌 산속 특정 지점에서 알처럼 생긴 동그란 결정체(Artifact)가 발견된다.
-따뜻하지도 차갑지도 않은 이 물체는 생체 반응도, 기계 반응도 아닌 독특한 파동을 내고 있다.
-당초 학자들은 생명체의 알이라고 추측했으나, 이후 분석 결과에 따르면 ‘생명체적 신호’와 ‘지성적 패턴’이 동시에 존재하는, 정체불명의 유물이라는 결론이 내려진다.
+<strong>중심에 놓인 물체 – 부화가 아닌 ‘각성’</strong><br>
+강촌 산속 특정 지점에서 알처럼 생긴 <span class="txt-glow">동그란 결정체(Artifact)</span>가 발견된다.<br>
+따뜻하지도 차갑지도 않은 이 물체는 생체 반응도, 기계 반응도 아닌 <span class="txt-highlight">독특한 파동</span>을 내고 있다.<br>
+당초 학자들은 생명체의 알이라고 추측했으나, 이후 분석 결과에 따르면 ‘생명체적 신호’와 ‘지성적 패턴’이 동시에 존재하는, 정체불명의 유물이라는 결론이 내려진다.<br><br>
 
-**현대의 이상 현상 – 감응자의 등장**
-강촌 일대, 아티팩트가 발견된 곳에서 '정체불명의 에너지 공진(Resonance)'이 급격히 증가한다.
-레이더에는 주기적으로 신호가 찍히지만 기존 장비로는 분석되지 않는 파장이다.
-그러던 중, 이 신호가 극소수의 인간에게만 감각적 자극을 주는 것이 발견된다.
+<strong>현대의 이상 현상 – 감응자의 등장</strong><br>
+강촌 일대, 아티팩트가 발견된 곳에서 '정체불명의 에너지 공진(Resonance)'이 급격히 증가한다.<br>
+레이더에는 주기적으로 신호가 찍히지만 기존 장비로는 분석되지 않는 파장이다.<br>
+그러던 중, 이 신호가 극소수의 인간에게만 감각적 자극을 주는 것이 발견된다.<br><br>
 
-학자들은 그들을 감응자(Sensor)라 명명하고, 현장에 투입해 연구를 이어왔다.
+학자들은 그들을 <span class="txt-highlight">감응자(Sensor)</span>라 명명하고, 현장에 투입해 연구를 이어왔다.<br><br>
 
-이제, 당신의 차례다.
+이제, 당신의 차례다.<br>
 그 감응자 중 한 명으로서 현장으로 파견되는 당신의 이야기.`, 
         answer: "시작",
         hint: "프롤로그를 모두 읽었다면 정답 칸에 '시작'이라고 입력해 주세요."
       },
-      // ----------------------------------------------------
-      // ⭐ STAGE 2
-      // ----------------------------------------------------
       {
         subtitle: "프롤로그. 수첩을 줍다",
         text: `열차가 떠난 뒤, 잔열이 남은 바람이 플랫폼을 스치고 지나갔다. 
@@ -573,11 +404,11 @@
 
 당신은 천천히 첫 페이지를 펼쳤다.
 
-<이 수첩을 줍는 자, 공진을 느낄 뿐 아니라 들을 수 있다.>
+<span class="txt-highlight">&lt;이 수첩을 줍는 자, 공진을 느낄 뿐 아니라 들을 수 있다.&gt;</span>
 문장과 동시에,
 귓속 깊은 곳에서 낮고 묵직한 파동이 울렸다. 
 보고서에서 묘사되던 그 감각.
-일반인은 느낄 수 없고, 감응자만이 들을 수 있다는 신호.
+일반인은 느낄 수 없고, <span class="txt-glitch">감응자만이 들을 수 있다는 신호</span>.
 
 당신은 숨을 가볍게 삼켰다.
 수첩은 그의 손에서 아주 기묘하게 떨리고 있었다. 
@@ -594,9 +425,6 @@
         answer: "상록",
         hint: "한글, QR코드를 찍고 얻은 정답을 입력하세요."
       },
-      // ----------------------------------------------------
-      // ⭐ STAGE 3
-      // ----------------------------------------------------
       {
         subtitle: "1장. 잔재 파동이 깨어나다",
         text: `수첩이 요구한 답을 적자, 종이 위에 희미한 선 하나가 천천히 떠올랐다. 
@@ -624,9 +452,6 @@
         answer: "종말",
         hint: "한글, 도로 표지판을 자세히 보세요."
       },
-      // ----------------------------------------------------
-      // ⭐ STAGE 4
-      // ----------------------------------------------------
       {
         subtitle: "2장. 첫문양이 깨어난 순간",
         text: `종말?
@@ -658,9 +483,6 @@
         answer: "2",
         hint: "숫자, 사거리의 계단과 그 표지판을 잘 살피세요."
       },
-      // ----------------------------------------------------
-      // ⭐ STAGE 5
-      // ----------------------------------------------------
       {
         subtitle: "3장. 공진의 첫폭발",
         text: `"당신을 2배 더 사랑합니다!"
@@ -697,9 +519,6 @@
         answer: "OWNER",
         hint: "영어, 건물의 생김새와 주어진 이미지를 비교하세요."
       },
-      // ----------------------------------------------------
-      // ⭐ STAGE 6
-      // ----------------------------------------------------
       {
         subtitle: "4장. 고대생명체의 잔재흔적",
         text: `'OWNER'...
@@ -742,9 +561,6 @@
         answer: "선대의 유서",
         hint: "한글, 순서가 중요합니다."
       },
-      // ----------------------------------------------------
-      // ⭐ STAGE 7
-      // ----------------------------------------------------
       {
         subtitle: "5장. 문양언어의 등장",
         text: `여섯 번째 페이지에는 '선대의 유서'라는 말만 적혀 있었다.
@@ -774,9 +590,6 @@
         answer: "1698",
         hint: "숫자, 문제를 잘 읽어보세요."
       },
-      // ----------------------------------------------------
-      // ⭐ STAGE 8
-      // ----------------------------------------------------
       {
         subtitle: "6장. 아티팩트와의 동기화",
         text: `아티팩트는 이 시점에서 마치 새로운 심장처럼
@@ -810,9 +623,6 @@
         answer: "4일",
         hint: "숫자와 한글 한 글자, QR코드 문제를 잘 보세요."
       },
-      // ----------------------------------------------------
-      // ⭐ STAGE 9
-      // ----------------------------------------------------
       {
         subtitle: "7장. 지형과 파동이 맞물리다",
         text: `당신이 다음 지점을 향해 천천히 걸음을 옮기기 시작할 때였다.
@@ -842,9 +652,6 @@
         answer: "3마리",
         hint: "숫자와 한글 두 글자. 그림과 비슷한 것의 개수를 세세요."
       },
-      // ----------------------------------------------------
-      // ⭐ STAGE 10
-      // ----------------------------------------------------
       {
         subtitle: "8장. 파동의 규칙성",
         text: `다음 페이지에는 여러 문양들이
@@ -875,9 +682,6 @@
         answer: "전복 낙지 가리비 새우",
         hint: "한글, 특수문자 없음. 띄어쓰기 존재."
       },
-      // ----------------------------------------------------
-      // ⭐ STAGE 11
-      // ----------------------------------------------------
       {
         subtitle: "9장. 고대 기술의 활성화",
         text: `열 번째 페이지에서 수첩은 갑자기 밝은 섬광을 뿜었다.
@@ -910,9 +714,6 @@
         answer: "느티나무",
         hint: "한글, 가려진 곳에 위치한 단어를 쓰세요."
       },
-      // ----------------------------------------------------
-      // ⭐ STAGE 12
-      // ----------------------------------------------------
       {
         subtitle: "10장. 감각의 흔들림",
         text: `아티팩트의 파동이 당신의 몸에 더 깊이 스며들기 시작했다.
@@ -943,9 +744,6 @@
         answer: "강물",
         hint: "한글, 강촌에 없어서는 안 되는 것."
       },
-      // ----------------------------------------------------
-      // ⭐ STAGE 13
-      // ----------------------------------------------------
       {
         subtitle: "11장. 공진의 경계가 열린다",
         text: `다음 페이지에는 다른 문양과는 전혀 다른 형상이 나타났다.
@@ -975,9 +773,6 @@
         answer: "102510",
         hint: "숫자, 읽은 순서 그대로."
       },
-      // ----------------------------------------------------
-      // ⭐ STAGE 14
-      // ----------------------------------------------------
       {
         subtitle: "12장. 숨겨진 글의 출현",
         text: `열세 번째 페이지는 기묘하게 조용했다.
@@ -1009,9 +804,6 @@
         answer: "물안개로 피어나고",
         hint: "한글, 비밀요원에게 다시 물어보시거나, QR코드를 다시 찍어보세요."
       },
-      // ----------------------------------------------------
-      // ⭐ STAGE 15
-      // ----------------------------------------------------
       {
         subtitle: "13장. 아티팩트의 폭주",
         text: `열네 번째 페이지가 열리자 아티팩트가 갑자기 불안정하게 흔들리기 시작했다.
@@ -1041,9 +833,6 @@
         answer: "피암터널",
         hint: "한글, 위쪽을 잘 살펴보세요."
       },
-      // ----------------------------------------------------
-      // ⭐ STAGE 16
-      // ----------------------------------------------------
       {
         subtitle: "14장, 감응자의 진실",
         text: `열다섯 번째 페이지가 펼쳐지는 순간
@@ -1078,9 +867,6 @@
         answer: "13",
         hint: "숫자만. 직접 포즈를 취해보시는 건 어떠신가요?"
       },
-      // ----------------------------------------------------
-      // ⭐ STAGE 17
-      // ----------------------------------------------------
       {
         subtitle: "15장. 두 번째 반전 — 당신은 처음이 아니다",
         text: `도망치듯 발걸음을 옮기는 당신을 붙잡는 건,
@@ -1122,9 +908,6 @@
         answer: "강촌로56",
         hint: "주소, 띄어쓰기 없이."
       },
-      // ----------------------------------------------------
-      // ⭐ STAGE 18
-      // ----------------------------------------------------
       {
         subtitle: "16장. 동기화의 완성",
         text: `당신은 겨우 강촌역 가까이로 도망쳐왔다.
@@ -1146,9 +929,6 @@
         answer: "물안개 살포시 고개드는 강촌",
         hint: "한글, 카페 안쪽에 위치하고 있습니다."
       },
-      // ----------------------------------------------------
-      // ⭐ STAGE 19 (인덱스 18): 최종 클리어 처리용
-      // ----------------------------------------------------
       {
         subtitle: "최종장", 
         text: `시선을 따돌린 당신은, 강촌역 바로 앞에 다다르는 데 성공했다.
@@ -1199,8 +979,6 @@
     const answerAreaEl    = document.getElementById("answerArea");
     const clearBlockEl    = document.getElementById("clearBlock");
     const restartBtnEl    = document.getElementById("restartBtn");
-    
-    // 추가: 텍스트 영역을 통째로 제어하기 위한 변수
     const gameContentEl   = document.getElementById("gameContent");
 
     function normalize(text) {
@@ -1213,18 +991,13 @@
     }
 
     function renderStage() {
-      // 스테이지 렌더링 시에는 반드시 게임 컨텐츠(텍스트 등)를 보여준다
-      if (gameContentEl) {
-          gameContentEl.style.display = "block";
-      }
-      if (clearBlockEl) {
-          clearBlockEl.style.display = "none";
-      }
+      if (gameContentEl) gameContentEl.style.display = "block";
+      if (clearBlockEl) clearBlockEl.style.display = "none";
 
       const p = puzzles[currentStage];
 
       stageSubtitleEl.textContent = p.subtitle || "현장 로그를 읽고 코드를 입력하세요.";
-      storyTextEl.innerHTML       = p.text || "";
+      storyTextEl.innerHTML       = p.text || ""; // HTML 태그 적용됨
       messageEl.textContent       = "";
       messageEl.className         = "message";
 
@@ -1252,18 +1025,8 @@
 
     function showClear() {
       stageLabelEl.textContent    = `GAME CLEARED`;
-      
-      // ⭐ 여기가 핵심 수정 포인트 ⭐
-      // 1. 기존 게임 텍스트(스토리, 힌트, 입력창 등)를 담은 컨테이너를 통째로 숨깁니다.
-      if (gameContentEl) {
-          gameContentEl.style.display = "none";
-      }
-      
-      // 2. 클리어 화면만 보여줍니다.
-      if (clearBlockEl) {
-          clearBlockEl.style.display  = "block";
-      }
-      
+      if (gameContentEl) gameContentEl.style.display = "none";
+      if (clearBlockEl) clearBlockEl.style.display  = "block";
       window.scrollTo(0, 0);
     }
 
