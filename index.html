@@ -32,31 +32,20 @@
     }
 
     /* ========================================================= */
-    /* [스타일 추가됨] 텍스트 강조 및 특수 효과 (여기서부터) */
+    /* 텍스트 스타일 */
     /* ========================================================= */
     
-    /* 1. 굵은 강조 (strong 태그) */
     .story-text strong, .story-text b {
       font-weight: 700;
       color: #000;
-      background: rgba(0, 0, 0, 0.05); /* 살짝 음영 */
+      background: rgba(0, 0, 0, 0.05);
       padding: 0 2px;
       border-radius: 2px;
     }
 
-    /* 2. 붉은색 (경고/위험) 사용법: <span class="txt-red">내용</span> */
-    .txt-red {
-      color: #d32f2f;
-      font-weight: 700;
-    }
+    .txt-red { color: #d32f2f; font-weight: 700; }
+    .txt-blue { color: #2563eb; font-weight: 700; }
 
-    /* 3. 푸른색 (시스템/정보) 사용법: <span class="txt-blue">내용</span> */
-    .txt-blue {
-      color: #2563eb;
-      font-weight: 700;
-    }
-
-    /* 4. 형광펜 효과 (단서/중요) 사용법: <span class="txt-highlight">내용</span> */
     .txt-highlight {
       background: linear-gradient(120deg, rgba(253, 224, 71, 0.6) 0%, rgba(253, 224, 71, 0.2) 100%);
       box-shadow: 0 1px 0 rgba(133, 77, 14, 0.2);
@@ -66,8 +55,6 @@
       color: #5d4037;
     }
 
-    /* 5. 글리치(지지직) 애니메이션 */
-    /* 사용법: <span class="txt-glitch">오류난텍스트</span> */
     @keyframes glitch-anim {
       0% { transform: translate(0); opacity: 1; }
       20% { transform: translate(-2px, 1px); opacity: 0.8; }
@@ -84,8 +71,6 @@
       letter-spacing: 0.1em;
     }
 
-    /* 6. 네온 글로우(빛나는) 효과 */
-    /* 사용법: <span class="txt-glow">빛나는텍스트</span> */
     @keyframes neon-pulse {
       0% {
         text-shadow: 0 0 4px rgba(37, 99, 235, 0.6), 0 0 10px rgba(37, 99, 235, 0.4);
@@ -97,18 +82,13 @@
       }
     }
     .txt-glow {
-      color: #eff6ff; /* 글자 중심은 흰색에 가까운 파랑 */
+      color: #eff6ff;
       font-weight: 800;
       animation: neon-pulse 1.5s ease-in-out infinite alternate;
-      /* 배경이 밝을 경우 잘 안 보일 수 있으니 배경색을 살짝 어둡게 깔아줌 */
       background-color: rgba(17, 24, 39, 0.8); 
       padding: 0 4px;
       border-radius: 4px;
     }
-
-    /* ========================================================= */
-    /* [스타일 추가 끝] */
-    /* ========================================================= */
 
     /* 전체 노트 프레임 */
     .notebook-card {
@@ -301,7 +281,7 @@
             <div class="paper-title">코드명: 에그 노이즈 <br> (Code: Egg Noise)</div>
           </div>
           <div class="paper-header-right">
-            <div class="stage-pill" id="stageLabel">STAGE 1 / 19</div>
+            <div class="stage-pill" id="stageLabel">STAGE 1</div>
           </div>
         </div>
 
@@ -353,6 +333,7 @@
 
   <script>
 const puzzles = [
+  // 1. 프롤로그 (시작)
   {
     subtitle: "프롤로그. 사라진 시대의 잔향",
     text: `<strong>📖 고대 생명체가 잠든 땅</strong><br>
@@ -375,6 +356,7 @@ const puzzles = [
     answer: "시작",
     hint: "프롤로그를 모두 읽었다면 정답 칸에 '시작'이라고 입력해 주세요."
   },
+  // 2. 프롤로그 (상록) - 역에서 수첩 습득
   {
     subtitle: "프롤로그. 수첩을 줍다",
     text: `열차가 떠난 뒤, 텅 빈 플랫폼에 바람이 스쳤다.<br>
@@ -406,6 +388,7 @@ const puzzles = [
     answer: "상록",
     hint: "한글, QR코드를 찍고 얻은 정답을 입력하세요."
   },
+  // 3. Stage 1 (종말) - 표지판
   {
     subtitle: "1장. 잔재 파동이 깨어나다",
     text: `수첩이 요구한 답을 적자, <span class="txt-highlight">희미한 선 하나</span>가 떠올랐다.<br>
@@ -425,36 +408,11 @@ const puzzles = [
     answer: "종말",
     hint: "한글, 도로 표지판을 자세히 보세요."
   },
+  // 4. Stage 2 (OWNER) - 편의점 (기존 '2' 스테이지 삭제, OWNER로 연결)
   {
-    subtitle: "2장. 첫문양이 깨어난 순간",
-    text: `<span class="txt-red">종말?</span><br>
-이곳은 한때 시작의 장소였으나, 지금은 멈춰버린 땅.<br>
-꽤 아이러니하다고 생각하며 걸음을 옮겼다.<br><br>
-
-세 번째 페이지는 묘한 기운을 뿜었다.<br>
-종이 위에 빛의 점들이 모여 <span class="txt-glow">하나의 문양</span>이 되었다.<br>
-규칙적으로 회전하는 원형 구조.<br>
-강촌의 지형과 닮아 있는 굴곡진 선들.<br><br>
-
-선들은 종이 위에서 약간 들뜬 상태로 진동했다.<br>
-손을 뻗자 문양은 속도를 바꾸었다.<br>
-살아있는 생명체처럼 당신을 ‘인식’했다.<br><br>
-
-이 문양은 단순한 장식이 아니다.<br>
-<span class="txt-highlight">땅속 깊이 묻힌 거대 생명체의 신호</span>.<br>
-그것을 깨우는 열쇠.<br><br>
-
-그때, <span class="txt-glitch">옆에서</span> 파동과 함께 당신을 부르는 소리가 들렸다.<br><br>
-
-(근처의 QR코드를 찾아 문제를 확인하세요.)`,
-    answer: "2",
-    hint: "숫자, 사거리의 계단과 그 표지판을 잘 살피세요."
-  },
-  {
-    subtitle: "3장. 기억을 먹는 공진",
-    text: `"당신을 <span class="txt-highlight">2배</span> 더 사랑합니다!"<br>
-오래된 문구. 이곳을 스쳐간 수많은 연인들의 기억.<br>
-아티팩트는 그 <span class="txt-blue">감정의 잔재</span>를 흡수하듯 강하게 떨렸다.<br><br>
+    subtitle: "2장. 기억을 먹는 공진",
+    text: `사거리를 지나자 아티팩트가 더 강하게 반응하기 시작했다.<br>
+아티팩트는 이곳에 남겨진 <span class="txt-blue">감정의 잔재</span>를 흡수하듯 진동했다.<br><br>
 
 '반응이 빨라지고 있어…'<br>
 포화 직전처럼 반복되는 진동.<br>
@@ -473,76 +431,11 @@ const puzzles = [
     answer: "OWNER",
     hint: "영어, 건물의 생김새와 주어진 이미지를 비교하세요."
   },
+  // 5. Stage 3 (3마리) - 닭갈비 골목 (기존 중간 단계 대거 생략 후 연결)
   {
-    subtitle: "4장. 산맥에 드리운 그림자",
-    text: `'<span class="txt-highlight">OWNER</span>'...<br>
-이 땅의 진짜 주인.<br><br>
-
-빛이 아닌 <span class="txt-glow">‘그림자’ 같은 실루엣</span>이 잠시 스쳐 지나갔다.<br>
-시야 깊은 곳에서 느껴진 잔상.<br>
-그것은 멀리 보이는 <span class="txt-red">삼악산의 능선</span>과 정확히 일치했다.<br><br>
-
-거대했다.<br>
-전설 속 존재들은 사라진 게 아니었다.<br>
-그저 <span class="txt-blue">지형 그 자체가 되어</span> 잠들어 있었을 뿐.<br><br>
-
-'이 산들이 전부… 그 생명체의 일부라면?'<br>
-지금 흔적이 <span class="txt-red">깨어나고 있다</span>.<br><br>
-
-수첩은 빨리 걸음을 옮기라는 듯, 파동의 지점을 강하게 표시했다.<br>
-중학교 방향으로 계속해서 걸어가자, 작은 마을이 나왔다.<br>
-파동이 흘러나오고 있는 <span class="txt-glitch">마을회관 앞</span>으로 다가갔다.<br><br>
-
-(벽면의 QR코드를 찍어 문제를 확인하세요.)`,
-    answer: "선대의 유서",
-    hint: "한글, 순서가 중요합니다."
-  },
-  {
-    subtitle: "5장. 문양언어의 등장",
-    text: `여섯 번째 페이지, '<span class="txt-highlight">선대의 유서</span>'.<br>
-단순한 낙서가 아니었다.<br>
-고대 생명체를 모시던 이들이 남긴 <span class="txt-blue">메시지 체계</span>.<br><br>
-
-손가락을 문양 위에 대자, 의미의 흐름이 느껴졌다.<br>
-단어로 읽히진 않지만, 무언가 전달하려는 의지.<br>
-아티팩트가 이 문양에 기묘하게 호응했다.<br><br>
-
-그러나 문양은 완전히 열리진 않았다.<br>
-일부는 가려져 있었고,<br>
-어떤 의미는 <span class="txt-red">기능적으로 잠겨 있었다</span>.<br><br>
-
-<span class="txt-blue">수첩</span>은 제멋대로 문양을 덮어버리고 다음 페이지를 열었다.<br>
-더 큰 흐름 속에 휘말리고 있음을 느꼈다.<br>
-다음 지점인 <span class="txt-glitch">세븐일레븐 근처</span>로 걸음을 옮겼다.<br><br>
-
-(세븐일레븐 근처의 QR코드를 찍어 문제를 확인하세요.)`,
-    answer: "1698",
-    hint: "숫자, 문제를 잘 읽어보세요."
-  },
-  {
-    subtitle: "6장. 생명력 고갈과 본능",
-    text: `<span class="txt-glow">아티팩트</span>는 이제 새로운 심장처럼 규칙적으로 뛰었다.<br>
-반면, 당신의 체력은 급격히 소진되고 있었다.<br>
-공진이 당신의 <span class="txt-red">생명력</span>을 연료로 삼고 있기 때문이었다.<br><br>
-
-현기증이 일었다.<br>
-몸이 본능적으로 <span class="txt-blue">‘활기’</span>가 넘치는 곳을 찾았다.<br>
-음식 냄새, 사람들의 온기.<br>
-그것만이 떨어진 에너지를 채울 수 있었다.<br><br>
-
-'이건… 나를 인식하는 동시에 갉아먹고 있어.'<br>
-아티팩트와 수첩은 당신을 포함한 <span class="txt-glow">하나의 회로</span>가 되었다.<br><br>
-
-수첩은 새 페이지를 연다.<br>
-살기 위해, 파장이 느껴지는 <span class="txt-glitch">순대집</span>으로 향한다.<br><br>
-
-(근처의 QR코드를 찍어 문제를 확인하세요.)`,
-    answer: "4일",
-    hint: "숫자와 한글 한 글자, QR코드 문제를 잘 보세요."
-  },
-  {
-    subtitle: "7장. 지형과 파동이 맞물리다",
-    text: `걸음을 옮길 때마다 주변 환경이 반응했다.<br>
+    subtitle: "3장. 지형과 파동이 맞물리다",
+    text: `이곳의 진짜 'OWNER'가 깨어나고 있다.<br>
+걸음을 옮길 때마다 주변 환경이 반응했다.<br>
 금속 난간의 울림, 지면의 진동.<br>
 이곳의 골목과 건물이 마치 거대한 기계 장치의 부속품처럼 느껴졌다.<br><br>
 
@@ -559,93 +452,10 @@ const puzzles = [
     answer: "3마리",
     hint: "숫자와 한글 두 글자. 그림과 비슷한 것의 개수를 세세요."
   },
+  // 6. Stage 4 (물안개로 피어나고) - 카페 1939 대피소 (기존 해물/느티나무 등 생략)
   {
-    subtitle: "8장. 파동의 규칙성",
-    text: `문양들이 더 복잡한 배열로 나타났다.<br>
-처음엔 무작위처럼 보였으나, 점차 일정한 패턴을 띠었다.<br>
-이곳에 흐르는 강물의 속도와 닮은 <span class="txt-blue">정보 구조</span>.<br><br>
-
-당신은 페이지를 손끝으로 훑었다.<br>
-문양 일부가 반응하며 작은 진동을 냈다.<br>
-‘이 문양이 이미 <span class="txt-glow">자신을 알고 있다</span>’는 느낌.<br><br>
-
-인간의 논리로는 설명할 수 없는 규칙.<br>
-허기가 졌다. 에너지가 필요했다.<br>
-본능적으로 이끌리듯 걸음을 재촉했다.<br><br>
-
-파동은 <span class="txt-glitch">짜장면 냄새가 강해지는 방향</span>에서 감지됐다.<br><br>
-
-(근처의 QR코드를 찍어 문제를 확인해주세요.)`,
-    answer: "전복 낙지 가리비 새우",
-    hint: "한글, 특수문자 없음. 띄어쓰기 존재."
-  },
-  {
-    subtitle: "9장. 고대 기술의 활성화",
-    text: `열 번째 페이지에서 수첩이 섬광을 뿜었다.<br>
-문양은 빛의 실처럼 풀려나 선명해졌다.<br>
-아티팩트도 동시에 빛을 뿜었다.<br><br>
-
-이건 단순한 생물학적 반응이 아닌 <span class="txt-blue">기술</span>이었다.<br>
-자연물과 기계가 융합된 고대의 기술.<br>
-빛은 살아있는 듯 흔들렸다.<br><br>
-
-'이건 <span class="txt-red">의식</span>이군…'<br>
-각성까지 이어지는 <span class="txt-blue">절차</span>.<br>
-누군가가 ‘발견자를 위한 여정’으로 설계한 구조.<br>
-연구원은 다음 단서를 향해 걸었다.<br><br>
-
-다음 파동은 황량한 들판 위,<br>
-오래된 나무가 지키고 있는 <span class="txt-glitch">작은 오두막</span>에서 느껴졌다.<br><br>
-
-(벽면의 QR코드를 찍어 문제를 확인해주세요.)`,
-    answer: "느티나무",
-    hint: "한글, 가려진 곳에 위치한 단어를 쓰세요."
-  },
-  {
-    subtitle: "10장. 강물, 그리고 혈관",
-    text: `아티팩트의 파동이 몸 깊이 스며들었다.<br>
-시야 주변이 흔들렸다.<br>
-바람 소리는 물속을 흐르는 음처럼 둔탁해졌다.<br><br>
-
-저 멀리 흐르는 <span class="txt-blue">북한강</span>.<br>
-아티팩트의 맥박이 강의 유속과 정확히 일치했다.<br>
-강물은 단순한 물이 아니었다.<br>
-이 거대 생명체에게 에너지를 공급하는 <span class="txt-red">혈관</span>이었다.<br><br>
-
-현실의 결이 조금씩 틀어지고 있었다.<br>
-아무도 당신을 바라보지 않았다.<br>
-오직 감응자만이 이 <span class="txt-glitch">왜곡 현상</span>을 겪고 있다.<br><br>
-<span class="txt-glitch">노란 조형물</span>에서 파장이 느껴졌다.<br><br>
-
-(근처에 부착된 QR코드를 찍어 문제를 확인해주세요.)`,
-    answer: "강물",
-    hint: "한글, 강촌에 없어서는 안 되는 것."
-  },
-  {
-    subtitle: "11장. 즐거움의 잔향",
-    text: `다음 페이지에는 기괴한 형상이 나타났다.<br>
-아티팩트가 깊고 낮은 울림을 냈다.<br>
-가슴뼈까지 진동시키는 느낌.<br><br>
-
-문양의 중앙 틈이 <span class="txt-glow">‘열리는 것처럼’</span> 보였다.<br>
-빛이 스며나오고, 현실의 경계가 모호해졌다.<br><br>
-
-'<span class="txt-red">경계…</span>'<br>
-오래전 사람들의 비명과 웃음소리가 섞인 환청.<br>
-가장 강력한 기억의 에너지가 고인 곳.<br>
-수첩은 그곳을 '틈'이라고 지칭했다.<br><br>
-
-당신은 떨리는 숨을 내쉬며 경계를 향해 다가갔다.<br>
-<span class="txt-glitch">테마랜드</span>로 이어지는 파장.<br><br>
-
-(테마랜드 안에 부착된 QR코드를 찍어 문제를 확인해주세요.)`,
-    answer: "102510",
-    hint: "숫자, 읽은 순서 그대로."
-  },
-  {
-    subtitle: "12장. 대피소를 찾아서",
-    text: `열세 번째 페이지는 기묘하게 조용했다.<br>
-문양도, 빛도 없었다.<br>
+    subtitle: "4장. 대피소를 찾아서",
+    text: `아티팩트가 격렬하게 요동쳤다.<br>
 종이 표면에서 흐릿한 글씨가 떠올랐다.<br><br>
 
 <strong><span class="txt-red">'감응자는 단순한 탐색자가 아니다…'</span></strong><br>
@@ -666,9 +476,11 @@ const puzzles = [
     answer: "물안개로 피어나고",
     hint: "한글, 비밀요원에게 다시 물어보시거나, QR코드를 다시 찍어보세요."
   },
+  // 7. Stage 5 (피암터널) - 진실
   {
-    subtitle: "13장. 드러난 뼈",
-    text: `열네 번째 페이지가 열리자 아티팩트가 <span class="txt-red">폭주</span>했다.<br>
+    subtitle: "5장. 드러난 뼈",
+    text: `안식처에서 잠시 숨을 고른 후, 다시 밖으로 나왔다.<br>
+다섯 번째 페이지가 열리자 아티팩트가 <span class="txt-red">폭주</span>했다.<br>
 손바닥이 타들어 가는 듯했다.<br>
 멀리 <span class="txt-glitch">강촌상상역</span> 방향.<br><br>
 
@@ -688,9 +500,10 @@ const puzzles = [
     answer: "피암터널",
     hint: "한글, 위쪽을 잘 살펴보세요."
   },
+  // 8. Stage 6 (13) - 포토존, 돌아가는 길
   {
-    subtitle: "14장, 감응자의 진실",
-    text: `열다섯 번째 페이지.<br>
+    subtitle: "6장. 감응자의 진실",
+    text: `여섯 번째 페이지.<br>
 이전까지 가려져 있던 문장들이 선명해졌다.<br><br>
 
 '<span class="txt-blue">감응자는 세계를 지탱하는 부품이다.</span><br>
@@ -712,50 +525,7 @@ const puzzles = [
     answer: "13",
     hint: "숫자만. 직접 포즈를 취해보시는 건 어떠신가요?"
   },
-  {
-    subtitle: "15장. 반복되는 궤도",
-    text: `도망치듯 발걸음을 옮겼지만, 파동은 발목을 잡았다.<br>
-귀를 막아도 들려오는 소리.<br>
-수첩 위로 검은 글씨가 떠올랐다.<br><br>
-
-<strong><span class="txt-red txt-glitch">'너는 처음이 아니다.'</span></strong><br>
-공기의 온도가 떨어졌다.<br><br>
-
-'우리는 수많은 감응자를 맞이했고, 모두 제 역할을 수행했다.<br>
-끊어진 기찻길처럼, 이 기록은 <span class="txt-red">영원히 반복</span>된다.'<br><br>
-
-반복.<br>
-폐역에 멈춰선 시간처럼, 당신 또한 이 굴레에 갇혀 있었다.<br>
-수첩은 급히 다음 장으로 넘어갔다.<br><br>
-
-시야 가장자리로 거대한 형상이 아른거렸다.<br>
-당신은 각성 직전의 몸을 이끌고,<br>
-<span class="txt-glitch">강촌식당 앞</span>에서 멈춰 섰다.<br><br>
-
-(근처의 QR코드를 찍어 문제를 확인해주세요.)`,
-    answer: "강촌로56",
-    hint: "주소, 띄어쓰기 없이."
-  },
-  {
-    subtitle: "16장. 마지막 안식처",
-    text: `겨우 강촌역 근처까지 도망쳐왔다.<br>
-<span class="txt-glitch">카페124.</span><br>
-이곳만 지나면, 곧 강촌역이었다.<br><br>
-
-그러나 추격은 멈추지 않았다.<br>
-<span class="txt-glow">마지막 문양</span>이 완성되고, 아티팩트는 문을 열 준비를 마쳤다.<br><br>
-
-잠시라도 <span class="txt-red">희생</span>을 미루기 위해 카페로 비틀거리며 들어갔다.<br>
-이곳 역시 결계가 쳐진 안식처.<br>
-<span class="txt-blue">고대의 존재</span>가 잠시 세력을 감추었다.<br><br>
-
-일반인들의 시선 속에 섞여, 당신은 거친 숨을 골랐다.<br>
-마지막 힘을 짜내야 했다.<br><br>
-
-(외부 벽면의 QR코드를 찍어 문제를 확인해주세요.)`,
-    answer: "물안개 살포시 고개드는 강촌",
-    hint: "한글, 카페 안쪽에 위치하고 있습니다."
-  },
+  // 9. Final Stage (집어든다) - 엔딩
   {
     subtitle: "최종장. 다시, 시작",
     text: `시선을 따돌리고, 강촌역 바로 앞에 다다랐다.<br>
