@@ -27,7 +27,6 @@
       font-family: 'Noto Sans KR', sans-serif; line-height: 1.6;
     }
 
-    /* 텍스트 하이라이트/스타일 */
     .txt-red { color: #d32f2f; font-weight: 700; }
     .txt-blue { color: #2563eb; font-weight: 700; }
     .txt-highlight {
@@ -35,7 +34,6 @@
       box-shadow: inset 0 -8px 0 rgba(253, 224, 71, 0.4); padding: 0 2px; font-weight: 700; color: #422006;
     }
     
-    /* 손글씨 (수첩/단서) */
     .txt-handwritten {
       display: block; font-family: 'East Sea Dokdo', cursive; font-size: 1.9rem; color: #5d4037;
       line-height: 1.3; padding: 15px; margin: 16px 0;
@@ -71,10 +69,7 @@
     .subtitle { font-size: 0.95rem; color: #666; margin: 4px 0 6px; font-weight: 600; letter-spacing: -0.02em; }
     .subtitle-separator { width: 100%; height: 2px; background: #e2ddd4; margin: 12px 0 24px; }
 
-    /* 본문 텍스트 */
     .story-text { font-size: 1.05rem; color: #333; white-space: pre-line; line-height: 1.75; margin-bottom: 30px; word-break: keep-all; letter-spacing: -0.03em; text-align: left; }
-    
-    /* 섹션 제목 스타일 (본문 내) */
     .section-title { font-weight: 700; color: #111; display: inline-block; margin-bottom: 4px; border-bottom: 2px solid rgba(0,0,0,0.1); }
 
     #answerArea { background: rgba(255,255,255,0.7); padding: 20px 16px; border-radius: 12px; border: 1px solid #e2ddd4; }
@@ -91,9 +86,8 @@
     .hint-area summary { padding: 12px 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; color: #4b5563; background: #f9fafb; list-style: none; }
     .hint-content { padding: 16px; font-size: 1rem; color: #333; border-top: 1px solid #e5e7eb; word-break: keep-all; }
 
-    /* 클리어 화면 */
     .clear-block { margin-top: 60px; text-align: center; display: none; padding: 0 20px; }
-    .clear-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 999px; border: 2px solid #166534; color: #166534; font-size: 0.9rem; font-weight: 800; background: #dcfce7; margin-bottom: 20px; }
+    .clear-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 999px; border: 2px solid #2563eb; color: #2563eb; font-size: 0.9rem; font-weight: 800; background: #eff6ff; margin-bottom: 20px; }
     .clear-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 12px; color: #111; letter-spacing: -0.03em; }
     
     .survey-btn-wrap { margin: 20px 0; padding: 20px 0; border-top: 2px dashed #d1d5db; border-bottom: 2px dashed #d1d5db; }
@@ -123,7 +117,7 @@
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
     /* ========================================= */
-    /* 3. [Type C] 글리치(노이즈) 오버레이 */
+    /* 3. [Type C] 글리치 오버레이 (엔딩용) */
     /* ========================================= */
     .glitch-overlay {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -137,8 +131,15 @@
     .glitch-text::before, .glitch-text::after {
       content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.8;
     }
-    .glitch-text::before { color: #0ff; z-index: -1; animation: glitch-1 0.3s infinite linear alternate-reverse; }
-    .glitch-text::after { color: #f0f; z-index: -2; animation: glitch-2 0.3s infinite linear alternate-reverse; }
+    /* Error Mode (Red) */
+    .mode-error .glitch-text { color: #ff0000; }
+    .mode-error .glitch-text::before { color: #ff0055; }
+    .mode-error .glitch-text::after { color: #ff5500; }
+    
+    /* Success Mode (Blue/Green - System Restore) */
+    .mode-success .glitch-text { color: #00ffcc; text-shadow: 0 0 20px #00ffcc; animation: none; }
+    .mode-success .sub-text { color: #00ffcc; animation: none; }
+
     .scanlines {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3));
@@ -146,8 +147,6 @@
     }
     
     @keyframes textShudder { 0% { transform: translate(1px, 1px); } 100% { transform: translate(-1px, -1px); } }
-    @keyframes glitch-1 { 0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 0); } 100% { clip-path: inset(60% 0 10% 0); transform: translate(2px, 0); } }
-    @keyframes glitch-2 { 0% { clip-path: inset(10% 0 60% 0); transform: translate(2px, 0); } 100% { clip-path: inset(80% 0 5% 0); transform: translate(-2px, 0); } }
 
   </style>
 </head>
@@ -155,8 +154,8 @@
   
   <div class="glitch-overlay" id="glitchScreen">
     <div class="scanlines"></div>
-    <div class="glitch-text" data-text="SYSTEM FAILURE">SYSTEM FAILURE</div>
-    <div style="margin-top: 20px; color: red; font-family: monospace;">CONNECTION LOST...</div>
+    <div class="glitch-text" id="glitchMainText" data-text="SYSTEM FAILURE">SYSTEM FAILURE</div>
+    <div class="sub-text" id="glitchSubText" style="margin-top: 20px; color: red; font-family: monospace;">CRITICAL ERROR: SUBJECT LOST</div>
   </div>
 
   <div class="notebook-card">
@@ -226,11 +225,13 @@
         </div>
         
         <div class="clear-block" id="clearBlock">
-          <div class="clear-badge"><span>🎉</span><span>SYSTEM RESET</span></div>
-          <div class="clear-title">필드 로그 전송 완료</div>
+          <div class="clear-badge"><span>🎉</span><span>SYSTEM RESTORED</span></div>
+          <div class="clear-title">시스템 복구 완료</div>
           <div class="clear-text">
-            모든 데이터가 본부로 전송되었습니다.<br>
-            연구원님의 희생을 기록합니다.
+            <strong>[결과 보고]</strong><br>
+            13번째 부품이 성공적으로 장착되었습니다.<br>
+            강촌의 세계 수명이 연장되었습니다.<br><br>
+            연구원님의 헌신(Sacrifice)에 감사드립니다.
           </div>
 
           <div class="survey-btn-wrap">
@@ -238,7 +239,7 @@
               <button class="survey-btn">💡 만족도 조사 참여하기</button>
             </a>
           </div>
-          <button class="restart-btn" id="restartBtn">새로운 루프 시작하기 (처음으로)</button>
+          <button class="restart-btn" id="restartBtn">새로운 감응자(루프) 대기 중...</button>
         </div>
 
       </div>
@@ -302,16 +303,16 @@
       // 3. 종말 -> OWNER (편의점)
       {
         subtitle: "2장. 기억을 먹는 공진",
-        text: `<span class="section-title">현장 관측</span><br>
-    사거리를 지나자 아티팩트의 진동이 급격히 빨라졌다. 이곳에 남겨진 '감정의 잔재'를 폭식하듯 흡수하고 있다.<br><br>
+        text: `<span class="section-title">이전 정답: 종말?</span><br>
+    당신은 이곳의 운명을 '종말'로 읽어냈다. 그 단어가 열쇠가 되어 수첩의 다음 장을 열었다.<br><br>
 
     <span class="section-title">수첩 업데이트</span><br>
     페이지 위로 거친 선 두 개가 교차한다. 이전보다 훨씬 <span class="txt-red">공격적인 형태의 문양</span>이다.<br><br>
 
     <span class="section-title">경고</span><br>
-    날카로운 기계음이 들린다. 감응자의 기력이 빠르게 소모되고 있다. 파동의 근원지는 길 건너편이다.<br><br>
+    날카로운 기계음이 들린다. 기력 소모율 증가. 파동의 근원지는 길 건너편이다.<br><br>
 
-    <strong>[지시]</strong> <span class="txt-highlight">편의점 방향</span>으로 이동하여 건물을 관측하라.<br><br>
+    <strong>[지시]</strong> <span class="txt-highlight">편의점 방향</span>으로 이동하여 '주인'의 흔적을 찾아라.<br><br>
     (2층으로 이동. 게시판 근처 QR코드 확인.)`,
         answer: "OWNER",
         hint: "정답 형태: 영어, 건물의 창문 모양과 알파벳 조합."
@@ -319,9 +320,8 @@
       // 4. OWNER -> 선대의 유서 (마을회관)
       {
         subtitle: "3장. 지형과 파동이 맞물리다",
-        text: `<span class="section-title">가설 수립</span><br>
-    이곳의 골목과 건물은 마치 거대 기계 장치의 부속품처럼 반응 중이다.<br>
-    <span class="txt-red">지형 자체가 아티팩트와 공명</span>하고 있다.<br><br>
+        text: `<span class="section-title">이전 정답: OWNER</span><br>
+    당신은 이곳의 <strong>'주인(OWNER)'</strong>을 호명했다. 이름이 불린 주인(거대 생명체)이 당신을 인지하기 시작했다.<br><br>
 
     <span class="section-title">결론 도출</span><br>
     이 지도는 강촌 전체를 연결한 <span class="txt-blue">거대 생명체의 신경망도</span>다.<br>
@@ -337,8 +337,8 @@
       // 5. 선대의 유서 -> 강물 (북한강)
       {
         subtitle: "4장. 유서가 가리키는 곳",
-        text: `<span class="section-title">히든 페이지 개방</span><br>
-    '유서'라는 코드를 입력하자 수첩의 숨겨진 페이지가 드러났다. 이것은 단순한 유언이 아닌, 지형지물 <span class="txt-blue">설계도</span>였다.<br>
+        text: `<span class="section-title">이전 정답: 선대의 유서</span><br>
+    당신은 선대 감응자가 남긴 <strong>'유서'</strong>를 읽었다. 유서를 읽은 순간, 그 의무와 저주는 당신에게 <strong>승계</strong>되었다.<br>
 
     <div class="txt-handwritten">
     이곳을 흐르는 물줄기는 단순한 강이 아니다.<br>
@@ -388,8 +388,8 @@
       // 8. 피암터널 -> 13 (포토존)
       {
         subtitle: "7장. 감응자의 진실",
-        text: `<span class="section-title">최종 페이지 해독</span><br>
-    갈비뼈(터널) 안쪽에서 감응자의 역할에 대한 잔혹한 진실이 드러났다.<br>
+        text: `<span class="section-title">이전 정답: 피암터널</span><br>
+    당신은 제 발로 '피암(피를 피하는)' 터널이 아닌, <strong>'피를 머금은' 갈비뼈</strong> 속으로 들어왔다. 이제 되돌아갈 길은 없다.<br><br>
 
     <div class="txt-handwritten">
     감응자는 세계를 지탱하는 부품이다.<br>
@@ -409,15 +409,14 @@
       // 9. Final (엔딩)
       {
         subtitle: "최종장. 다시, 시작",
-        text: `<span class="section-title">종료 시퀀스</span><br>
+        text: `<span class="section-title">이전 정답: 13</span><br>
+    <strong>[카운트: 13]</strong> 시스템 유지에 필요한 13번째 부품. 적합 판정. 회수 절차를 개시한다.<br><br>
+    
+    <span class="section-title">종료 시퀀스</span><br>
     강촌역 도착 직후, 아티팩트가 임계점을 돌파했다. 공간 왜곡이 발생하며 지면이 사라진다.<br><br>
     
-    <span class="section-title">결과 리포트</span><br>
-    연구원(감응자) <div class="txt-handwritten" style="display:inline-block; margin:0; padding:2px;"><span class="txt-glow txt-blue">선택 완료.</span></div><br>
-    조용한 파열음과 함께 연구원은 소멸했다.<br><br>
-    
     <span class="section-title">잔류물</span><br>
-    강촌역 바닥에 문양이 사라진 낡은 <strong>수첩</strong>만 남았다.<br><br>
+    연구원(감응자)은 사라지고, 바닥엔 문양이 사라진 낡은 <strong>수첩</strong>만 남았다.<br><br>
     
     ...잠시 후, 다른 연구원이 수첩을 발견한다.<br>
     <div class="txt-handwritten">이 수첩을 줍는 자...</div><br>
@@ -455,6 +454,8 @@
     const warningPopup = document.getElementById("warningPopup");
     const warningMsg = document.getElementById("warningMsg");
     const glitchScreen = document.getElementById("glitchScreen");
+    const glitchMain = document.getElementById("glitchMainText");
+    const glitchSub = document.getElementById("glitchSubText");
 
     function normalize(text) {
       return text.trim().replace(/\s/g, '').toLowerCase(); 
@@ -517,12 +518,11 @@
         submitBtnEl.disabled   = true;
         answerInputEl.disabled = true;
         
-        // 마지막 스테이지(엔딩)인 경우 -> C타입 글리치 발동
+        // [엔딩 연출] 마지막 스테이지 정답 입력 시
         if (currentStage === totalStages - 1) {
-           submitBtnEl.textContent = "초기화 중...";
-           setTimeout(() => {
-             triggerGlitch();
-           }, 1000);
+           submitBtnEl.textContent = "부품 회수 중...";
+           // 2단계 글리치 연출 함수 호출
+           triggerEndingSequence();
            return;
         }
 
@@ -535,7 +535,6 @@
              maxUnlockedStage++;
           }
           
-          // 다음 스테이지로 넘어갈 때 위험 체크
           attemptMoveToStage(currentStage + 1);
 
         }, 800);
@@ -553,7 +552,6 @@
         return;
       }
 
-      // 경고 없으면 바로 이동
       currentStage = targetStage;
       renderStage();
     }
@@ -572,18 +570,35 @@
       renderStage();
     }
 
-    // 글리치 연출 (엔딩)
-    function triggerGlitch() {
+    // [엔딩] 2단계 글리치 연출: Error -> Success
+    function triggerEndingSequence() {
+      // 1단계: 오류 (붉은색)
+      glitchScreen.classList.remove('mode-success');
+      glitchScreen.classList.add('mode-error');
+      glitchMain.textContent = "SYSTEM FAILURE";
+      glitchMain.setAttribute("data-text", "SYSTEM FAILURE");
+      glitchSub.textContent = "CRITICAL ERROR: SUBJECT LOST";
+      
       glitchScreen.style.display = 'flex';
-      // 3.5초 후 클리어 화면으로
+
+      // 2.5초 후: 복구 성공 (청록색) - 반전
+      setTimeout(() => {
+        glitchScreen.classList.remove('mode-error');
+        glitchScreen.classList.add('mode-success'); // 파란/초록 스타일
+        glitchMain.textContent = "SYSTEM RESTORED";
+        glitchMain.setAttribute("data-text", "SYSTEM RESTORED");
+        glitchSub.textContent = "NEW COMPONENT INSTALLED";
+      }, 2500);
+
+      // 5초 후: 클리어 화면 이동
       setTimeout(() => {
         glitchScreen.style.display = 'none';
         showClear();
-      }, 3500);
+      }, 5500);
     }
 
     function showClear() {
-      stageLabelEl.textContent    = `SYSTEM RESET`;
+      stageLabelEl.textContent    = `SYSTEM RESTORED`;
       if (gameContentEl) gameContentEl.style.display = "none";
       if (navControlsEl) navControlsEl.style.display = "none";
       if (clearBlockEl) clearBlockEl.style.display  = "block";
