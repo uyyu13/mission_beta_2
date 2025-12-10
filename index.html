@@ -172,6 +172,32 @@
     }
     .progress-wrap { margin: 4px 0 4px; }
     
+    /* [NEW] 네비게이션 컨트롤 스타일 */
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      padding-right: 10px;
+    }
+    .nav-btn {
+      width: auto;
+      margin-top: 0;
+      padding: 6px 14px;
+      font-size: 0.75rem;
+      background: #e5e7eb;
+      color: #374151;
+      border: 1px solid #c4b5a5;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .nav-btn:active { transform: translateY(1px); }
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      background: #f3f4f6;
+      border-color: #e5e7eb;
+      box-shadow: none;
+    }
+    
     .subtitle { font-size: 0.86rem; color: var(--text-sub); margin: 4px 0 6px; }
     .subtitle-separator { width: 100%; height: 1px; background: #e2ddd4; margin: 8px 0 12px; opacity: 0.6; }
 
@@ -287,6 +313,11 @@
 
         <div class="progress-wrap">
           <div class="progress-bar-bg" style="display: none;"></div>
+        </div>
+
+        <div class="nav-controls" id="navControls">
+            <button class="nav-btn" id="prevBtn">◀ PREV</button>
+            <button class="nav-btn" id="nextBtn">NEXT ▶</button>
         </div>
 
         <div id="gameContent">
@@ -464,7 +495,7 @@ const puzzles = [
     answer: "선대의 유서",
     hint: "정답 형태: 한글. 띄어쓰기는 중요하지 않습니다. 노선도 정류장과 글자의 순서가 중요합니다. QR코드 위치: 2층 복도 끝 계단 안쪽"
   },
-  // 6. Stage 4 (강물) - [수정됨] 유서 내용을 이어받아 강물로 유도
+  // 6. Stage 4 (강물) - 유서 내용 이어받아 강물 유도
   {
     subtitle: "4장. 유서가 가리키는 곳",
     text: `<strong>'선대의 유서'.</strong><br>
@@ -483,7 +514,7 @@ const puzzles = [
     answer: "강물",
     hint: "한글, 강촌에 없어서는 안 되는 것."
   },
-  // 7. Stage 5 (물안개로 피어나고) - [수정됨] 강물(혈관)을 확인하고 대피소로 유도
+  // 7. Stage 5 (물안개로 피어나고) - 강물 확인 후 대피소 유도
   {
     subtitle: "5장. 위험한 맥박",
     text: `코드로 <strong>'강물'</strong>을 입력하는 순간,<br>
@@ -592,6 +623,8 @@ const puzzles = [
     
     const totalStages = puzzles.length;
     let currentStage = 0;
+    // [NEW] 최대 해금 스테이지 변수 (초기값 0)
+    let maxUnlockedStage = 0;
 
     const stageLabelEl    = document.getElementById("stageLabel");
     const stageSubtitleEl = document.getElementById("stageSubtitle");
@@ -605,6 +638,11 @@ const puzzles = [
     const clearBlockEl    = document.getElementById("clearBlock");
     const restartBtnEl    = document.getElementById("restartBtn");
     const gameContentEl   = document.getElementById("gameContent");
+    
+    // [NEW] 네비게이션 버튼 엘리먼트
+    const prevBtnEl       = document.getElementById("prevBtn");
+    const nextBtnEl       = document.getElementById("nextBtn");
+    const navControlsEl   = document.getElementById("navControls");
 
     function normalize(text) {
       return text.trim().replace(/\s/g, '').toLowerCase(); 
@@ -618,6 +656,7 @@ const puzzles = [
     function renderStage() {
       if (gameContentEl) gameContentEl.style.display = "block";
       if (clearBlockEl) clearBlockEl.style.display = "none";
+      if (navControlsEl) navControlsEl.style.display = "flex";
 
       const p = puzzles[currentStage];
 
@@ -643,14 +682,24 @@ const puzzles = [
       const hintDetails = hintAreaEl.querySelector('details');
       if (hintDetails) hintDetails.removeAttribute('open');
 
+      // [NEW] 버튼 활성화/비활성화 로직
+      // 이전 버튼: 첫 스테이지(0)이면 비활성화
+      prevBtnEl.disabled = (currentStage === 0);
+      
+      // 다음 버튼: 현재 스테이지가 해금된 최대 스테이지보다 작아야 활성화
+      // 즉, 아직 안 푼 스테이지로는 버튼으로 넘어갈 수 없음
+      nextBtnEl.disabled = (currentStage >= maxUnlockedStage);
+
       updateProgress();
-      answerInputEl.focus();
+      
+      // 스크롤 상단 이동
       window.scrollTo(0, 0); 
     }
 
     function showClear() {
       stageLabelEl.textContent    = `GAME CLEARED`;
       if (gameContentEl) gameContentEl.style.display = "none";
+      if (navControlsEl) navControlsEl.style.display = "none";
       if (clearBlockEl) clearBlockEl.style.display  = "block";
       window.scrollTo(0, 0);
     }
@@ -675,6 +724,12 @@ const puzzles = [
 
         setTimeout(() => {
           submitBtnEl.textContent = "SUBMIT";
+          
+          // [NEW] 정답을 맞혔을 때만 최대 해금 스테이지 증가
+          if (currentStage === maxUnlockedStage) {
+             maxUnlockedStage++;
+          }
+
           if (currentStage >= totalStages - 1) {
             showClear();
           } else {
@@ -688,6 +743,21 @@ const puzzles = [
       }
     }
 
+    // [NEW] 네비게이션 버튼 이벤트 리스너
+    prevBtnEl.addEventListener("click", () => {
+      if (currentStage > 0) {
+        currentStage--;
+        renderStage();
+      }
+    });
+
+    nextBtnEl.addEventListener("click", () => {
+      if (currentStage < maxUnlockedStage) {
+        currentStage++;
+        renderStage();
+      }
+    });
+
     submitBtnEl.addEventListener("click", checkAnswer);
     answerInputEl.addEventListener("keydown", (e) => {
       if (e.key === "Enter") checkAnswer();
@@ -695,8 +765,11 @@ const puzzles = [
 
     if (restartBtnEl) {
       restartBtnEl.addEventListener("click", () => {
-        currentStage = 0;
-        renderStage();
+        if(confirm("정말 처음부터 다시 하시겠습니까? 진행 상황이 초기화됩니다.")) {
+            currentStage = 0;
+            maxUnlockedStage = 0; // 재시작 시 해금 기록도 초기화
+            renderStage();
+        }
       });
     }
 
