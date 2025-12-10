@@ -86,6 +86,7 @@
     .hint-area summary { padding: 12px 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; color: #4b5563; background: #f9fafb; list-style: none; }
     .hint-content { padding: 16px; font-size: 1rem; color: #333; border-top: 1px solid #e5e7eb; word-break: keep-all; }
 
+    /* 클리어 화면 */
     .clear-block { margin-top: 60px; text-align: center; display: none; padding: 0 20px; }
     .clear-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 999px; border: 2px solid #2563eb; color: #2563eb; font-size: 0.9rem; font-weight: 800; background: #eff6ff; margin-bottom: 20px; }
     .clear-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 12px; color: #111; letter-spacing: -0.03em; }
@@ -117,36 +118,43 @@
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
     /* ========================================= */
-    /* 3. [Type C] 글리치 오버레이 (엔딩용) */
+    /* 3. [Type C] 글리치 오버레이 (White Version) */
     /* ========================================= */
     .glitch-overlay {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: #000; display: none; justify-content: center; align-items: center; flex-direction: column;
+      background: #ffffff; /* 하얀색 배경 */
+      display: none; justify-content: center; align-items: center; flex-direction: column;
       z-index: 9999; overflow: hidden;
     }
     .glitch-text {
-      font-size: 2.5rem; font-weight: 900; color: white; position: relative;
+      font-size: 2.5rem; font-weight: 900; color: #000; /* 검은 글씨 */
+      position: relative;
       animation: textShudder 0.1s infinite;
     }
     .glitch-text::before, .glitch-text::after {
-      content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.8;
+      content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.7;
     }
-    /* Error Mode (Red) */
-    .mode-error .glitch-text { color: #ff0000; }
-    .mode-error .glitch-text::before { color: #ff0055; }
-    .mode-error .glitch-text::after { color: #ff5500; }
     
-    /* Success Mode (Blue/Green - System Restore) */
-    .mode-success .glitch-text { color: #00ffcc; text-shadow: 0 0 20px #00ffcc; animation: none; }
-    .mode-success .sub-text { color: #00ffcc; animation: none; }
+    /* Error Mode: Red Glitch on White */
+    .mode-error .glitch-text::before { color: #ff0000; z-index: -1; animation: glitch-1 0.3s infinite linear alternate-reverse; }
+    .mode-error .glitch-text::after { color: #880000; z-index: -2; animation: glitch-2 0.3s infinite linear alternate-reverse; }
+    .mode-error .sub-text { color: #ff0000; }
+
+    /* Success Mode: Green/Cyan Glitch on White */
+    .mode-success .glitch-text { animation: none; }
+    .mode-success .glitch-text::before { color: #00cc00; z-index: -1; animation: glitch-1 0.5s infinite linear alternate-reverse; opacity: 0.5; }
+    .mode-success .glitch-text::after { color: #00cccc; z-index: -2; animation: glitch-2 0.5s infinite linear alternate-reverse; opacity: 0.5; }
+    .mode-success .sub-text { color: #008800; animation: none; }
 
     .scanlines {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3));
+      background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0) 50%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.05)); /* 연한 회색 스캔라인 */
       background-size: 100% 4px; pointer-events: none;
     }
     
     @keyframes textShudder { 0% { transform: translate(1px, 1px); } 100% { transform: translate(-1px, -1px); } }
+    @keyframes glitch-1 { 0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 0); } 100% { clip-path: inset(60% 0 10% 0); transform: translate(2px, 0); } }
+    @keyframes glitch-2 { 0% { clip-path: inset(10% 0 60% 0); transform: translate(2px, 0); } 100% { clip-path: inset(80% 0 5% 0); transform: translate(-2px, 0); } }
 
   </style>
 </head>
@@ -155,7 +163,7 @@
   <div class="glitch-overlay" id="glitchScreen">
     <div class="scanlines"></div>
     <div class="glitch-text" id="glitchMainText" data-text="SYSTEM FAILURE">SYSTEM FAILURE</div>
-    <div class="sub-text" id="glitchSubText" style="margin-top: 20px; color: red; font-family: monospace;">CRITICAL ERROR: SUBJECT LOST</div>
+    <div class="sub-text" id="glitchSubText" style="margin-top: 20px; font-family: monospace; font-weight: 700;">CRITICAL ERROR: SUBJECT LOST</div>
   </div>
 
   <div class="notebook-card">
@@ -177,9 +185,7 @@
         <div class="warning-box">
           <div class="warning-title">WARNING</div>
           <div class="warning-msg" id="warningMsg">
-            위험 지역 접근 감지.<br>
-            계속하시겠습니까?
-          </div>
+            </div>
           <button class="warning-btn" onclick="confirmWarning()">진입 승인</button>
         </div>
       </div>
@@ -548,7 +554,7 @@
     function attemptMoveToStage(targetStage) {
       // 1. [Type A 경고] 스테이지 7(피암터널) 진입 시에만 발생 (1회 한정)
       if (targetStage === 7 && currentStage < 7) {
-        showWarning(targetStage, "⛔ 위험: 거대 생명체 내부\n이곳은 놈의 뱃속입니다.\n생존 확률 미만.");
+        showWarning(targetStage, "⛔ 위험: 거대 생명체 내부\n이곳은 놈의 뱃속입니다.\n생존 확률 30% 미만.");
         return;
       }
 
@@ -570,21 +576,23 @@
       renderStage();
     }
 
-    // [엔딩] 2단계 글리치 연출: Error -> Success
+    // [엔딩] 2단계 글리치 연출: Error(Red) -> Success(Green) on White BG
     function triggerEndingSequence() {
       // 1단계: 오류 (붉은색)
       glitchScreen.classList.remove('mode-success');
       glitchScreen.classList.add('mode-error');
+      
       glitchMain.textContent = "SYSTEM FAILURE";
       glitchMain.setAttribute("data-text", "SYSTEM FAILURE");
       glitchSub.textContent = "CRITICAL ERROR: SUBJECT LOST";
       
       glitchScreen.style.display = 'flex';
 
-      // 2.5초 후: 복구 성공 (청록색) - 반전
+      // 2.5초 후: 복구 성공 (초록색) - 반전
       setTimeout(() => {
         glitchScreen.classList.remove('mode-error');
-        glitchScreen.classList.add('mode-success'); // 파란/초록 스타일
+        glitchScreen.classList.add('mode-success'); // 초록 스타일
+        
         glitchMain.textContent = "SYSTEM RESTORED";
         glitchMain.setAttribute("data-text", "SYSTEM RESTORED");
         glitchSub.textContent = "NEW COMPONENT INSTALLED";
