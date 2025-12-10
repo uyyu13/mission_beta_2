@@ -364,7 +364,7 @@
 
     (근처에 부착된 QR코드 확인.)`,
         answer: "강물",
-        hint: "정답 형태: 한글, 강촌에 없어서는 안 되는 것."
+        hint: "한글, 강촌에 없어서는 안 되는 것."
       },
       // 6. 강물 -> 물안개로 피어나고 (대피소)
       {
@@ -373,7 +373,7 @@
     강물을 확인하는 순간, 수면이 끈적하고 붉은 핏빛으로 일렁였다. 역한 피 냄새가 진동한다. 아티팩트가 비명(Scream)을 지르고 있다.<br><br>
 
     <span class="section-title">원인 분석</span><br>
-    혈관에 과도하게 접근했다. 거대 생명체의 면역 체계가 당신을 <span class="txt-red">침입자</span>로 인식하여 공격을 개시했다. 하얀 안개가 당신을 포위해온다.<br><br>
+    혈관에 과도하게 접근했다. 거대 생명체의 면역 체계가 당신을 <span class="txt-red">침입자(Virus)</span>로 인식하여 공격을 개시했다. 하얀 안개가 당신을 포위해온다.<br><br>
 
     <span class="section-title">대응 행동</span><br>
     숨을 곳이 필요하다. 즉시, 비밀요원이 대기하고 있는 <span class="txt-blue">대피소</span>로 이동하라. 좌표는 <strong>카페 'THE1939'</strong>다.<br><br>
@@ -382,7 +382,7 @@
         answer: "물안개로 피어나고",
         hint: "정답 형태: 한글, 비밀요원에게 문의 또는 QR코드 재확인."
       },
-      // 7. 물안개 -> 피암터널 (갈비뼈) *경고창 발생*
+      // 7. 물안개 -> 피암터널 (갈비뼈)
       {
         subtitle: "6장. 드러난 뼈",
         text: `<span class="section-title">상태 보고</span><br>
@@ -390,6 +390,7 @@
     
     <span class="section-title">관측 대상</span><br>
     저 앞에 보이는 콘크리트 터널. 단순한 터널이 아니다. 아티팩트는 "본체 복귀" 신호를 미친 듯이 보내고 있다.<br>
+    저 구조물은 땅 위로 드러난 <span class="txt-highlight"><span class="txt-red">거대한 갈비뼈</span></span>다.<br><br>
 
     <span class="section-title">위험</span><br>
     당신은 제 발로 포식자의 뱃속(Rib cage)으로 진입하고 있다. 짓눌리는 압박감이 느껴진다.<br><br>
@@ -559,9 +560,9 @@
 
     // 다음 스테이지 이동 시도 (경고창 로직 포함)
     function attemptMoveToStage(targetStage) {
-      // 1. [Type A 경고] 스테이지 7(피암터널) 진입 시에만 발생 (1회 한정)
-      if (targetStage === 7 && currentStage < 7) {
-        showWarning(targetStage, "⛔ 위험: 거대 생명체 감지\n생명 파동과 너무 가깝습니다.\n진입 시 생존 확률 30% 미만.");
+      // 1. [Type A 경고] 스테이지 6(물안개) 진입 시에 발생 (강물 정답 후)
+      if (targetStage === 6 && currentStage < 6) {
+        showWarning(targetStage, "⛔ 위험: VASCULAR SYSTEM ALERT\n(혈관계 경고: 면역 체계가 작동합니다.)\n생존 확률 30% 미만.");
         return;
       }
 
