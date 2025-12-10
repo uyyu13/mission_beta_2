@@ -118,18 +118,24 @@
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
     /* ========================================= */
-    /* 3. [Type C] 글리치 오버레이 (White Version) */
+    /* 3. [Type C] 글리치 오버레이 (White Version + Center Fix) */
     /* ========================================= */
     .glitch-overlay {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
       background: #ffffff; /* 하얀색 배경 */
       display: none; justify-content: center; align-items: center; flex-direction: column;
       z-index: 9999; overflow: hidden;
+      /* [수정됨] 텍스트 중앙 정렬 강제 */
+      text-align: center; 
     }
     .glitch-text {
-      font-size: 2.5rem; font-weight: 900; color: #000; /* 검은 글씨 */
+      font-size: 2.5rem; font-weight: 900; color: #000;
       position: relative;
       animation: textShudder 0.1s infinite;
+      /* [수정됨] 중앙 정렬 및 줄간격 확보 */
+      text-align: center; 
+      line-height: 1.2;
+      padding: 0 10px; /* 모바일 좌우 여백 */
     }
     .glitch-text::before, .glitch-text::after {
       content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.7;
@@ -146,9 +152,11 @@
     .mode-success .glitch-text::after { color: #00cccc; z-index: -2; animation: glitch-2 0.5s infinite linear alternate-reverse; opacity: 0.5; }
     .mode-success .sub-text { color: #008800; animation: none; }
 
+    .sub-text { margin-top: 20px; font-family: monospace; font-weight: 700; text-align: center; }
+
     .scanlines {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0) 50%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.05)); /* 연한 회색 스캔라인 */
+      background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0) 50%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.05)); 
       background-size: 100% 4px; pointer-events: none;
     }
     
@@ -163,7 +171,7 @@
   <div class="glitch-overlay" id="glitchScreen">
     <div class="scanlines"></div>
     <div class="glitch-text" id="glitchMainText" data-text="SYSTEM FAILURE">SYSTEM FAILURE</div>
-    <div class="sub-text" id="glitchSubText" style="margin-top: 20px; font-family: monospace; font-weight: 700;">CRITICAL ERROR: SUBJECT LOST</div>
+    <div class="sub-text" id="glitchSubText">CRITICAL ERROR: SUBJECT LOST</div>
   </div>
 
   <div class="notebook-card">
