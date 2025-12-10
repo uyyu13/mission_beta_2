@@ -36,7 +36,7 @@
     
     .txt-handwritten {
       display: block; font-family: 'East Sea Dokdo', cursive; font-size: 1.9rem; color: #5d4037;
-      line-height: 1.3; padding: 15px; margin: 16px 0;
+      line-height: 1.35; padding: 15px; margin: 16px 0;
       background: rgba(139, 115, 85, 0.08); border-left: 4px solid #8b7355;
       border-radius: 0 8px 8px 0; transform: rotate(-0.5deg);
     }
@@ -261,16 +261,16 @@
   </div>
 
   <script>
-    // [현장 체감 + 수첩 단서 + 분석] 믹스 스타일 텍스트
+    // [현장 체감 + 수첩 단서 + 분석] 믹스 스타일 + 디테일 추가
     const puzzles = [
       // 0. 프롤로그
       {
         subtitle: "프롤로그. 사라진 시대의 잔향",
         text: `<span class="section-title">현장 기록</span><br>
-    강촌의 능선을 보면 왠지 모를 위화감이 든다. 이곳의 지형은 마치 거대한 무언가가 웅크리고 잠든 형상이다.<br><br>
+    강촌의 능선을 보면 왠지 모를 기시감(Déjà Vu)이 든다. 이곳의 지형은 마치 거대한 무언가가 웅크리고 잠든 형상이다. 바람 소리조차 짐승의 숨소리처럼 들린다.<br><br>
 
     <span class="section-title">아티팩트 분석</span><br>
-    산속에서 발견된 <span class="txt-highlight">알 모양의 결정체(Artifact)</span>. 단순한 유물이 아니다. 이곳에 서린 오래된 기억을 흡수하며 반응하고 있다.<br><br>
+    산속에서 발견된 <span class="txt-highlight">알 모양의 결정체(Artifact)</span>. 단순한 유물이 아니다. 만져보면 미세한 열기가 느껴진다. 이곳에 서린 오래된 기억을 흡수하며 반응하고 있다.<br><br>
 
     <span class="section-title">임무 개시</span><br>
     현재 정체불명의 에너지 공진(Resonance)이 급증하고 있다. 당신은 이를 감지할 수 있는 유일한 <span class="txt-blue">감응자(Sensor)</span>다.<br><br>
@@ -283,8 +283,8 @@
       {
         subtitle: "프롤로그. 수첩을 줍다",
         text: `<span class="section-title">위치: 강촌역 플랫폼</span><br>
-    텅 빈 플랫폼에 바람 소리가 섞인 <span class="txt-blue">이명(공명음)</span>이 들린다.<br>
-    발치에서 낡은 수첩을 발견했다. 손을 대자 미세한 진동과 함께 첫 번째 메시지가 떠올랐다.<br>
+    텅 빈 플랫폼. 바람 소리에 섞여 기계음 같은 <span class="txt-blue">이명(공명음)</span>이 들리기 시작했다. 머리가 지끈거린다.<br>
+    발치에서 주운 낡은 수첩. 표지엔 알 수 없는 핏자국 같은 얼룩이 묻어있다. 손을 대자 수첩이 멋대로 펼쳐지며 메시지가 떠올랐다.<br>
 
     <div class="txt-handwritten">
     이 수첩을 줍는 자,<br>
@@ -302,13 +302,13 @@
       {
         subtitle: "1장. 잔재 파동이 깨어나다",
         text: `<span class="section-title">수첩 해독</span><br>
-    지도 위에 <span class="txt-highlight">희미한 선</span>이 핏줄처럼 떠올랐다. 단순한 도로가 아니다. 이것은 땅 밑에 흐르는 <span class="txt-blue">에너지 혈관</span>의 경로다.<br><br>
+    지도 위에 <span class="txt-highlight">희미한 선</span>이 핏줄처럼 꿈틀거린다. 단순한 도로가 아니다. 이것은 땅 밑에 흐르는 <span class="txt-blue">에너지 혈관</span>의 경로다.<br><br>
     
     <span class="section-title">신체 반응</span><br>
-    아티팩트가 떨릴 때마다 척추를 타고 오르는 전율이 느껴진다. 이 감각은 진짜다.<br><br>
+    아티팩트가 떨릴 때마다 척추를 타고 오르는 전율이 느껴진다. 손끝이 저릿하다. 이 감각은 진짜다.<br><br>
 
     <span class="section-title">목표 지점</span><br>
-    언덕 아래 사거리. 가장 큰 파장이 느껴지는 <span class="txt-red">도로표지판</span>을 조사해야 한다.<br><br>
+    언덕 아래 사거리. 가장 큰 파장이 느껴지는 <span class="txt-red">도로표지판</span>을 조사해야 한다. 그곳에 균열의 시작점이 있다.<br><br>
 
     (왼쪽으로 이동. 정면 계단 벽면의 QR코드 확인.)`,
         answer: "종말",
@@ -318,13 +318,13 @@
       {
         subtitle: "2장. 기억을 먹는 공진",
         text: `<span class="section-title">이전 정답: 종말?</span><br>
-    당신은 이곳의 운명을 '종말'로 읽어냈다. 그 단어가 열쇠가 되어 수첩의 다음 장을 열었다.<br><br>
+    당신은 이곳의 운명을 '종말'로 읽어냈다. 그 단어가 열쇠가 되어 닫혀있던 수첩의 다음 장을 억지로 열었다.<br><br>
 
     <span class="section-title">수첩 업데이트</span><br>
-    페이지 위로 거친 선 두 개가 교차한다. 이전보다 훨씬 <span class="txt-red">공격적인 형태의 문양</span>이다.<br><br>
+    페이지 위로 거친 선 두 개가 교차한다. 마치 맹수의 발톱자국 같다. 이전보다 훨씬 <span class="txt-red">공격적인 형태의 문양</span>이다.<br><br>
 
     <span class="section-title">경고</span><br>
-    날카로운 기계음이 들린다. 기력 소모율 증가. 파동의 근원지는 길 건너편이다.<br><br>
+    날카로운 기계음이 귓가를 찌른다. 기력 소모율 급증. 파동의 근원지는 길 건너편이다. 무언가 당신을 지켜보고 있다.<br><br>
 
     <strong>[지시]</strong> <span class="txt-highlight">편의점 방향</span>으로 이동하여 '주인'의 흔적을 찾아라.<br><br>
     (2층으로 이동. 게시판 근처 QR코드 확인.)`,
@@ -335,14 +335,14 @@
       {
         subtitle: "3장. 지형과 파동이 맞물리다",
         text: `<span class="section-title">이전 정답: OWNER</span><br>
-    당신은 이곳의 <strong>'주인(OWNER)'</strong>을 호명했다. 이름이 불린 주인(거대 생명체)이 당신을 인지하기 시작했다.<br><br>
+    당신은 이곳의 <strong>'주인(OWNER)'</strong>을 호명했다. 이름이 불린 주인(거대 생명체)이 당신을 뚜렷하게 인지하기 시작했다. 아티팩트가 뜨거워졌다.<br><br>
 
     <span class="section-title">결론 도출</span><br>
     이 지도는 강촌 전체를 연결한 <span class="txt-blue">거대 생명체의 신경망도</span>다.<br>
-    우리는 지금 잠든 생명체의 몸 위를 걷고 있다.<br><br>
+    우리는 지금 잠든 생명체의 몸 위를 걷고 있다. 가로등의 깜빡임조차 놈의 맥박과 동기화되어 있다.<br><br>
 
     <span class="section-title">이동 경로</span><br>
-    파동 신호가 <strong>마을회관 앞</strong>에서 강하게 감지된다.<br><br>
+    파동 신호가 <strong>마을회관 앞</strong>에서 강하게 감지된다. 그곳에 기록이 있다.<br><br>
 
     (오른쪽 복도로 이동. 복도 끝 계단 안쪽 QR코드 확인.)`,
         answer: "선대의 유서",
@@ -352,7 +352,7 @@
       {
         subtitle: "4장. 유서가 가리키는 곳",
         text: `<span class="section-title">이전 정답: 선대의 유서</span><br>
-    당신은 선대 감응자가 남긴 <strong>'유서'</strong>를 읽었다. 유서를 읽은 순간, 그 의무와 저주는 당신에게 <strong>승계</strong>되었다.<br>
+    당신은 선대 감응자가 남긴 <strong>'유서'</strong>를 읽었다. 유서를 읽은 순간, 그가 짊어졌던 의무와 저주는 당신에게 고스란히 <strong>승계</strong>되었다.<br>
 
     <div class="txt-handwritten">
     이곳을 흐르는 물줄기는 단순한 강이 아니다.<br>
@@ -360,7 +360,7 @@
     </div>
 
     <strong>[임무]</strong><br>
-    진위 확인이 필요하다. 북한강변의 <span class="txt-highlight">노란 조형물</span> 근처에서 혈관의 맥박을 측정하라.<br><br>
+    진위 확인이 필요하다. 북한강변의 <span class="txt-highlight">노란 조형물</span> 근처에서 혈관의 맥박을 측정하라. 비릿한 냄새가 날 수도 있다.<br><br>
 
     (근처에 부착된 QR코드 확인.)`,
         answer: "강물",
@@ -370,10 +370,10 @@
       {
         subtitle: "5장. 위험한 맥박",
         text: `<span class="section-title">긴급 상황</span><br>
-    강물을 확인하는 순간, 수면이 붉은 핏빛으로 일렁였다. 아티팩트가 비명(Scream)을 지르고 있다.<br><br>
+    강물을 확인하는 순간, 수면이 끈적하고 붉은 핏빛으로 일렁였다. 역한 피 냄새가 진동한다. 아티팩트가 비명(Scream)을 지르고 있다.<br><br>
 
     <span class="section-title">원인 분석</span><br>
-    혈관에 과도하게 접근했다. 거대 생명체의 면역 체계가 당신을 <span class="txt-red">침입자(Virus)</span>로 인식하여 공격을 개시했다.<br><br>
+    혈관에 과도하게 접근했다. 거대 생명체의 면역 체계(백혈구)가 당신을 <span class="txt-red">침입자(Virus)</span>로 인식하여 공격을 개시했다. 하얀 안개가 당신을 포위해온다.<br><br>
 
     <span class="section-title">대응 행동</span><br>
     숨을 곳이 필요하다. 즉시 <span class="txt-blue">대피소</span>로 이동하라. 좌표는 <strong>카페 'THE1939'</strong>다.<br><br>
@@ -386,14 +386,14 @@
       {
         subtitle: "6장. 드러난 뼈",
         text: `<span class="section-title">상태 보고</span><br>
-    대피소에서 겨우 호흡을 확보했다. 그러나 수첩의 5페이지가 열리자 아티팩트가 다시 <span class="txt-red">폭주</span>한다.<br><br>
+    대피소에서 겨우 호흡을 확보했다. 그러나 안심하기 이르다. 수첩의 5페이지가 열리자 아티팩트가 다시 <span class="txt-red">폭주</span>한다.<br><br>
     
     <span class="section-title">관측 대상</span><br>
-    단순한 터널이 아니다. 아티팩트는 "본체 복귀" 신호를 보내고 있다.<br>
+    저 앞에 보이는 콘크리트 터널. 단순한 터널이 아니다. 아티팩트는 "본체 복귀" 신호를 미친 듯이 보내고 있다.<br>
     저 구조물은 땅 위로 드러난 <span class="txt-highlight"><span class="txt-red">거대한 갈비뼈</span></span>다.<br><br>
 
     <span class="section-title">위험</span><br>
-    당신은 제 발로 포식자의 뱃속(Rib cage)으로 진입하고 있다.<br><br>
+    당신은 제 발로 포식자의 뱃속(Rib cage)으로 진입하고 있다. 짓눌리는 압박감이 느껴진다.<br><br>
 
     (엘리베이터 내부 벽면 QR코드 확인. 탑승하지 말 것.)`,
         answer: "피암터널",
@@ -411,7 +411,7 @@
     </div>
 
     <span class="section-title">상황 판단</span><br>
-    우리는 영웅으로 선택된 것이 아니었다. 과거 실종된 감응자들은 모두 이곳에서 <span class="txt-red">'사용'</span>되어 소멸했다.<br><br>
+    우리는 영웅으로 선택된 것이 아니었다. 과거 실종된 감응자들은 모두 이곳에서 <span class="txt-red">'사용'</span>되어 소멸했다. 당신도 곧 그렇게 될 것이다.<br><br>
 
     <span class="section-title">탈출 시도</span><br>
     이곳을 벗어나야 한다. 다시 <span class="txt-blue">강촌역(강의실)</span> 방향으로 회귀하라. 상상역 뒤편 <span class="txt-red">포토존</span>에서 붉은 신호가 잡힌다.<br><br>
@@ -427,12 +427,12 @@
     <strong>[카운트: 13]</strong> 시스템 유지에 필요한 13번째 부품. 적합 판정. 회수 절차를 개시한다.<br><br>
     
     <span class="section-title">종료 시퀀스</span><br>
-    강촌역 도착 직후, 아티팩트가 임계점을 돌파했다. 공간 왜곡이 발생하며 지면이 사라진다.<br><br>
+    강촌역 도착 직후, 아티팩트가 임계점을 돌파했다. 공간 왜곡이 발생하며 발아래 지면이 사라진다. 시야가 암전된다.<br><br>
     
     <span class="section-title">잔류물</span><br>
-    연구원(감응자)은 사라지고, 바닥엔 문양이 사라진 낡은 <strong>수첩</strong>만 남았다.<br><br>
+    연구원(감응자)은 흔적도 없이 사라지고, 바닥엔 문양이 깨끗이 지워진 낡은 <strong>수첩</strong>만 덩그러니 남았다.<br><br>
     
-    ...잠시 후, 다른 연구원이 수첩을 발견한다.<br>
+    ...잠시 후, 아무것도 모르는 다른 연구원이 수첩을 발견한다.<br>
     <div class="txt-handwritten">이 수첩을 줍는 자...</div><br>
     
     <span class="txt-blue">공진(Resonance) 재가동.</span><br>
@@ -446,7 +446,7 @@
     const totalStages = puzzles.length;
     let currentStage = 0;
     let maxUnlockedStage = 0;
-    let pendingNextStage = 0; // 경고창 확인 후 이동할 스테이지 번호
+    let pendingNextStage = 0; 
 
     const stageLabelEl    = document.getElementById("stageLabel");
     const stageSubtitleEl = document.getElementById("stageSubtitle");
