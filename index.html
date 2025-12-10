@@ -17,13 +17,12 @@
       --line: #e2ddd4;
       --margin-line: #c4a58c;
       --margin-line-new: #b8987b;
-      --text-main: #2d2d2d; /* [변경] 완전 검정보다 살짝 연한 먹색이 눈이 덜 아픔 */
+      --text-main: #2d2d2d;
       --text-sub: #555555;
       --accent: #111111;
       --accent-blue: #2563eb;
       --accent-red: #d32f2f;
       --highlight-yellow: #fde047;
-      --highlight-text: #854d0e;
       --survey-bg: #FFD94D;
     }
 
@@ -33,20 +32,16 @@
       margin: 0;
       min-height: 100vh;
       background: var(--bg-gray);
-      /* [2] 기본 폰트 변경: 가독성 좋은 고딕체(Noto Sans KR)로 변경 */
       font-family: 'Noto Sans KR', sans-serif; 
       line-height: 1.6;
     }
 
-    /* ========================================================= */
-    /* 텍스트 스타일 개선 */
-    /* ========================================================= */
-    
+    /* 텍스트 스타일 */
     .story-text strong, .story-text b {
       font-weight: 700;
-      color: #111;
-      background: rgba(0, 0, 0, 0.06); /* 배경 살짝 진하게 */
-      padding: 0 4px; /* 좌우 여백 추가 */
+      color: #000;
+      background: rgba(0, 0, 0, 0.08);
+      padding: 0 4px;
       border-radius: 4px;
     }
 
@@ -55,23 +50,24 @@
 
     .txt-highlight {
       background: linear-gradient(120deg, rgba(253, 224, 71, 0.5) 0%, rgba(253, 224, 71, 0.3) 100%);
-      box-shadow: inset 0 -8px 0 rgba(253, 224, 71, 0.4); /* 형광펜 느낌 개선 */
+      box-shadow: inset 0 -8px 0 rgba(253, 224, 71, 0.4);
       padding: 0 2px;
       font-weight: 700;
       color: #422006;
     }
 
+    /* [중요] 손글씨 스타일 (중요 단서용) */
     .txt-handwritten {
       display: block; 
       font-family: 'East Sea Dokdo', cursive;
       font-size: 1.9rem; 
       color: #5d4037; 
-      line-height: 1.3;
-      padding: 15px; /* 여백 확보 */
-      margin: 15px 0;
-      background: rgba(139, 115, 85, 0.1); /* 배경색 추가로 구획 분리 */
+      line-height: 1.25;
+      padding: 15px;
+      margin: 16px 0;
+      background: rgba(139, 115, 85, 0.08);
       border-left: 4px solid #8b7355; 
-      border-radius: 0 8px 8px 0; /* 둥근 모서리 */
+      border-radius: 0 8px 8px 0;
       transform: rotate(-0.5deg); 
     }
 
@@ -92,14 +88,8 @@
     }
 
     @keyframes neon-pulse {
-      0% {
-        text-shadow: 0 0 4px rgba(37, 99, 235, 0.6), 0 0 10px rgba(37, 99, 235, 0.4);
-        opacity: 0.9;
-      }
-      100% {
-        text-shadow: 0 0 4px rgba(59, 130, 246, 1), 0 0 15px rgba(37, 99, 235, 0.8), 0 0 30px rgba(29, 78, 216, 0.6);
-        opacity: 1;
-      }
+      0% { text-shadow: 0 0 4px rgba(37, 99, 235, 0.6); opacity: 0.9; }
+      100% { text-shadow: 0 0 15px rgba(37, 99, 235, 0.8); opacity: 1; }
     }
     .txt-glow {
       color: #eff6ff;
@@ -110,7 +100,7 @@
       border-radius: 4px;
     }
 
-    /* 전체 노트 프레임 */
+    /* 레이아웃 구조 */
     .notebook-card {
       width: 100%;
       max-width: 600px;
@@ -121,7 +111,7 @@
       flex-direction: column;
     }
 
-    /* 스프링 헤더 */
+    /* 상단 스프링 헤더 */
     .spiral-header {
       padding: 12px 16px 8px;
       background: linear-gradient(135deg, #020617, #111827);
@@ -129,14 +119,7 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.5);
       z-index: 10;
     }
-
-    .spiral-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-    }
-
+    .spiral-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
     .spiral-holes { display: flex; gap: 6px; }
     .spiral-hole {
       width: 13px; height: 13px; border-radius: 999px;
@@ -153,216 +136,93 @@
     .spiral-wire.top { top: -6px; }
     .spiral-wire.bottom { bottom: -6px; }
 
-    .lab-header-text {
-      text-align: right; font-size: 0.7rem; letter-spacing: 0.1em;
-      text-transform: uppercase; color: #6b7280; font-weight: 500;
-    }
-    .lab-main-title {
-      margin-top: 4px; font-size: 1.1rem; font-weight: 800;
-      letter-spacing: 0.1em; text-transform: uppercase; color: #e5e7eb;
-    }
-    .lab-subtitle {
-      margin-top: 2px; font-size: 0.8rem; letter-spacing: 0.15em;
-      text-transform: uppercase; color: #9ca3af;
-    }
+    .lab-header-text { text-align: right; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6b7280; font-weight: 500; }
+    .lab-main-title { margin-top: 4px; font-size: 1.1rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #e5e7eb; }
+    .lab-subtitle { margin-top: 2px; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: #9ca3af; }
 
     /* 종이 영역 */
-    .paper-wrap {
-      flex: 1; background: #111827; padding: 0; overflow-y: auto;
-    }
+    .paper-wrap { flex: 1; background: #111827; padding: 0; overflow-y: auto; }
     .paper {
       position: relative; 
-      /* [3] 여백 최적화: 왼쪽 여백 대폭 축소 (40px -> 24px) */
-      padding: 20px 20px 40px 24px; 
+      padding: 24px 20px 40px 24px; /* 여백 최적화 */
       min-height: 100%;
       background: var(--paper);
-      /* 줄무늬를 조금 더 연하게 */
       background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 27px, #e2ddd4 28px);
     }
-    
-    /* 왼쪽 마진 라인 위치 조정 */
     .paper::before {
-      content: ""; position: absolute; top: 0; bottom: 0; 
-      left: 12px; /* 선을 더 왼쪽으로 밀어버림 */
-      width: 2px;
+      content: ""; position: absolute; top: 0; bottom: 0; left: 12px; width: 2px;
       background: linear-gradient(to bottom, transparent, var(--margin-line-new), transparent); opacity: 0.7;
     }
 
-    .paper-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+    .paper-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
     .paper-label { font-size: 0.75rem; color: var(--text-sub); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
-    
-    .paper-title { 
-      font-size: 1.25rem; 
-      font-weight: 800; 
-      color: var(--text-main);
-      line-height: 1.3;
-      letter-spacing: -0.02em; /* 제목 자간 좁힘 */
-    }
+    .paper-title { font-size: 1.3rem; font-weight: 800; color: var(--text-main); line-height: 1.3; letter-spacing: -0.03em; }
     
     .stage-stamp {
-      display: inline-block;
-      padding: 4px 10px;
-      border: 3px solid var(--accent-red);
-      border-radius: 8px;
-      color: var(--accent-red);
-      font-size: 1rem; 
-      font-weight: 900;
-      letter-spacing: 0em;
-      text-transform: uppercase;
-      background: rgba(255, 255, 255, 0.8);
-      transform: rotate(-3deg);
-      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-      white-space: nowrap;
-      font-family: 'Noto Serif KR', serif; /* 도장 같은 느낌은 명조 유지 */
+      display: inline-block; padding: 4px 10px; border: 3px solid var(--accent-red);
+      border-radius: 8px; color: var(--accent-red); font-size: 1rem; font-weight: 900;
+      text-transform: uppercase; background: rgba(255, 255, 255, 0.85);
+      transform: rotate(-3deg); box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      white-space: nowrap; font-family: 'Noto Serif KR', serif;
     }
 
-    .progress-wrap { margin: 4px 0 4px; }
-    
-    .nav-controls {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-      padding: 0 4px;
-    }
+    .nav-controls { display: flex; justify-content: space-between; margin-bottom: 24px; padding: 0 4px; }
     .nav-btn {
-      padding: 10px 18px; 
-      font-size: 0.9rem;
-      font-weight: 700;
-      background: #ffffff;
-      color: #374151;
-      border: 1px solid #c4b5a5; 
-      border-radius: 8px;
-      box-shadow: 0 2px 0 #b3a292;
-      cursor: pointer;
+      padding: 10px 18px; font-size: 0.9rem; font-weight: 700;
+      background: #ffffff; color: #374151; border: 1px solid #c4b5a5; 
+      border-radius: 8px; box-shadow: 0 2px 0 #b3a292; cursor: pointer;
     }
     .nav-btn:active { transform: translateY(2px); box-shadow: none; }
-    .nav-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      background: #f3f4f6;
-      border-color: #e5e7eb;
-      box-shadow: none;
-      transform: none;
-    }
+    .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; background: #f3f4f6; border-color: #e5e7eb; box-shadow: none; transform: none; }
     
-    .subtitle { 
-      font-size: 0.95rem; 
-      color: #666; 
-      margin: 4px 0 6px; 
-      font-weight: 500;
-      letter-spacing: -0.02em;
-    }
-    .subtitle-separator { width: 100%; height: 2px; background: #e2ddd4; margin: 12px 0 20px; }
+    .subtitle { font-size: 0.95rem; color: #666; margin: 4px 0 6px; font-weight: 600; letter-spacing: -0.02em; }
+    .subtitle-separator { width: 100%; height: 2px; background: #e2ddd4; margin: 12px 0 24px; }
 
-    /* [4] 핵심: 본문 가독성 스타일 */
+    /* 본문 스타일 개선: 고딕체 + 단어 끊김 방지 */
     .story-text {
-      font-family: 'Noto Sans KR', sans-serif; /* 고딕체 */
-      font-size: 1.05rem; /* 글자 크기 살짝 키움 */
-      color: #333; /* 완전 검정보다 가독성 좋음 */
-      white-space: pre-line; 
-      line-height: 1.75; /* 줄간격 넉넉하게 */
-      margin-bottom: 24px;
-      
-      /* [중요] 한글 단어 잘림 방지 */
-      word-break: keep-all; 
-      word-wrap: break-word;
-      letter-spacing: -0.03em; /* 한글 자간 좁힘 (읽기 편함) */
-      text-align: left;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 1.05rem; color: #333;
+      white-space: pre-line; line-height: 1.75;
+      margin-bottom: 30px; word-break: keep-all; word-wrap: break-word;
+      letter-spacing: -0.03em; text-align: left;
     }
 
-    /* 정답 입력 영역 개선 */
-    #answerArea {
-        background: rgba(255,255,255,0.6);
-        padding: 16px;
-        border-radius: 12px;
-        border: 1px solid #e2ddd4;
-    }
-
-    .answer-label-pill {
-      display: inline-block; padding: 4px 10px; border-radius: 6px;
-      background: var(--text-main); color: #fff; font-size: 0.8rem;
-      font-weight: 700; letter-spacing: 0.05em; margin-bottom: 8px;
-    }
+    #answerArea { background: rgba(255,255,255,0.7); padding: 20px 16px; border-radius: 12px; border: 1px solid #e2ddd4; }
+    .answer-label-pill { display: inline-block; padding: 4px 10px; border-radius: 6px; background: var(--text-main); color: #fff; font-size: 0.8rem; font-weight: 700; margin-bottom: 8px; }
     label { display: none; }
-    
-    input[type="text"], input[type="tel"] {
+    input[type="text"] {
       width: 100%; padding: 12px 12px; border-radius: 8px; border: 2px solid #dcdcdc;
-      font-size: 1.1rem; 
-      background: #ffffff; color: var(--text-main);
-      font-family: inherit; 
-      transition: all 0.2s;
+      font-size: 1.1rem; background: #ffffff; color: var(--text-main); font-family: inherit; transition: all 0.2s;
     }
     input:focus { outline: none; border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
-
     button#submitBtn {
-      width: 100%; margin-top: 12px; padding: 12px; border-radius: 8px;
+      width: 100%; margin-top: 12px; padding: 14px; border-radius: 8px;
       border: none; background: var(--accent); color: #ffffff;
-      font-size: 1rem; font-weight: 700; letter-spacing: 0.1em;
-      text-transform: uppercase; cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      transition: transform 0.1s ease, filter 0.1s ease;
-      font-family: inherit;
+      font-size: 1rem; font-weight: 700; text-transform: uppercase; cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: transform 0.1s ease;
     }
     button#submitBtn:active { transform: translateY(2px); box-shadow: none; }
 
-    .message { margin-top: 8px; font-size: 0.95rem; min-height: 1.2em; font-weight: 700; text-align: center; }
+    .message { margin-top: 8px; font-size: 0.95rem; font-weight: 700; text-align: center; }
     .message.error { color: #d32f2f; }
     .message.success { color: #15803d; padding: 10px; background-color: #dcfce7; border-radius: 8px; border: 1px solid #bbf7d0; }
 
-    /* 힌트 영역 */
     .hint-area { margin-top: 12px; }
-    .hint-area details {
-      border: 1px solid #d1d5db; border-radius: 8px; background: #fff;
-      overflow: hidden; margin-top: 8px;
-    }
-    .hint-area summary {
-      padding: 12px 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; list-style: none; color: #4b5563;
-      background: #f9fafb;
-    }
-    .hint-area summary::before {
-      content: "🔒"; display: inline-block; font-size: 0.9rem; margin-right: 8px;
-    }
+    .hint-area details { border: 1px solid #d1d5db; border-radius: 8px; background: #fff; overflow: hidden; margin-top: 8px; }
+    .hint-area summary { padding: 12px 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; list-style: none; color: #4b5563; background: #f9fafb; }
+    .hint-area summary::before { content: "🔒"; display: inline-block; font-size: 0.9rem; margin-right: 8px; }
     .hint-area details[open] summary::before { content: "🔓"; }
-    
-    .hint-content {
-      padding: 16px; 
-      font-size: 1rem; 
-      line-height: 1.6;
-      color: #333;
-      background: #fff; border-top: 1px solid #e5e7eb; white-space: pre-line;
-      word-break: keep-all;
-    }
+    .hint-content { padding: 16px; font-size: 1rem; line-height: 1.6; color: #333; background: #fff; border-top: 1px solid #e5e7eb; white-space: pre-line; word-break: keep-all; }
 
-    /* 클리어 화면 */
     .clear-block { margin-top: 40px; text-align: center; display: none; padding: 0 20px; }
-    .clear-badge {
-      display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px;
-      border-radius: 999px; border: 2px solid #166534; color: #166534;
-      font-size: 0.9rem; font-weight: 800; text-transform: uppercase;
-      letter-spacing: 0.1em; background: #dcfce7; margin-bottom: 20px;
-    }
+    .clear-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 999px; border: 2px solid #166534; color: #166534; font-size: 0.9rem; font-weight: 800; background: #dcfce7; margin-bottom: 20px; }
     .clear-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 12px; color: #111; letter-spacing: -0.03em; }
-    .clear-text { font-size: 1.1rem; color: #4b5563; line-height: 1.6; margin-bottom: 40px; word-break: keep-all;}
+    .clear-text { font-size: 1.1rem; color: #4b5563; line-height: 1.6; margin-bottom: 40px; word-break: keep-all; }
     
-    .survey-btn-wrap {
-      margin: 20px 0; padding: 20px 0;
-      border-top: 2px dashed #d1d5db; border-bottom: 2px dashed #d1d5db;
-    }
-    .survey-btn {
-      padding: 16px 20px; border-radius: 12px; border: none;
-      background: var(--survey-bg); color: #713f12;
-      font-size: 1.1rem; font-weight: 800; letter-spacing: 0;
-      text-transform: uppercase; cursor: pointer;
-      box-shadow: 0 4px 0 #eab308;
-      width: 100%;
-    }
+    .survey-btn-wrap { margin: 20px 0; padding: 20px 0; border-top: 2px dashed #d1d5db; border-bottom: 2px dashed #d1d5db; }
+    .survey-btn { padding: 16px 20px; border-radius: 12px; border: none; background: var(--survey-bg); color: #713f12; font-size: 1.1rem; font-weight: 800; cursor: pointer; box-shadow: 0 4px 0 #eab308; width: 100%; }
     .survey-btn:active { transform: translateY(4px); box-shadow: none; }
-
-    .restart-btn {
-      margin-top: 20px; width: 100%; padding: 14px 10px; border-radius: 999px;
-      border: 1px solid #d1d5db; background: transparent; color: #6b7280;
-      font-size: 0.85rem; font-weight: 600; cursor: pointer; box-shadow: none;
-    }
+    .restart-btn { margin-top: 20px; width: 100%; padding: 14px 10px; border-radius: 999px; border: 1px solid #d1d5db; background: transparent; color: #6b7280; font-size: 0.85rem; font-weight: 600; cursor: pointer; box-shadow: none; }
   </style>
 </head>
 <body>
@@ -402,9 +262,7 @@
         </div>
 
         <div id="gameContent">
-            <div class="subtitle" id="stageSubtitle">
-            현장 로그를 읽고 코드를 입력하세요.
-            </div>
+            <div class="subtitle" id="stageSubtitle">현장 로그를 읽고 코드를 입력하세요.</div>
             <div class="subtitle-separator"></div>
 
             <div class="story-text" id="storyText">
@@ -442,209 +300,186 @@
   </div>
 
   <script>
-    // (스크립트 부분은 데이터 내용이 같으므로 유지하되, 일부 텍스트 포맷팅을 CSS word-break가 처리하도록 함)
     const puzzles = [
+      // 1. 프롤로그
       {
         subtitle: "프롤로그. 사라진 시대의 잔향",
-        text: `<strong>📖 고대 생명체가 잠든 땅</strong><br>
-    강촌의 험준한 <span class="txt-blue">능선</span>과 굽이치는 <span class="txt-blue">강물</span>.<br>
-    아주 오래전, 이곳에는 지금은 기록에서 사라진 <span class="txt-red">거대 비행 생명체</span>가 존재했다는 전설이 있다. 그것은 죽은 것이 아니라, 이 지형 자체가 되어 깊은 잠에 빠졌다고 한다.<br><br>
+        text: `<strong>[1. 지형 분석]</strong><br>
+    강촌의 능선과 강물은 평범하지 않다. 전설에 따르면 이곳은 죽은 게 아니라 잠들어 있는 <strong>'거대 비행 생명체'</strong> 그 자체다.<br><br>
 
-    <strong>🥚 중심에 놓인 물체 – 각성</strong><br>
-    산속 깊은 곳에서 알처럼 생긴 <span class="txt-highlight">동그란 결정체(Artifact)</span>가 발견된다. 이 물체는 주변의 열기가 아닌, 이곳에 서린 오래된 기억과 활기를 흡수해 반응하고 있다.<br>
-    학자들은 이를 단순한 유물이 아닌, ‘지성적 패턴’을 가진 신호기라고 결론 내린다.<br><br>
+    <strong>[2. 아티팩트 발견]</strong><br>
+    산속 깊은 곳에서 <span class="txt-highlight">알 모양의 결정체(Artifact)</span>가 발견되었다. 이것은 단순한 유물이 아니라, 이곳의 오래된 기억을 흡수하는 신호기다.<br><br>
 
-    <strong>🔊 감응자의 등장</strong><br>
-    강촌 일대, <span class="txt-red">'정체불명의 에너지 공진(Resonance)'</span>이 급격히 증가한다. 이 파장은 과거 수많은 사람들이 이곳에 남기고 간 젊음의 잔재와 공명하고 있다.<br>
-    이 신호를 감지할 수 있는 극소수의 인간, <span class="txt-highlight">감응자(Sensor)</span>.<br><br>
-
-    당신은 그 감응자 중 한 명으로서 현장으로 파견된다. 이곳에 잠든 거대한 무언가가 깨어나고 있다.`, 
+    <strong>[3. 임무 시작]</strong><br>
+    현재 강촌 일대에 정체불명의 에너지 공진이 급증하고 있다. 당신은 이를 감지할 수 있는 유일한 <span class="txt-blue">감응자(Sensor)</span>로서 현장에 파견되었다.<br><br>
+    
+    <strong>[지시]</strong> 거대한 무언가가 깨어나고 있다. <strong>'시작'</strong>을 입력하여 조사를 개시하라.`, 
         answer: "시작",
-        hint: "프롤로그를 모두 읽었다면 정답 칸에 '시작'이라고 입력해 주세요."
+        hint: "프롤로그를 확인했다면 '시작'을 입력하세요."
       },
+      // 2. 프롤로그 (상록)
       {
         subtitle: "프롤로그. 수첩을 줍다",
-        text: `열차가 떠난 뒤, 텅 빈 플랫폼에 바람이 스쳤다. 과거 수많은 청춘들이 오갔을 이 자리. 지금은 고요만이 남았지만, 당신의 감각은 <span class="txt-glitch">시끄러운 환청</span>을 듣고 있다.<br>
-    보고된 공진 신호는 이곳 강촌역을 중심으로 퍼져 나가고 있었다.<br><br>
+        text: `<strong>[위치]</strong> 강촌역 플랫폼<br>
+    <strong>[현상]</strong> <span class="txt-glitch">환청 및 공명음</span> 감지 시작.<br><br>
 
-    그때, 발치로 작은 그림자가 굴러왔다. 설명하기 어려운 궤적이었다. 당신은 허리를 굽혀 그것을 주워 들었다.<br><br>
-
-    <strong><span class="txt-blue">수첩.</span></strong><br>
-    강촌의 지맥을 옮겨놓은 듯한 표지. 손끝에 미세한 떨림이 전해졌다. 마치 오랫동안 주인을 기다려온 물건처럼.<br><br>
+    발치에서 낡은 수첩 하나를 습득했다. 수첩을 쥐는 순간, 미세한 진동과 함께 첫 번째 메시지가 나타났다.<br>
 
     <div class="txt-handwritten">
     이 수첩을 줍는 자,<br>
     강의 맥박을 듣게 되리라.
     </div>
 
-    문장과 동시에, 귓속 깊은 곳에서 묵직한 파동이 울렸다.<br>
-    일반인은 느낄 수 없고, <span class="txt-blue">감응자만이 들을 수 있는 신호</span>.<br><br>
+    <strong>[분석 결과]</strong><br>
+    수첩과 아티팩트가 동기화되었다. 공명 신호가 가리키는 첫 번째 좌표는 역 앞의 <strong>'카페'</strong>로 확인됨.<br><br>
 
-    수첩은 기묘하게 떨리고 있었다. 아티팩트 역시 공명했다. 마치 당신이 올 것을 알고 있었다는 듯이.<br><br>
-
-    공명은 앞의 <strong>카페</strong>로 향했다.<br>
-    당신은 그 공명을 따라, 카페로 향한다.<br><br>
-
-    (강의실을 나가, 벽면의 QR코드를 찍어 문제를 확인하세요.)`,
+    (강의실 밖, 벽면의 QR코드를 확인하십시오.)`,
         answer: "상록",
         hint: "정답 형태: 한글, 가려진 부분의 단어를 입력하세요."
       },
+      // 3. Stage 1 (종말)
       {
         subtitle: "1장. 잔재 파동이 깨어나다",
-        text: `수첩이 요구한 답을 적자, <span class="txt-highlight">희미한 선 하나</span>가 떠올랐다.<br>
-    지도의 길은 단순한 도로가 아니었다. 땅 밑에 흐르는 <span class="txt-blue">에너지의 혈관</span>을 따라 그려진 선이었다.<br><br>
+        text: `<strong>[수첩 데이터 해독]</strong><br>
+    지도 위에 <span class="txt-highlight">희미한 선</span>이 나타났다. 이것은 단순한 도로가 아닌, 땅 밑에 흐르는 <span class="txt-blue">에너지 혈관</span>의 경로다.<br><br>
+    
+    <strong>[반응]</strong><br>
+    아티팩트 진동 감지. 척추를 타고 오르는 전율이 느껴진다.<br><br>
 
-    선은 실시간으로 변화하는 지시 문양처럼 꿈틀거렸다. 주머니 속 아티팩트가 낮게 울렸다. 척추를 타고 오르는 전율. 아티팩트는 수첩의 변화와 동기화되고 있었다.<br><br>
+    <strong>[목표 지점]</strong><br>
+    언덕 아래 사거리. 가장 큰 파장이 느껴지는 <span class="txt-glitch">도로표지판</span>을 조사할 것.<br><br>
 
-    수첩과 아티팩트가 이끄는 곳. 그곳은 언덕 아래 사거리까지 이어져 있었다.<br>
-    <span class="txt-glitch">도로표지판</span>, 그곳에서 가장 큰 파장이 느껴졌다.<br><br>
-
-    (왼쪽으로 향합니다. 벽면의 QR코드를 찍어 문제를 확인하세요.)`,
+    (왼쪽으로 이동. 정면 계단 벽면의 QR코드 확인.)`,
         answer: "종말",
-        hint: "정답 형태: 한글, 도로 표지판의 가려진 부분의 단어를 입력하세요. QR코드 위치: 정면으로 보이는 계단 벽면"
+        hint: "정답 형태: 한글, 도로 표지판의 가려진 단어."
       },
+      // 4. Stage 2 (OWNER)
       {
         subtitle: "2장. 기억을 먹는 공진",
-        text: `<span class="txt-red">종말?</span><br>
-    이곳은 한때 시작의 장소였으나, 지금은 멈춰버린 땅. 꽤 아이러니하다고 생각하며 걸음을 옮겼다.<br><br>
-    
-    사거리를 지나자 아티팩트가 더 강하게 반응하기 시작했다. 아티팩트는 이곳에 남겨진 <span class="txt-blue">감정의 잔재</span>를 흡수하듯 진동했다.<br><br>
+        text: `<strong>[현상 관측]</strong><br>
+    사거리를 지나자 아티팩트의 진동 주기가 급격히 빨라졌다. 이곳에 남겨진 '감정의 잔재'를 과도하게 흡수하고 있다.<br><br>
 
-    '반응이 빨라지고 있어…'<br>
-    포화 직전처럼 반복되는 진동. 수첩의 페이지가 부드럽게 열렸다. 거칠게 그려진 선 두 개가 교차하며 새 문양을 형성했다.<br>
-    이전보다 더 <span class="txt-red">공격적인 형태</span>.<br><br>
+    <strong>[수첩의 변화]</strong><br>
+    페이지 위로 거친 선 두 개가 교차하며, 이전보다 훨씬 <span class="txt-red">공격적인 형태의 문양</span>이 나타났다.<br><br>
 
-    문양과 아티팩트의 파동이 충돌하며 짧지만 선명한 <span class="txt-blue">공명음</span>이 차게 울렸다. 누군가 귓가에서 속삭이는 듯한 압력.<br><br>
+    <strong>[경고]</strong><br>
+    날카로운 공명음이 들린다. 감응자의 기력이 빠르게 소모되고 있다. 파동의 근원지는 길 건너편이다.<br><br>
 
-    공진은 감응자의 기력을 갉아먹으며 시작되고 있었다. 이번 파동은 길 건너, <span class="txt-glitch">편의점 방향</span>에서 오고 있었다.<br><br>
-
-    (2층으로 향합니다. 벽면의 QR코드를 찍어 문제를 확인하세요.)`,
+    <strong>[목표]</strong> <span class="txt-glitch">편의점 방향</span>으로 이동하여 건물을 관측하라.<br><br>
+    (2층으로 이동. 게시판 근처 QR코드 확인.)`,
         answer: "OWNER",
-        hint: "정답 형태: 영어, 건물의 생김새와 주어진 이미지를 비교하세요. 가려진 창문의 위치와 알파벳을 조합하세요. QR코드 위치: 2층 게시판 근처"
+        hint: "정답 형태: 영어, 건물의 창문 모양과 알파벳 조합."
       },
+      // 5. Stage 3 (선대의 유서)
       {
         subtitle: "3장. 지형과 파동이 맞물리다",
-        text: `OWNER. 이곳의 진짜 주인이 깨어나고 있다.<br>
-    걸음을 옮길 때마다 주변 환경이 반응했다. 금속 난간의 울림, 지면의 진동. 이곳의 골목과 건물이 마치 거대한 기계 장치의 부속품처럼 느껴졌다.<br><br>
+        text: `<strong>[가설 검증]</strong><br>
+    이곳의 골목과 건물은 거대 기계 장치의 부속품처럼 반응 중이다.<br>
+    <span class="txt-red">지형 자체가 아티팩트와 공명</span>하고 있다.<br><br>
 
-    <span class="txt-red">지형 자체가 아티팩트와 공명</span>하고 있었다.<br>
-    수첩의 지도 선이 가지를 쳐 다른 패턴을 만들었다. 이것은 단순한 지도가 아니다. 강촌 전체를 연결한 <span class="txt-blue">‘거대 생명체의 신경망’</span>이다.<br><br>
+    <strong>[결론 도출]</strong><br>
+    이 지도는 강촌 전체를 연결한 <span class="txt-blue">거대 생명체의 신경망도</span>다.<br>
+    우리는 지금 생명체의 몸 위를 걷고 있는 것과 같다.<br><br>
 
-    전설 속 존재들은 사라진 게 아니었다. 그저 <span class="txt-blue">지형 그 자체가 되어</span> 잠들어 있었을 뿐.<br>
-    '이 산들이 전부… 그 생명체의 일부라면?'<br><br>
+    <strong>[이동 경로]</strong><br>
+    파동 신호가 <span class="txt-glitch">마을회관 앞</span>에서 강하게 감지된다.<br><br>
 
-    지금 흔적이 <span class="txt-red">깨어나고 있다</span>.<br><br>
-
-    연구원은 침을 삼켰다. 우리는 지금 생명체의 몸 위를 걷고 있는 셈이다. 중학교 방향으로 계속해서 걸어가자, 작은 마을이 나왔다.<br>
-
-    파동이 흘러나오고 있는 <span class="txt-glitch">마을회관 앞</span>으로 다가갔다.<br><br>
-
-    (오른쪽, 복도로 향합니다. 벽면의 QR코드를 찍어 문제를 확인해주세요.)`,
+    (오른쪽 복도로 이동. 복도 끝 계단 안쪽 QR코드 확인.)`,
         answer: "선대의 유서",
-        hint: "정답 형태: 한글. 띄어쓰기는 중요하지 않습니다. 노선도 정류장과 글자의 순서가 중요합니다. QR코드 위치: 2층 복도 끝 계단 안쪽"
+        hint: "정답 형태: 한글. 노선도 정류장과 글자 순서 조합."
       },
+      // 6. Stage 4 (강물)
       {
         subtitle: "4장. 유서가 가리키는 곳",
-        text: `<strong>'선대의 유서'.</strong><br>
-    그 단어를 입력하자 수첩의 숨겨진 페이지가 드러났다. 단순한 유언장이 아니었다. 이곳의 지형지물을 해부한 <span class="txt-blue">설계도</span>였다.<br><br>
+        text: `<strong>[히든 페이지 개방]</strong><br>
+    유서는 단순한 유언이 아닌, 지형지물을 해부한 <span class="txt-blue">설계도</span>였다.<br>
 
-    유서는 단 하나의 진실을 가리키고 있었다.<br>
     <div class="txt-handwritten">
     이곳을 흐르는 물줄기는 단순한 강이 아니다.<br>
     잠들어 있는 거신의 <span class="txt-red">혈관</span>이다.
     </div>
 
-    당신은 그 진위를 확인해야 했다.<br>
-    수첩은 북한강변의 <span class="txt-glitch">노란 조형물</span>을 지목했다.<br>
-    그곳에서 혈관의 맥박을 느껴야 한다.<br><br>
+    <strong>[임무]</strong><br>
+    진위 확인이 필요하다. 북한강변의 <span class="txt-glitch">노란 조형물</span> 근처에서 혈관의 맥박을 측정하라.<br><br>
 
-    (근처에 부착된 QR코드를 찍어 문제를 확인해주세요.)`,
+    (근처에 부착된 QR코드 확인.)`,
         answer: "강물",
         hint: "한글, 강촌에 없어서는 안 되는 것."
       },
+      // 7. Stage 5 (물안개로 피어나고)
       {
         subtitle: "5장. 위험한 맥박",
-        text: `코드로 <strong>'강물'</strong>을 입력하는 순간, 눈앞의 북한강이 붉은 핏빛으로 일렁였다.<br>
-    아티팩트가 비명을 지르듯 진동했다.<br><br>
+        text: `<strong>[긴급 경고]</strong><br>
+    북한강이 붉은 핏빛으로 관측됨. 아티팩트가 비명(Scream)을 지르고 있다.<br><br>
 
-    <span class="txt-red">경고였다.</span><br>
-    혈관에 너무 가까이 접근했다. 거대 생명체의 면역 체계가 당신을 <span class="txt-red">침입자</span>로 인식하기 시작했다.<br><br>
+    <strong>[원인 분석]</strong><br>
+    혈관에 과도하게 접근했다. 거대 생명체의 면역 체계가 당신을 <span class="txt-red">침입자(Virus)</span>로 인식하여 공격을 개시했다.<br><br>
 
-    숨을 곳이 필요하다.<br>
-    수첩은 이 일대에서 유일하게 감시를 피할 수 있는 <span class="txt-blue">대피소</span>를 가리켰다.<br><br>
+    <strong>[대응 행동]</strong><br>
+    즉시 <span class="txt-blue">대피소</span>로 이동할 것. 좌표는 <span class="txt-glitch">카페 'THE1939'</span>다.<br><br>
 
-    보고된 요원의 위치, <span class="txt-glitch">카페 'THE1939'</span>.<br>
-    당신은 서둘러 그곳으로 도망친다.<br><br>
-
-    (영상바이오관 414호의 문을 두드리고, 요원과 접선하세요. 암구호는 '열려라 참깨'입니다.)`,
+    (영상바이오관 414호 노크. 암구호: '열려라 참깨')`,
         answer: "물안개로 피어나고",
-        hint: "정답 형태: 한글, 비밀요원에게 다시 물어보시거나, QR코드를 다시 찍어 확인해 보세요."
+        hint: "정답 형태: 한글, 비밀요원에게 문의 또는 QR코드 재확인."
       },
+      // 8. Stage 6 (피암터널)
       {
         subtitle: "6장. 드러난 뼈",
-        text: `물안개를 조심하라는 요원의 말. 당신은 안식처에서 숨을 고른 후, 그 말을 기억에 새기며 다시 밖으로 나왔다.<br>
-    다섯 번째 페이지가 열리자 아티팩트가 <span class="txt-red">폭주</span>했다. 손바닥이 타들어 가는 듯했다. 멀리 <span class="txt-glitch">강촌상상역</span> 방향.<br><br>
+        text: `<strong>[상태 보고]</strong><br>
+    대피소에서 호흡 확보. 그러나 수첩의 5페이지가 열리자 아티팩트가 다시 <span class="txt-red">폭주</span>한다.<br><br>
+    
+    <strong>[관측 대상: 피암터널]</strong><br>
+    단순한 터널이 아니다. 아티팩트는 "본체 복귀"를 시도하고 있다.<br>
+    해당 구조물은 땅 위로 드러난 <span class="txt-highlight"><span class="txt-red">거대한 갈비뼈</span></span>로 판명되었다.<br><br>
 
-    수첩의 문양이 격렬하게 흔들렸다. 주변의 사물이 일시적으로 흐려졌다. 아티팩트는 “<span class="txt-red">본체로 돌아갈 준비</span>”를 하고 있었다.<br><br>
+    <strong>[위험]</strong><br>
+    당신은 제 발로 포식자의 뱃속(Rib cage)으로 진입하고 있다.<br><br>
 
-    당신은 파동이 가장 짙게 느껴지는 곳으로 걸어갔다. 그곳에는 거대한 콘크리트 구조물이 있었다. 사람들은 떨어지는 돌을 피하기 위해 지은 터널이라 하지만, 당신의 눈엔 다르게 보였다.<br><br>
-
-    <span class="txt-highlight"><span class="txt-red">거대한 갈비뼈.</span></span><br>
-    땅 위로 드러난 고대 생명체의 뼈였다. 당신은 제 발로 그 뱃속으로 걸어 들어가고 있었다.<br><br>
-
-    (엘리베이터 내부 벽면에 부착된 QR코드를 찍어 확인해주세요. 타고 이동하지 마시고, 문 열어 확인만 해주세요.)`,
+    (엘리베이터 내부 벽면 QR코드 확인. 탑승하지 말 것.)`,
         answer: "피암터널",
-        hint: "정답 형태: 한글, 터널의 이름을 입력하세요. 터널까지 함께 입력하세요. QR코드 위치: 엘리베이터 내부"
+        hint: "정답 형태: 한글, 터널 이름(OOOO) 입력."
       },
+      // 9. Stage 7 (13)
       {
         subtitle: "7장. 감응자의 진실",
-        text: `<span class="txt-red">피암터널</span>이라는 이름으로 존재하는, <span class="txt-highlight">고대 생명체의 갈비뼈 흔적.</span><br>
-    당신은 뒷걸음질치는 동시에, 다음 페이지가 열리는 것을 느꼈다.<br><br>
-      
-    여섯 번째 페이지. 이전까지 가려져 있던 문장들이 선명해졌다.<br><br>
+        text: `<strong>[최종 페이지 해독]</strong><br>
+    피암터널(갈비뼈) 내에서 감응자의 역할에 대한 진실이 드러났다.<br>
 
     <div class="txt-handwritten">
     감응자는 세계를 지탱하는 부품이다.<br>
-    그들은 반복적으로 이곳으로 소환되었다.<br>
     이 수첩은 부품을 회수하기 위한 <span class="txt-red" style="font-family:inherit;">장치</span>다.
     </div>
 
-    눈빛이 흔들렸다. 감응자는 특별한 재능을 가진 존재가 아니었다. 세계를 유지하기 위한 <span class="txt-red">'도구'</span>.<br><br>
+    <strong>[상황 판단]</strong><br>
+    우리는 영웅으로 선택된 것이 아니었다. 과거 실종된 감응자들은 모두 이곳에서 <span class="txt-red">'사용'</span>되어 소멸했다.<br><br>
 
-    '<span class="txt-red">감응자 실종 사례</span>'들이 떠올랐다. 그들은 실종된 것이 아니라 <span class="txt-red">'사용'</span>된 것이었다. 아티팩트가 불안정하게 울렸다.<br><br>
+    <strong>[탈출]</strong><br>
+    이곳을 벗어나야 한다. 다시 <span class="txt-blue">강촌역(강의실)</span> 방향으로 회귀하라. 상상역 뒤편 <span class="txt-red">포토존</span>에서 붉은 신호가 잡힌다.<br><br>
 
-    자신이 어떤 역할을 맡게 될지 깨달아버린 당신. 이곳을 떠나고자 다시 <span class="txt-blue">강촌역(강의실)</span>으로 향한다.<br><br>
-
-    강촌 상상역 뒤의 <span class="txt-red">포토존 근처</span>가 붉게 빛났다.<br><br>
-
-    (3층 계단으로 향합니다. 벽면의 QR코드를 찍어 문제를 확인해주세요.)`,
+    (3층 계단 벽면 QR코드 확인.)`,
         answer: "13",
-        hint: "정답 형태: 숫자. 가려진 손가락은 편 것으로 간주합니다. QR코드 위치: 3층-4층 사이 계단"
+        hint: "정답 형태: 숫자. 펴진 손가락 개수."
       },
+      // 10. Final Stage (집어든다)
       {
         subtitle: "최종장. 다시, 시작",
-        text: `시선을 13번 정도 따돌린 당신은, 강촌역 바로 앞에 다다랐다.<br>
-    그러나 역에 도착하는 순간, 아티팩트가 뜨겁게 달아올랐다.<br><br>
+        text: `<strong>[종료 시퀀스]</strong><br>
+    강촌역 도착 직후, 아티팩트가 임계점을 돌파했다. 공간 왜곡 발생, 지면 소실.<br><br>
     
-    <span class="txt-glitch">세상이 뒤틀렸다</span>. 공간이 일그러지고, 당신을 빨아들이기 시작했다.<br><br>
+    <strong>[결과]</strong><br>
+    연구원(감응자) <div class="txt-handwritten" style="display:inline-block; margin:0; padding:2px;"><span class="txt-glow txt-blue">선택 완료.</span></div><br>
+    조용한 파열음과 함께 연구원은 소멸했다.<br><br>
     
-    몸이 가벼워지고, 발아래 지면이 사라졌다.<br>
-    당신은, 연구원 '감응자'는 <div class="txt-handwritten"><span class="txt-glow txt-blue">선택되었다.</span></div><br>
-    조용한 파열음과 함께 연구원은 <span class="txt-red">완전히 사라졌다.</span><br><br>
+    <strong>[잔류물]</strong><br>
+    강촌역 바닥에 문양이 사라진 낡은 <strong>수첩</strong>만 남았다.<br><br>
     
-    남은 것은 강촌역 바닥을 나뒹구는 낡은 <strong>수첩</strong>.<br>
-    문양은 말끔히 사라진 뒤였다.<br><br>
-    
-    잠시 후, 연락 두절된 동료를 찾아 또 다른 연구원이 역으로 들어왔다.<br>
-    그의 발치로, 수첩이 굴러갔다.<br><br>
-    
-    첫 문장이 희미하게 떠올랐다.<br>
+    ...잠시 후, 다른 연구원이 수첩을 발견한다.<br>
     <div class="txt-handwritten">이 수첩을 줍는 자...</div><br>
     
-    다시, <span class="txt-glitch">공진의 시작</span>이었다.<br>
+    <span class="txt-glitch">공진(Resonance) 재가동.</span><br>
     당신은 수첩을... <span class="txt-red">'집어든다'.</span>`, 
         answer: "집어든다", 
-        hint: "'집어든다'. 집어든다. 집어든다. 집어든다. 집어든다. 집어든다."
+        hint: "마지막 행동을 입력하세요. (4글자)"
       }
     ];
 
