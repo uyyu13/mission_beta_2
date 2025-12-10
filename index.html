@@ -11,7 +11,7 @@
 
   <style>
     /* ========================================= */
-    /* 1. 기본 스타일 (노트북/필드 로그) */
+    /* 1. 기본 스타일 */
     /* ========================================= */
     :root {
       --bg-gray: #111827;
@@ -35,10 +35,10 @@
       box-shadow: inset 0 -8px 0 rgba(253, 224, 71, 0.4); padding: 0 2px; font-weight: 700; color: #422006;
     }
     
-    /* 손글씨 (단서) */
+    /* 손글씨 (수첩/단서) */
     .txt-handwritten {
       display: block; font-family: 'East Sea Dokdo', cursive; font-size: 1.9rem; color: #5d4037;
-      line-height: 1.25; padding: 15px; margin: 16px 0;
+      line-height: 1.3; padding: 15px; margin: 16px 0;
       background: rgba(139, 115, 85, 0.08); border-left: 4px solid #8b7355;
       border-radius: 0 8px 8px 0; transform: rotate(-0.5deg);
     }
@@ -71,7 +71,11 @@
     .subtitle { font-size: 0.95rem; color: #666; margin: 4px 0 6px; font-weight: 600; letter-spacing: -0.02em; }
     .subtitle-separator { width: 100%; height: 2px; background: #e2ddd4; margin: 12px 0 24px; }
 
+    /* 본문 텍스트 */
     .story-text { font-size: 1.05rem; color: #333; white-space: pre-line; line-height: 1.75; margin-bottom: 30px; word-break: keep-all; letter-spacing: -0.03em; text-align: left; }
+    
+    /* 섹션 제목 스타일 (본문 내) */
+    .section-title { font-weight: 700; color: #111; display: inline-block; margin-bottom: 4px; border-bottom: 2px solid rgba(0,0,0,0.1); }
 
     #answerArea { background: rgba(255,255,255,0.7); padding: 20px 16px; border-radius: 12px; border: 1px solid #e2ddd4; }
     .answer-label-pill { display: inline-block; padding: 4px 10px; border-radius: 6px; background: var(--text-main); color: #fff; font-size: 0.8rem; font-weight: 700; margin-bottom: 8px; }
@@ -102,8 +106,7 @@
     .warning-overlay {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0, 0, 0, 0.85);
-      display: none; /* 평소엔 숨김 */
-      justify-content: center; align-items: center;
+      display: none; justify-content: center; align-items: center;
       z-index: 900; backdrop-filter: blur(3px);
     }
     .warning-box {
@@ -124,8 +127,7 @@
     /* ========================================= */
     .glitch-overlay {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: #000; display: none; /* 평소엔 숨김 */
-      justify-content: center; align-items: center; flex-direction: column;
+      background: #000; display: none; justify-content: center; align-items: center; flex-direction: column;
       z-index: 9999; overflow: hidden;
     }
     .glitch-text {
@@ -244,39 +246,38 @@
   </div>
 
   <script>
-    // 필드 로그 데이터 (가독성 개선 버전)
+    // [현장 체감 + 수첩 단서 + 분석] 믹스 스타일 텍스트
     const puzzles = [
       // 0. 프롤로그
       {
         subtitle: "프롤로그. 사라진 시대의 잔향",
-        text: `<strong>[1. 지형 분석]</strong><br>
-    강촌의 능선과 강물은 평범하지 않다. 전설에 따르면 이곳은 죽은 게 아니라 잠들어 있는 <strong>'거대 비행 생명체'</strong> 그 자체다.<br><br>
+        text: `<span class="section-title">현장 기록</span><br>
+    강촌의 능선을 보면 왠지 모를 위화감이 든다. 이곳의 지형은 마치 거대한 무언가가 웅크리고 잠든 형상이다.<br><br>
 
-    <strong>[2. 아티팩트 발견]</strong><br>
-    산속 깊은 곳에서 <span class="txt-highlight">알 모양의 결정체(Artifact)</span>가 발견되었다. 이것은 단순한 유물이 아니라, 이곳의 오래된 기억을 흡수하는 신호기다.<br><br>
+    <span class="section-title">아티팩트 분석</span><br>
+    산속에서 발견된 <span class="txt-highlight">알 모양의 결정체(Artifact)</span>. 단순한 유물이 아니다. 이곳에 서린 오래된 기억을 흡수하며 반응하고 있다.<br><br>
 
-    <strong>[3. 임무 시작]</strong><br>
-    현재 강촌 일대에 정체불명의 에너지 공진이 급증하고 있다. 당신은 이를 감지할 수 있는 유일한 <span class="txt-blue">감응자(Sensor)</span>로서 현장에 파견되었다.<br><br>
+    <span class="section-title">임무 개시</span><br>
+    현재 정체불명의 에너지 공진(Resonance)이 급증하고 있다. 당신은 이를 감지할 수 있는 유일한 <span class="txt-blue">감응자(Sensor)</span>다.<br><br>
     
-    <strong>[지시]</strong> 거대한 무언가가 깨어나고 있다. <strong>'시작'</strong>을 입력하여 조사를 개시하라.`, 
+    <strong>[지시]</strong> 거대한 무언가가 깨어나려 한다. <strong>'시작'</strong>을 입력하여 조사를 개시하라.`, 
         answer: "시작",
         hint: "프롤로그를 확인했다면 '시작'을 입력하세요."
       },
       // 1. 역 -> 상록 (수첩 발견)
       {
         subtitle: "프롤로그. 수첩을 줍다",
-        text: `<strong>[위치]</strong> 강촌역 플랫폼<br>
-    <strong>[현상]</strong> <span class="txt-blue">환청 및 공명음</span> 감지 시작.<br><br>
-
-    발치에서 낡은 수첩 하나를 습득했다. 수첩을 쥐는 순간, 미세한 진동과 함께 첫 번째 메시지가 나타났다.<br>
+        text: `<span class="section-title">위치: 강촌역 플랫폼</span><br>
+    텅 빈 플랫폼에 바람 소리가 섞인 <span class="txt-blue">이명(공명음)</span>이 들린다.<br>
+    발치에서 낡은 수첩을 발견했다. 손을 대자 미세한 진동과 함께 첫 번째 메시지가 떠올랐다.<br>
 
     <div class="txt-handwritten">
     이 수첩을 줍는 자,<br>
     강의 맥박을 듣게 되리라.
     </div>
 
-    <strong>[분석 결과]</strong><br>
-    수첩과 아티팩트가 동기화되었다. 공명 신호가 가리키는 첫 번째 좌표는 역 앞의 <strong>'카페'</strong>로 확인됨.<br><br>
+    <span class="section-title">데이터 분석</span><br>
+    수첩과 아티팩트가 동기화되었다. 공명 신호가 가리키는 첫 번째 좌표는 역 앞의 <strong>'카페'</strong>다.<br><br>
 
     (강의실 밖, 벽면의 QR코드를 확인하십시오.)`,
         answer: "상록",
@@ -285,14 +286,14 @@
       // 2. 상록 -> 종말 (도로표지판)
       {
         subtitle: "1장. 잔재 파동이 깨어나다",
-        text: `<strong>[수첩 데이터 해독]</strong><br>
-    지도 위에 <span class="txt-highlight">희미한 선</span>이 나타났다. 이것은 단순한 도로가 아닌, 땅 밑에 흐르는 <span class="txt-blue">에너지 혈관</span>의 경로다.<br><br>
+        text: `<span class="section-title">수첩 해독</span><br>
+    지도 위에 <span class="txt-highlight">희미한 선</span>이 핏줄처럼 떠올랐다. 단순한 도로가 아니다. 이것은 땅 밑에 흐르는 <span class="txt-blue">에너지 혈관</span>의 경로다.<br><br>
     
-    <strong>[반응]</strong><br>
-    아티팩트 진동 감지. 척추를 타고 오르는 전율이 느껴진다.<br><br>
+    <span class="section-title">신체 반응</span><br>
+    아티팩트가 떨릴 때마다 척추를 타고 오르는 전율이 느껴진다. 이 감각은 진짜다.<br><br>
 
-    <strong>[목표 지점]</strong><br>
-    언덕 아래 사거리. 가장 큰 파장이 느껴지는 <span class="txt-red">도로표지판</span>을 조사할 것.<br><br>
+    <span class="section-title">목표 지점</span><br>
+    언덕 아래 사거리. 가장 큰 파장이 느껴지는 <span class="txt-red">도로표지판</span>을 조사해야 한다.<br><br>
 
     (왼쪽으로 이동. 정면 계단 벽면의 QR코드 확인.)`,
         answer: "종말",
@@ -301,16 +302,16 @@
       // 3. 종말 -> OWNER (편의점)
       {
         subtitle: "2장. 기억을 먹는 공진",
-        text: `<strong>[현상 관측]</strong><br>
-    사거리를 지나자 아티팩트의 진동 주기가 급격히 빨라졌다. 이곳에 남겨진 '감정의 잔재'를 과도하게 흡수하고 있다.<br><br>
+        text: `<span class="section-title">현장 관측</span><br>
+    사거리를 지나자 아티팩트의 진동이 급격히 빨라졌다. 이곳에 남겨진 '감정의 잔재'를 폭식하듯 흡수하고 있다.<br><br>
 
-    <strong>[수첩의 변화]</strong><br>
-    페이지 위로 거친 선 두 개가 교차하며, 이전보다 훨씬 <span class="txt-red">공격적인 형태의 문양</span>이 나타났다.<br><br>
+    <span class="section-title">수첩 업데이트</span><br>
+    페이지 위로 거친 선 두 개가 교차한다. 이전보다 훨씬 <span class="txt-red">공격적인 형태의 문양</span>이다.<br><br>
 
-    <strong>[경고]</strong><br>
-    날카로운 공명음이 들린다. 감응자의 기력이 빠르게 소모되고 있다. 파동의 근원지는 길 건너편이다.<br><br>
+    <span class="section-title">경고</span><br>
+    날카로운 기계음이 들린다. 감응자의 기력이 빠르게 소모되고 있다. 파동의 근원지는 길 건너편이다.<br><br>
 
-    <strong>[목표]</strong> <strong>편의점 방향</strong>으로 이동하여 건물을 관측하라.<br><br>
+    <strong>[지시]</strong> <span class="txt-highlight">편의점 방향</span>으로 이동하여 건물을 관측하라.<br><br>
     (2층으로 이동. 게시판 근처 QR코드 확인.)`,
         answer: "OWNER",
         hint: "정답 형태: 영어, 건물의 창문 모양과 알파벳 조합."
@@ -318,15 +319,15 @@
       // 4. OWNER -> 선대의 유서 (마을회관)
       {
         subtitle: "3장. 지형과 파동이 맞물리다",
-        text: `<strong>[가설 검증]</strong><br>
-    이곳의 골목과 건물은 거대 기계 장치의 부속품처럼 반응 중이다.<br>
+        text: `<span class="section-title">가설 수립</span><br>
+    이곳의 골목과 건물은 마치 거대 기계 장치의 부속품처럼 반응 중이다.<br>
     <span class="txt-red">지형 자체가 아티팩트와 공명</span>하고 있다.<br><br>
 
-    <strong>[결론 도출]</strong><br>
+    <span class="section-title">결론 도출</span><br>
     이 지도는 강촌 전체를 연결한 <span class="txt-blue">거대 생명체의 신경망도</span>다.<br>
-    우리는 지금 생명체의 몸 위를 걷고 있는 것과 같다.<br><br>
+    우리는 지금 잠든 생명체의 몸 위를 걷고 있다.<br><br>
 
-    <strong>[이동 경로]</strong><br>
+    <span class="section-title">이동 경로</span><br>
     파동 신호가 <strong>마을회관 앞</strong>에서 강하게 감지된다.<br><br>
 
     (오른쪽 복도로 이동. 복도 끝 계단 안쪽 QR코드 확인.)`,
@@ -336,8 +337,8 @@
       // 5. 선대의 유서 -> 강물 (북한강)
       {
         subtitle: "4장. 유서가 가리키는 곳",
-        text: `<strong>[히든 페이지 개방]</strong><br>
-    유서는 단순한 유언이 아닌, 지형지물을 해부한 <span class="txt-blue">설계도</span>였다.<br>
+        text: `<span class="section-title">히든 페이지 개방</span><br>
+    '유서'라는 코드를 입력하자 수첩의 숨겨진 페이지가 드러났다. 이것은 단순한 유언이 아닌, 지형지물 <span class="txt-blue">설계도</span>였다.<br>
 
     <div class="txt-handwritten">
     이곳을 흐르는 물줄기는 단순한 강이 아니다.<br>
@@ -351,33 +352,33 @@
         answer: "강물",
         hint: "한글, 강촌에 없어서는 안 되는 것."
       },
-      // 6. 강물 -> 물안개로 피어나고 (대피소) *위험 구간 진입이지만 텍스트로만 처리*
+      // 6. 강물 -> 물안개로 피어나고 (대피소)
       {
         subtitle: "5장. 위험한 맥박",
-        text: `<strong>[긴급 경고]</strong><br>
-    북한강이 붉은 핏빛으로 관측됨. 아티팩트가 비명(Scream)을 지르고 있다.<br><br>
+        text: `<span class="section-title">긴급 상황</span><br>
+    강물을 확인하는 순간, 수면이 붉은 핏빛으로 일렁였다. 아티팩트가 비명(Scream)을 지르고 있다.<br><br>
 
-    <strong>[원인 분석]</strong><br>
+    <span class="section-title">원인 분석</span><br>
     혈관에 과도하게 접근했다. 거대 생명체의 면역 체계가 당신을 <span class="txt-red">침입자(Virus)</span>로 인식하여 공격을 개시했다.<br><br>
 
-    <strong>[대응 행동]</strong><br>
-    즉시 <span class="txt-blue">대피소</span>로 이동할 것. 좌표는 <strong>카페 'THE1939'</strong>다.<br><br>
+    <span class="section-title">대응 행동</span><br>
+    숨을 곳이 필요하다. 즉시 <span class="txt-blue">대피소</span>로 이동하라. 좌표는 <strong>카페 'THE1939'</strong>다.<br><br>
 
     (영상바이오관 414호 노크. 암구호: '열려라 참깨')`,
         answer: "물안개로 피어나고",
         hint: "정답 형태: 한글, 비밀요원에게 문의 또는 QR코드 재확인."
       },
-      // 7. 물안개 -> 피암터널 (갈비뼈) *여기가 Climax: 경고창 발생 지점*
+      // 7. 물안개 -> 피암터널 (갈비뼈) *경고창 발생*
       {
         subtitle: "6장. 드러난 뼈",
-        text: `<strong>[상태 보고]</strong><br>
-    대피소에서 호흡 확보. 그러나 수첩의 5페이지가 열리자 아티팩트가 다시 <span class="txt-red">폭주</span>한다.<br><br>
+        text: `<span class="section-title">상태 보고</span><br>
+    대피소에서 겨우 호흡을 확보했다. 그러나 수첩의 5페이지가 열리자 아티팩트가 다시 <span class="txt-red">폭주</span>한다.<br><br>
     
-    <strong>[관측 대상]</strong><br>
-    단순한 터널이 아니다. 아티팩트는 "본체 복귀"를 시도하고 있다.<br>
-    해당 구조물은 땅 위로 드러난 <span class="txt-highlight"><span class="txt-red">거대한 갈비뼈</span></span>로 판명되었다.<br><br>
+    <span class="section-title">관측 대상</span><br>
+    단순한 터널이 아니다. 아티팩트는 "본체 복귀" 신호를 보내고 있다.<br>
+    저 구조물은 땅 위로 드러난 <span class="txt-highlight"><span class="txt-red">거대한 갈비뼈</span></span>다.<br><br>
 
-    <strong>[위험]</strong><br>
+    <span class="section-title">위험</span><br>
     당신은 제 발로 포식자의 뱃속(Rib cage)으로 진입하고 있다.<br><br>
 
     (엘리베이터 내부 벽면 QR코드 확인. 탑승하지 말 것.)`,
@@ -387,18 +388,18 @@
       // 8. 피암터널 -> 13 (포토존)
       {
         subtitle: "7장. 감응자의 진실",
-        text: `<strong>[최종 페이지 해독]</strong><br>
-    갈비뼈(터널) 내에서 감응자의 역할에 대한 진실이 드러났다.<br>
+        text: `<span class="section-title">최종 페이지 해독</span><br>
+    갈비뼈(터널) 안쪽에서 감응자의 역할에 대한 잔혹한 진실이 드러났다.<br>
 
     <div class="txt-handwritten">
     감응자는 세계를 지탱하는 부품이다.<br>
     이 수첩은 부품을 회수하기 위한 <span class="txt-red" style="font-family:inherit;">장치</span>다.
     </div>
 
-    <strong>[상황 판단]</strong><br>
+    <span class="section-title">상황 판단</span><br>
     우리는 영웅으로 선택된 것이 아니었다. 과거 실종된 감응자들은 모두 이곳에서 <span class="txt-red">'사용'</span>되어 소멸했다.<br><br>
 
-    <strong>[탈출]</strong><br>
+    <span class="section-title">탈출 시도</span><br>
     이곳을 벗어나야 한다. 다시 <span class="txt-blue">강촌역(강의실)</span> 방향으로 회귀하라. 상상역 뒤편 <span class="txt-red">포토존</span>에서 붉은 신호가 잡힌다.<br><br>
 
     (3층 계단 벽면 QR코드 확인.)`,
@@ -408,14 +409,14 @@
       // 9. Final (엔딩)
       {
         subtitle: "최종장. 다시, 시작",
-        text: `<strong>[종료 시퀀스]</strong><br>
-    강촌역 도착 직후, 아티팩트가 임계점을 돌파했다. 공간 왜곡 발생, 지면 소실.<br><br>
+        text: `<span class="section-title">종료 시퀀스</span><br>
+    강촌역 도착 직후, 아티팩트가 임계점을 돌파했다. 공간 왜곡이 발생하며 지면이 사라진다.<br><br>
     
-    <strong>[결과]</strong><br>
+    <span class="section-title">결과 리포트</span><br>
     연구원(감응자) <div class="txt-handwritten" style="display:inline-block; margin:0; padding:2px;"><span class="txt-glow txt-blue">선택 완료.</span></div><br>
     조용한 파열음과 함께 연구원은 소멸했다.<br><br>
     
-    <strong>[잔류물]</strong><br>
+    <span class="section-title">잔류물</span><br>
     강촌역 바닥에 문양이 사라진 낡은 <strong>수첩</strong>만 남았다.<br><br>
     
     ...잠시 후, 다른 연구원이 수첩을 발견한다.<br>
