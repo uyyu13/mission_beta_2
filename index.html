@@ -449,12 +449,18 @@
       }
     ];
 
-    // 변수들
+    // [수정] LocalStorage 키 설정
+    const STORAGE_KEY_STAGE = 'eggnoise_currentStage';
+    const STORAGE_KEY_MAX = 'eggnoise_maxUnlocked';
+    const STORAGE_KEY_CLEARED = 'eggnoise_isCleared';
+
+    // [수정] 초기 변수 로드 (저장된 값이 없으면 0)
     const totalStages = puzzles.length;
-    let currentStage = 0;
-    let maxUnlockedStage = 0;
+    let currentStage = parseInt(localStorage.getItem(STORAGE_KEY_STAGE)) || 0;
+    let maxUnlockedStage = parseInt(localStorage.getItem(STORAGE_KEY_MAX)) || 0;
     let pendingNextStage = 0; 
 
+    // 엘리먼트 참조
     const stageLabelEl    = document.getElementById("stageLabel");
     const stageSubtitleEl = document.getElementById("stageSubtitle");
     const storyTextEl     = document.getElementById("storyText");
@@ -480,6 +486,12 @@
 
     function normalize(text) {
       return text.trim().replace(/\s/g, '').toLowerCase(); 
+    }
+
+    // [신규] 진행도 저장 함수
+    function saveProgress() {
+      localStorage.setItem(STORAGE_KEY_STAGE, currentStage);
+      localStorage.setItem(STORAGE_KEY_MAX, maxUnlockedStage);
     }
 
     function updateProgress() {
@@ -574,6 +586,7 @@
       }
 
       currentStage = targetStage;
+      saveProgress(); // [추가] 이동할 때마다 저장
       renderStage();
     }
 
@@ -588,6 +601,7 @@
     window.confirmWarning = function() {
       warningPopup.style.display = 'none';
       currentStage = pendingNextStage;
+      saveProgress(); // [추가] 경고창 통과 후에도 저장
       renderStage();
     }
 
@@ -621,6 +635,9 @@
     }
 
     function showClear() {
+      // [신규] 클리어 상태 저장
+      localStorage.setItem(STORAGE_KEY_CLEARED, 'true');
+
       stageLabelEl.textContent    = `SYSTEM RESTORED`;
       if (gameContentEl) gameContentEl.style.display = "none";
       if (navControlsEl) navControlsEl.style.display = "none";
@@ -632,6 +649,7 @@
     prevBtnEl.addEventListener("click", () => {
       if (currentStage > 0) {
         currentStage--;
+        saveProgress(); // [추가] 뒤로 가기도 저장
         renderStage();
       }
     });
@@ -650,6 +668,11 @@
     if (restartBtnEl) {
       restartBtnEl.addEventListener("click", () => {
         if(confirm("모든 데이터를 삭제하고 루프를 다시 시작하시겠습니까?")) {
+            // [신규] 저장된 데이터 삭제
+            localStorage.removeItem(STORAGE_KEY_STAGE);
+            localStorage.removeItem(STORAGE_KEY_MAX);
+            localStorage.removeItem(STORAGE_KEY_CLEARED);
+
             currentStage = 0;
             maxUnlockedStage = 0; 
             renderStage();
@@ -657,7 +680,12 @@
       });
     }
 
-    renderStage();
+    // [신규] 초기 실행 로직 (이미 깬 상태면 바로 엔딩 보여주기)
+    if (localStorage.getItem(STORAGE_KEY_CLEARED) === 'true') {
+        showClear();
+    } else {
+        renderStage();
+    }
   </script>
 </body>
 </html>
